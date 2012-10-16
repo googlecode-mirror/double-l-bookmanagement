@@ -1,13 +1,8 @@
-# Basic Data Maintain
-
-= Introduction =
-
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+* 書籍資料資料
+* 借閱者資本資料
+* 群組資料
+* 等級權限資料
+* 書籍分類資料
+* 職務名稱
+* 出版公司資料
+* 期刊雜誌基本資料

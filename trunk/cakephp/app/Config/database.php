@@ -63,9 +63,9 @@ class DATABASE_CONFIG {
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
 		'host' => 'localhost',
-		'login' => 'cakeblog',
-		'password' => '12345678',
-		'database' => 'cakeblogtutorial',
+		'login' => 'books',
+		'password' => 'BsGxedJnpsczzauA',
+		'database' => 'books',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);

@@ -1,8 +1,37 @@
+=書籍資料=
   * 書籍資料資料
-  * 借閱者資本資料
-  * 群組資料
-  * 等級權限資料
   * 書籍分類資料
-  * 職務名稱
+{{{
+    Table Name : Book_Catagorys
+    Columns :
+       catagory_id : 分類號
+       catagory_name : 分類名稱
+}}}
   * 出版公司資料
   * 期刊雜誌基本資料
+
+=人員資料=
+  * 借閱者資本資料
+  * 群組資料
+{{{
+    Table Name : Person_Groups
+    Columns :
+       group_id : 分類號
+       group_name : 分類名稱
+}}}
+  * 等級權限資料
+{{{
+    Table Name : Person_Levels
+    Columns :
+       level_id : 分類號
+       level_name : 分類名稱
+       max_day : 借閱天數
+       max_book : 借閱書籍
+}}}
+  * 職務名稱
+{{{
+    Table Name : Person_Titles
+    Columns :
+       title_id : 職務代碼
+       title_name : 職務名稱
+}}}

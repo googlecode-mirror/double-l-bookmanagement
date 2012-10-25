@@ -5,7 +5,7 @@ class Book_Cate extends AppModel {
 	public $validate = array(
         'catagory_name' => array(
             array('rule' => 'notEmpty', 'message' => '書籍分類不可空白'),
-			array('rule' => 'isUnique', 'message' => '書籍分類重複')
+			array('rule' => 'isUnique', 'message' => '書籍分類不可重複')
         )
     );
 }

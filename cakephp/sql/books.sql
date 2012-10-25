@@ -3,12 +3,12 @@
 -- http://www.phpmyadmin.net
 --
 -- 主機: localhost
--- 產生日期: 2012 年 10 月 24 日 10:16
+-- 產生日期: 2012 年 10 月 25 日 07:30
 -- 伺服器版本: 5.5.16
 -- PHP 版本: 5.3.8
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+08:00";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -32,17 +32,10 @@ DROP TABLE IF EXISTS `book_catagorys`;
 CREATE TABLE IF NOT EXISTS `book_catagorys` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '分類號',
   `catagory_name` varchar(20) NOT NULL COMMENT '分類名稱',
+  `valid` tinyint(1) NOT NULL DEFAULT '1',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='書籍分類資料' AUTO_INCREMENT=4 ;
-
---
--- 轉存資料表中的資料 `book_catagorys`
---
-
-INSERT INTO `book_catagorys` (`id`, `catagory_name`, `create_time`) VALUES
-(2, 'Test1', '2012-10-24 09:22:24'),
-(3, 'Test', '2012-10-24 09:22:28');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='書籍分類資料' AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -52,11 +45,12 @@ INSERT INTO `book_catagorys` (`id`, `catagory_name`, `create_time`) VALUES
 
 DROP TABLE IF EXISTS `person_groups`;
 CREATE TABLE IF NOT EXISTS `person_groups` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_name` varchar(20) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '分類號',
+  `group_name` varchar(20) NOT NULL COMMENT '群組名稱',
+  `valid` tinyint(1) NOT NULL DEFAULT '1',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='人員群組資料' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='借閱者群組資料' AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -67,12 +61,13 @@ CREATE TABLE IF NOT EXISTS `person_groups` (
 DROP TABLE IF EXISTS `person_levels`;
 CREATE TABLE IF NOT EXISTS `person_levels` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '分類號',
-  `level_name` varchar(20) NOT NULL COMMENT '分類名稱',
+  `level_name` varchar(20) NOT NULL COMMENT '等級權限名稱',
   `max_day` int(11) NOT NULL DEFAULT '0' COMMENT '借閱天數',
   `max_book` int(11) NOT NULL DEFAULT '0' COMMENT '借閱書籍',
+  `valid` tinyint(1) NOT NULL DEFAULT '1',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='人員等級權限' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='借閱者等級權限' AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -84,9 +79,10 @@ DROP TABLE IF EXISTS `person_titles`;
 CREATE TABLE IF NOT EXISTS `person_titles` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '職務代碼',
   `title_name` varchar(20) NOT NULL COMMENT '職務名稱',
+  `valid` tinyint(1) NOT NULL DEFAULT '1',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='人員職務名稱' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='人員職務名稱' AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 

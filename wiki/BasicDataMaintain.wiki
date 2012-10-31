@@ -1,10 +1,29 @@
 =書籍資料=
   * 書籍資料資料
+{{{
+    Table Name : Books
+    Columns :
+       id : 書籍編號
+       isbn : ISBN
+       book_name : 書籍名稱
+       book_author : 作者
+       book_publisher : 出版商
+       book_version : 版別
+       book_catagory : 書籍分類
+       purchase_price : 購買金額
+       book_search_code : 索書號
+       book_status : 狀態
+       person_level : 借閱等級
+       book_location : 櫃別
+       publish_date : 出版日期
+       purchase_date : 購入日期
+       create_date : 登記日期
+}}}
   * 書籍分類資料
 {{{
     Table Name : Book_Catagorys
     Columns :
-       catagory_id : 分類號
+       id : 分類號
        catagory_name : 分類名稱
 }}}
   * 出版公司資料

@@ -2,7 +2,7 @@
 
 索書號:
 
-  *[http://www.ea.sinica.edu.tw/library_05_look.php?libr_num=42&page=1 索書號 分類號 作者號 說明]
-  *[http://las.sinica.edu.tw/screens/DDC.html 杜威十進分類法簡表]
-  *[http://las.sinica.edu.tw/screens/cc.html 中國圖書分類法簡表]
-  *[http://lib01.nkuht.edu.tw/training/call_no.htm 認識索書號]
+  * [http://www.ea.sinica.edu.tw/library_05_look.php?libr_num=42&page=1 索書號 分類號 作者號 說明]
+  * [http://las.sinica.edu.tw/screens/DDC.html 杜威十進分類法簡表]
+  * [http://las.sinica.edu.tw/screens/cc.html 中國圖書分類法簡表]
+  * [http://lib01.nkuht.edu.tw/training/call_no.htm 認識索書號]

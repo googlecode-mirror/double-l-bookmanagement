@@ -1,0 +1,7 @@
+#summary 圖書管理相關知識
+
+索書號:
+
+[http://www.ea.sinica.edu.tw/library_05_look.php?libr_num=42&page=1 索書號 分類號 作者號 說明]
+
+

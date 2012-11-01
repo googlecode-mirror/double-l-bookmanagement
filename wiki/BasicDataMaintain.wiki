@@ -1,21 +1,38 @@
 =書籍資料=
+  * 書籍基本資料
+{{{
+    Table Name : Books_Basic
+    Columns :
+       id : 書籍基本資料編號
+       book_name : 書籍名稱
+       book_author : 作者
+       book_publisher : 出版商
+       book_catagory : 書籍分類
+       publish_date : 出版日期
+       create_date : 登記日期
+}}}
+  * 書籍版別資料
+{{{
+    Table Name : Books_Version
+    Columns :
+       id : 書籍版別資料編號
+       basic_id : 書籍基本資料編號
+       isbn : ISBN (根據定義有時版別不同會有不同ISBN)
+       book_version : 版別
+       book_search_code : 索書號
+       book_location : 櫃別
+       create_date : 登記日期
+}}}
+
   * 書籍資料資料
 {{{
     Table Name : Books
     Columns :
        id : 書籍編號
-       isbn : ISBN
-       book_name : 書籍名稱
-       book_author : 作者
-       book_publisher : 出版商
-       book_version : 版別
-       book_catagory : 書籍分類
+       version_id : 書籍版別資料編號
        purchase_price : 購買金額
-       book_search_code : 索書號
        book_status : 狀態
        person_level : 借閱等級
-       book_location : 櫃別
-       publish_date : 出版日期
        purchase_date : 購入日期
        create_date : 登記日期
 }}}

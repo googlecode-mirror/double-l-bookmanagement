@@ -6,3 +6,9 @@
   * [http://las.sinica.edu.tw/screens/DDC.html 杜威十進分類法簡表]
   * [http://las.sinica.edu.tw/screens/cc.html 中國圖書分類法簡表]
   * [http://lib01.nkuht.edu.tw/training/call_no.htm 認識索書號]
+
+ISBN 
+
+  * [http://slashtsai.wordpress.com/2011/12/14/isbn-%E6%9F%A5%E8%A9%A2%E7%B6%B2%E7%AB%99/ISBN 查詢網站]
+  * [http://192.83.186.170/search*cht?/i9789861814452/i9789861814452/0,0,0/marc&FF=i9789861814452 機器格式]
+  * [http://192.83.186.170/search*cht?/i9789861814452/i9789861814452/0,0,0/frameset&FF=i9789861814452 人類格式]

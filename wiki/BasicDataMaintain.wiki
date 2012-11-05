@@ -1,7 +1,7 @@
 =書籍資料=
   * 書籍基本資料
 {{{
-    Table Name : Books_Basic
+    Table Name : Book_Basics
     Columns :
        id : 書籍基本資料編號
        book_name : 書籍名稱
@@ -13,7 +13,7 @@
 }}}
   * 書籍版別資料
 {{{
-    Table Name : Books_Version
+    Table Name : Book_Versions
     Columns :
        id : 書籍版別資料編號
        basic_id : 書籍基本資料編號

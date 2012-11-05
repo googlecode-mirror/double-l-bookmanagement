@@ -101,6 +101,57 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- 表的結構 `books`
+--
+
+CREATE TABLE IF NOT EXISTS `books` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '書籍編號',
+  `version_id` int(11) NOT NULL COMMENT '書籍版別資料編號',
+  `purchase_price` int(11) NOT NULL COMMENT '購買金額',
+  `book_status` int(11) NOT NULL COMMENT '狀態',
+  `person_level` int(11) NOT NULL COMMENT '借閱等級',
+  `purchase_date` date NOT NULL COMMENT '購入日期',
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '登記日期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍資料資料' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- 表的結構 `book_basics`
+--
+
+CREATE TABLE IF NOT EXISTS `book_basics` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '書籍基本資料編號',
+  `book_name` varchar(100) NOT NULL COMMENT '書籍名稱',
+  `book_author` varchar(50) NOT NULL COMMENT '作者',
+  `book_publisher` varchar(50) NOT NULL COMMENT '出版商',
+  `book_catagory` int(11) NOT NULL COMMENT '書籍分類',
+  `publish_date` date NOT NULL COMMENT '出版日期',
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍基本資料' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- 表的結構 `book_versions`
+--
+
+CREATE TABLE IF NOT EXISTS `book_versions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '書籍版別資料編號',
+  `basic_id` int(11) NOT NULL COMMENT '書籍基本資料編號',
+  `isbn` varchar(13) NOT NULL COMMENT '(根據定義有時版別不同會有不同ISBN)',
+  `book_version` varchar(10) NOT NULL COMMENT '版別',
+  `book_search_code` varchar(20) NOT NULL COMMENT '索書號',
+  `book_location` varchar(20) NOT NULL COMMENT '櫃別',
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍版別資料' AUTO_INCREMENT=1 ;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -45,7 +45,7 @@
 }}}
   * 出版公司資料
 {{{
-    Table Name : Book_Publisher
+    Table Name : Book_Publishers
     Columns :
        id : 公司編號
        address : 地址
@@ -59,6 +59,32 @@
 
 =人員資料=
   * 借閱者資本資料
+{{{
+    Table Name : Persons
+    Columns :
+       id : 卡號
+       name : 姓名
+       gender : 性別
+       social_id : 身份證
+       birthday : 生日
+       title_id : 職稱
+       group_id : 群組
+       phone : 聯絡電話
+       home_phone : 住家電話
+       mobile_phone : 行動電話
+       fax : 傳真電話
+       email : 電子郵件
+       address : 通訊地址
+       memo : 備註
+       level_id : 借閱等級
+       password : 查詢密碼
+       create_date : 建立日期
+       card_create_date : 發卡日期
+       card_return_date : 退卡日期
+       card_create_count : 補卡次數
+       card_reissue_date : 補卡日期
+}}}
+  * 等級權限資料
   * 群組資料
 {{{
     Table Name : Person_Groups

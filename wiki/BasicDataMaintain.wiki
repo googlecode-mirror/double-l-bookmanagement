@@ -44,6 +44,17 @@
        catagory_name : 分類名稱
 }}}
   * 出版公司資料
+{{{
+    Table Name : Book_Publisher
+    Columns :
+       id : 公司編號
+       address : 地址
+       phone : 電話
+       fax : 傳真
+       sales : 業務
+       mobile_phone : 行動電話
+       memo : 備註
+}}}
   * 期刊雜誌基本資料
 
 =人員資料=

@@ -84,7 +84,6 @@
        card_create_count : 補卡次數
        card_reissue_date : 補卡日期
 }}}
-  * 等級權限資料
   * 群組資料
 {{{
     Table Name : Person_Groups

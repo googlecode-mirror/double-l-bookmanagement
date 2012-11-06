@@ -1,4 +1,14 @@
   * 借出作業
+{{{
+    Table Name : Lend_Reocrds
+    Columns :
+       id : 流水號
+       book_id : 書籍
+       person_id : 出借人
+       status : 狀態 (C:出借中, R:歸還, D:遺失)
+       lead_date : 出借日期
+       return_date : 歸還日期
+}}}
   * 歸還作業
   * 預借建立
   * 預借刪除

@@ -7,7 +7,7 @@
        book_name : 書籍名稱
        book_author : 作者
        book_publisher : 出版商
-       book_catagory : 書籍分類
+       cate_id : 書籍分類
        publish_date : 出版日期
        create_date : 登記日期
 }}}
@@ -34,6 +34,7 @@
        book_status : 狀態
        person_level : 借閱等級
        purchase_date : 購入日期
+       valid
        create_date : 登記日期
 }}}
   * 書籍分類資料
@@ -42,6 +43,7 @@
     Columns :
        id : 分類號
        catagory_name : 分類名稱
+       create_date : 登記日期
 }}}
   * 出版公司資料
 {{{
@@ -90,6 +92,7 @@
     Columns :
        group_id : 分類號
        group_name : 分類名稱
+       create_date : 登記日期
 }}}
   * 等級權限資料
 {{{
@@ -99,6 +102,7 @@
        level_name : 分類名稱
        max_day : 借閱天數
        max_book : 借閱書籍
+       create_date : 登記日期
 }}}
   * 職務名稱
 {{{
@@ -106,4 +110,5 @@
     Columns :
        title_id : 職務代碼
        title_name : 職務名稱
+       create_date : 登記日期
 }}}

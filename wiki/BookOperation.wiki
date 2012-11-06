@@ -10,6 +10,7 @@
        return_date : 歸還日期
 }}}
   * 歸還作業
+  ** 歸還作業, 要檢查是否有預借相關資料.
   * 預借建立
 {{{
     Table Name : Reserve_Records

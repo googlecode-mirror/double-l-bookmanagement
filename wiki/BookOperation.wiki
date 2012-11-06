@@ -1,6 +1,6 @@
   * 借出作業
 {{{
-    Table Name : Lend_Reocrds
+    Table Name : Lend_Records
     Columns :
        id : 流水號
        book_id : 書籍
@@ -11,6 +11,15 @@
 }}}
   * 歸還作業
   * 預借建立
+{{{
+    Table Name : Reserve_Records
+    Columns :
+       id : 流水號
+       book_id : 書籍
+       person_id : 預約人
+       status : 狀態 (R:預約, D:取消, E:延長)
+       create_date : 日期
+}}}
   * 預借刪除
   * 續借作業
   * 借卡搜尋作業

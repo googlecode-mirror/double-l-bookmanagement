@@ -12,3 +12,7 @@ ISBN
   * [http://slashtsai.wordpress.com/2011/12/14/isbn-%E6%9F%A5%E8%A9%A2%E7%B6%B2%E7%AB%99/ISBN 查詢網站]
   * [http://192.83.186.170/search*cht?/i9789861814452/i9789861814452/0,0,0/marc&FF=i9789861814452 機器格式]
   * [http://192.83.186.170/search*cht?/i9789861814452/i9789861814452/0,0,0/frameset&FF=i9789861814452 人類格式]
+
+PHP 條碼產生
+  
+  * [http://bojack.pixnet.net/blog/post/3780245-%E5%88%A9%E7%94%A8-php-%E7%A8%8B%E5%BC%8F%E7%94%A2%E7%94%9F%E6%A2%9D%E7%A2%BC 利用 PHP 程式產生條碼]

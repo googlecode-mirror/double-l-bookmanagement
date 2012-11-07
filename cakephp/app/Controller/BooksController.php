@@ -73,5 +73,31 @@ class BooksController extends AppController {
 	public function book_basic_index() {
         $this->set('book_basics', $this->Book_Basic->find('all')); //, array('conditions' => 'book.valid = 1')));
     }
+	
+	public function book_basic_edit($id = null) {
+		$this->Book_Basic->id = $id;
+		$cates = $this->convert_options($this->Book_Cate->find('all'), 'Book_Cate', 'id', 'catagory_name');
+		$publishers = $this->convert_options($this->Book_Publisher->find('all'), 'Book_Publisher', 'id', 'comp_name');
+		$this->set('cates', $cates);
+		$this->set('publishers', $publishers);
+		if ($this->request->is('get')) {
+			$this->request->data = $this->Book_Basic->read();
+		} else {
+			if ($this->Book_Basic->save($this->request->data)) {
+				$this->Session->setFlash('儲存成功.');
+				$this->redirect(array('action' => 'book_basic_index'));
+			} else {
+				$this->Session->setFlash('儲存失敗.');
+			}
+		}
+	}
+	
+	private function convert_options($result, $model, $key=id, $label='name') {
+		$rt = array();
+		foreach($result as $item) {
+			$rt[$item[$model][$key]] = $item[$model][$label];
+		}
+		return $rt;
+	}
 }
 ?>

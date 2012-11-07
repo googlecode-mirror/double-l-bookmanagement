@@ -13,10 +13,10 @@ class Book_Basic extends AppModel {
 								'foreignKey' => 'basic_id',
 							)
 	);
-	public $belongsTo = array('Book_Cate' => array(
-								'className' => 'Book_Cate',
-								'foreignKey' => 'cate_id'
-							)
+	public $belongsTo = array(	'Book_Cate' => array('className' => 'Book_Cate',
+													'foreignKey' => 'cate_id'),
+								'Book_Publisher' => array('className' => 'Book_Publisher',
+													'foreignKey' => 'book_publisher_id')
 	);
 
 }

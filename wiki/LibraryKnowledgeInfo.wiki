@@ -16,3 +16,4 @@ ISBN
 PHP 條碼產生
   
   * [http://bojack.pixnet.net/blog/post/3780245-%E5%88%A9%E7%94%A8-php-%E7%A8%8B%E5%BC%8F%E7%94%A2%E7%94%9F%E6%A2%9D%E7%A2%BC 利用 PHP 程式產生條碼]
+  * [http://blog.roodo.com/pokey/archives/16354565.htmlPHP產生一維Barcode條] 有用到PHP Classes 網站的Barcode Generator

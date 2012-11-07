@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `books` (
   `person_level` int(11) NOT NULL COMMENT '借閱等級',
   `purchase_date` date NOT NULL COMMENT '購入日期',
   `valid` tinyint(1) NOT NULL DEFAULT '1',
-  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '登記日期',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '登記日期',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍資料資料';
 
@@ -131,10 +131,10 @@ CREATE TABLE IF NOT EXISTS `book_basics` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '書籍基本資料編號',
   `book_name` varchar(100) NOT NULL COMMENT '書籍名稱',
   `book_author` varchar(50) NOT NULL COMMENT '作者',
-  `book_publisher` varchar(50) NOT NULL COMMENT '出版商',
+  `book_publisher_id` varchar(50) NOT NULL COMMENT '出版商',
   `cate_id` varchar(10) NOT NULL COMMENT '書籍分類',
   `publish_date` date NOT NULL COMMENT '出版日期',
-  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍基本資料';
 
@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `book_versions` (
   `book_version` varchar(10) NOT NULL COMMENT '版別',
   `book_search_code` varchar(20) NOT NULL COMMENT '索書號',
   `book_location` varchar(20) NOT NULL COMMENT '櫃別',
-  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍版別資料';
 

@@ -14,10 +14,10 @@ class PersonsController extends AppController {
 			$this->request->data = $this->Person_Title->read();
 		} else {
 			if ($this->Person_Title->save($this->request->data)) {
-				$this->Session->setFlash('å„²å­˜æˆåŠŸ.');
+				$this->Session->setFlash('Àx¦s¦¨¥\.');
 				$this->redirect(array('action' => 'title_index'));
 			} else {
-				$this->Session->setFlash('å„²å­˜å¤±æ•—.');
+				$this->Session->setFlash('Àx¦s¥¢±Ñ.');
 			}
 		}
 	}
@@ -30,10 +30,10 @@ class PersonsController extends AppController {
 			throw new MethodNotAllowedException();
 		}
 		if ($this->Person_Title->save($this->request->data)) {
-			$this->Session->setFlash('è·å‹™ç‹€æ…‹å·²è®Šæ›´.');
+			$this->Session->setFlash('Â¾°Èª¬ºA¤wÅÜ§ó.');
 			$this->redirect(array('action' => 'title_index'));
 		} else {
-			$this->Session->setFlash('ä½œæ¥­å¤±æ•—.');
+			$this->Session->setFlash('§@·~¥¢±Ñ.');
 		}	
 	}
 	
@@ -47,10 +47,10 @@ class PersonsController extends AppController {
 			$this->request->data = $this->Person_Group->read();
 		} else {
 			if ($this->Person_Group->save($this->request->data)) {
-				$this->Session->setFlash('å„²å­˜æˆåŠŸ.');
+				$this->Session->setFlash('Àx¦s¦¨¥\.');
 				$this->redirect(array('action' => 'group_index'));
 			} else {
-				$this->Session->setFlash('å„²å­˜å¤±æ•—.');
+				$this->Session->setFlash('Àx¦s¥¢±Ñ.');
 			}
 		}
 	}
@@ -63,10 +63,10 @@ class PersonsController extends AppController {
 			throw new MethodNotAllowedException();
 		}
 		if ($this->Person_Group->save($this->request->data)) {
-			$this->Session->setFlash('ç¾¤çµ„ç‹€æ…‹å·²è®Šæ›´.');
+			$this->Session->setFlash('¸s²Õª¬ºA¤wÅÜ§ó.');
 			$this->redirect(array('action' => 'group_index'));
 		} else {
-			$this->Session->setFlash('ä½œæ¥­å¤±æ•—.');
+			$this->Session->setFlash('§@·~¥¢±Ñ.');
 		}	
 	}
 
@@ -80,10 +80,10 @@ class PersonsController extends AppController {
 			$this->request->data = $this->Person_Level->read();
 		} else {
 			if ($this->Person_Level->save($this->request->data)) {
-				$this->Session->setFlash('å„²å­˜æˆåŠŸ.');
+				$this->Session->setFlash('Àx¦s¦¨¥\.');
 				$this->redirect(array('action' => 'level_index'));
 			} else {
-				$this->Session->setFlash('å„²å­˜å¤±æ•—.');
+				$this->Session->setFlash('Àx¦s¥¢±Ñ.');
 			}
 		}
 	}
@@ -96,10 +96,10 @@ class PersonsController extends AppController {
 			throw new MethodNotAllowedException();
 		}
 		if ($this->Person_Level->save($this->request->data)) {
-			$this->Session->setFlash('ç­‰ç´šæ¬Šé™ç‹€æ…‹å·²è®Šæ›´.');
+			$this->Session->setFlash('µ¥¯ÅÅv­­ª¬ºA¤wÅÜ§ó.');
 			$this->redirect(array('action' => 'level_index'));
 		} else {
-			$this->Session->setFlash('ä½œæ¥­å¤±æ•—.');
+			$this->Session->setFlash('§@·~¥¢±Ñ.');
 		}	
 	}
 }

@@ -33,4 +33,15 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 
+    public $components = array(
+        'Session',
+        'Auth' => array(
+            'loginRedirect' => array('controller' => 'books', 'action' => 'index'),
+            'logoutRedirect' => array('controller' => 'users', 'action' => 'login', 'home')
+        )
+    );
+
+    public function beforeFilter() {
+        $this->Auth->allow('index', 'view');
+    }
 }

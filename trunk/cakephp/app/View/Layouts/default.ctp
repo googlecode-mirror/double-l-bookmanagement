@@ -2,7 +2,7 @@
 		<div id="content">
 			<table>
 				<tr>
-					<td>
+					<td style="width:200px">
 						<?php echo $this->element('left_menu'); ?>
 					</td>
 					<td>

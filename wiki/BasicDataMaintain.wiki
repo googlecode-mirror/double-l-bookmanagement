@@ -4,6 +4,7 @@
     Table Name : Book_Basics
     Columns :
        id : 書籍基本資料編號
+       book_type : 書籍類型 (0:書, 1:期刊)
        book_name : 書籍名稱
        book_author : 作者
        book_publisher : 出版商
@@ -21,6 +22,7 @@
        book_version : 版別
        book_search_code : 索書號
        book_location : 櫃別
+       publish_date : 出版日期
        create_date : 登記日期
 }}}
 

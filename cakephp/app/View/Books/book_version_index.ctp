@@ -38,15 +38,9 @@
         </td>
         <td>
             <?php 
-				//if ($book_basic['Book_Version']['valid']) {
-					echo $this->Html->link('修改', array('action' => 'book_version_edit', $basic_id, $book_version['Book_Version']['id']));
-				//	$delbtn = '失效';
-				//	echo '&nbsp';
-				//}
-				//echo $this->Form->postLink(
-				//$delbtn,
-				//array('action' => 'book_version_delete', $book_version['Book_Version']['id']),
-				//array('confirm' => '確認變更?'));
+				echo $this->Html->link('修改', array('action' => 'book_version_edit', $basic_id, $book_version['Book_Version']['id']));
+				echo '&nbsp';
+				echo $this->Html->link('書籍資訊', array('action' => 'book_index', $book_version['Book_Version']['id']));
             ?>
         </td>
     </tr>

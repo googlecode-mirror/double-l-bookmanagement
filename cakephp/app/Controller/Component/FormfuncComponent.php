@@ -8,5 +8,9 @@
 			}
 			return $rt;
 		}
+		
+		public function book_status() {
+			return array(0=>"購買中",1=>"在庫",2=>"借出",3=>"已歸還",4=>"整理中",5=>"運送中");
+		}
 	}
 ?>

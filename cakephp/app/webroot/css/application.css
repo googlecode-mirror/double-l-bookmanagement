@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+#account {
+    float: right;
+}
+
+#header ul {
+    margin: 0;
+    padding: 0;
+}
+#header li {
+    float: left;
+    list-style-type: none;
+    margin-right: 4px;
+    padding: 0;
+    white-space: nowrap;
+}
+
+#header a {
+    color: #FFFFFF;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+#header a, a:link, a:visited {
+    text-decoration: none;
+}

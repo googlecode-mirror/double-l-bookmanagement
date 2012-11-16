@@ -1,8 +1,8 @@
 <?php
 class PersonsController extends AppController {
-	public $uses = array('Person_Title', 'Person_Group', 'Person_Level');
+	public $uses = array('Person_Title', 'Person_Group', 'Person_Level', 'Person');
     public $helpers = array('Html', 'Form', 'Session');
-    public $components = array('Session');
+    public $components = array('Session', 'Formfunc');
 
     public function title_index() {
         $this->set('titles', $this->Person_Title->find('all', array('order' => 'valid DESC, id')));
@@ -14,10 +14,10 @@ class PersonsController extends AppController {
 			$this->request->data = $this->Person_Title->read();
 		} else {
 			if ($this->Person_Title->save($this->request->data)) {
-				$this->Session->setFlash('Àx¦s¦¨¥\.');
+				$this->Session->setFlash('å„²å­˜æˆåŠŸ.');
 				$this->redirect(array('action' => 'title_index'));
 			} else {
-				$this->Session->setFlash('Àx¦s¥¢±Ñ.');
+				$this->Session->setFlash('å„²å­˜å¤±æ•—.');
 			}
 		}
 	}
@@ -30,10 +30,10 @@ class PersonsController extends AppController {
 			throw new MethodNotAllowedException();
 		}
 		if ($this->Person_Title->save($this->request->data)) {
-			$this->Session->setFlash('Â¾°Èª¬ºA¤wÅÜ§ó.');
+			$this->Session->setFlash('è·å‹™ç‹€æ…‹å·²è®Šæ›´.');
 			$this->redirect(array('action' => 'title_index'));
 		} else {
-			$this->Session->setFlash('§@·~¥¢±Ñ.');
+			$this->Session->setFlash('ä½œæ¥­å¤±æ•—.');
 		}	
 	}
 	
@@ -47,10 +47,10 @@ class PersonsController extends AppController {
 			$this->request->data = $this->Person_Group->read();
 		} else {
 			if ($this->Person_Group->save($this->request->data)) {
-				$this->Session->setFlash('Àx¦s¦¨¥\.');
+				$this->Session->setFlash('å„²å­˜æˆåŠŸ.');
 				$this->redirect(array('action' => 'group_index'));
 			} else {
-				$this->Session->setFlash('Àx¦s¥¢±Ñ.');
+				$this->Session->setFlash('å„²å­˜å¤±æ•—.');
 			}
 		}
 	}
@@ -63,10 +63,10 @@ class PersonsController extends AppController {
 			throw new MethodNotAllowedException();
 		}
 		if ($this->Person_Group->save($this->request->data)) {
-			$this->Session->setFlash('¸s²Õª¬ºA¤wÅÜ§ó.');
+			$this->Session->setFlash('ç¾¤çµ„ç‹€æ…‹å·²è®Šæ›´.');
 			$this->redirect(array('action' => 'group_index'));
 		} else {
-			$this->Session->setFlash('§@·~¥¢±Ñ.');
+			$this->Session->setFlash('ä½œæ¥­å¤±æ•—.');
 		}	
 	}
 
@@ -80,10 +80,10 @@ class PersonsController extends AppController {
 			$this->request->data = $this->Person_Level->read();
 		} else {
 			if ($this->Person_Level->save($this->request->data)) {
-				$this->Session->setFlash('Àx¦s¦¨¥\.');
+				$this->Session->setFlash('å„²å­˜æˆåŠŸ.');
 				$this->redirect(array('action' => 'level_index'));
 			} else {
-				$this->Session->setFlash('Àx¦s¥¢±Ñ.');
+				$this->Session->setFlash('å„²å­˜å¤±æ•—.');
 			}
 		}
 	}
@@ -96,11 +96,34 @@ class PersonsController extends AppController {
 			throw new MethodNotAllowedException();
 		}
 		if ($this->Person_Level->save($this->request->data)) {
-			$this->Session->setFlash('µ¥¯ÅÅv­­ª¬ºA¤wÅÜ§ó.');
+			$this->Session->setFlash('ç­‰ç´šæ¬Šé™ç‹€æ…‹å·²è®Šæ›´.');
 			$this->redirect(array('action' => 'level_index'));
 		} else {
-			$this->Session->setFlash('§@·~¥¢±Ñ.');
+			$this->Session->setFlash('ä½œæ¥­å¤±æ•—.');
 		}	
+	}
+	
+	public function person_edit($id=null) {
+		$this->Person->id = $id;
+		if ($this->request->is('get')) {
+			$this->request->data = $this->Person->read();
+		}
+		else {
+			if ($this->request->data["Person"]['id'] == '') {
+				$this->request->data["Person"]['id'] = date('YmdHis');
+			}
+			if ($this->Person->save($this->request->data)) {
+				$this->Session->setFlash('å€Ÿé–±è€…æ–°å¢žå®Œæˆ.');
+				$this->redirect(array('action' => 'level_index'));
+			} else {
+				$this->Session->setFlash('ä½œæ¥­å¤±æ•—.');
+			}
+		}
+		$this->set('person_titles', $this->Person_Title->find('list', array('fields' => array('id', 'title_name'))));
+		$this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('id', 'level_name'))));
+		$this->set('person_groups', $this->Person_Group->find('list', array('fields' => array('id', 'group_name'))));
+		$this->set('person_gender', $this->Formfunc->person_gender());
+		$this->set('id', $id);
 	}
 }
 ?>

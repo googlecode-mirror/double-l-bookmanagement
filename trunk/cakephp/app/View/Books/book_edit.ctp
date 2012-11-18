@@ -1,82 +1,47 @@
-<h1>修改書籍資料</h1>
-<?php if ($version_id != null): ?> 
-	<?php echo $this->Form->create('Book'); ?>
-	<table>
-		<tr>
-			<td>書籍名稱</td>
-			<td>
-				<?php echo $book_basic['Book_Basic']['book_name']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>作者</td>
-			<td>
-				<?php echo $book_basic['Book_Basic']['book_author']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>出版商</td>
-			<td>
-				<?php echo $book_basic['Book_Publisher']['comp_name']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>書籍分類</td>
-			<td>
-				<?php echo $book_basic['Book_Cate']['catagory_name']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>出版日期</td>
-			<td>
-				<?php echo $book_basic['Book_Basic']['publish_date']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>ISBN</td>
-			<td><?php echo $book_version['Book_Version']['isbn'];?></td>
-		</tr>
-		<tr>
-			<td>版別</td>
-			<td><?php echo $book_version['Book_Version']['book_version'];?></td>
-		</tr>
-		<tr>
-			<td>索書號</td>
-			<td><?php echo $book_version['Book_Version']['book_search_code'];?></td>
-		</tr>
-		<tr>
-			<td>櫃別</td>
-			<td><?php echo $book_version['Book_Version']['book_location'];?></td>
-		</tr>
-		<tr>
-			<td>出版日期</td>
-			<td><?php echo $book_version['Book_Version']['publish_date'];?></td>
-		</tr>
-		<tr>
-			<td>購買金額</td>
-			<td>
-				<?php echo $this->Form->input('id', array('type'=> 'hidden'));?>
-				<?php echo $this->Form->input('version_id', array('type'=> 'hidden', 'value' => $version_id));?>
-				<?php echo $this->Form->input('purchase_price', array('label'=>false));?>
-			</td>
-		</tr>
-		<tr>
-			<td>狀態</td>
-			<td><?php echo $this->Form->input('book_status', array('label'=>false, 'options' => $book_status, 'notempty'=>true));?></td>
-		</tr>
-		<tr>
-			<td>借閱等級</td>
-			<td><?php echo $this->Form->input('person_level', array('label'=>false, 'options' => $person_levels, 'notempty'=>true));?></td>
-		</tr>
-		<tr>
-			<td>購入日期</td>
-			<td><?php echo $this->Form->input('purchase_date', array('label'=>false,'dateFormat' => 'DMY'));?></td>
-		</tr>
-		<tr>
-			<td cols=2><?php echo $this->Form->submit('儲存');?></td>
-		</tr>
-	</table>
-	<?php echo $this->Form->end(); ?>
-<?php else: ?>
-	<?php echo '<div style="color:red;">'.$error_msg.'</div>'; ?>
-<?php endif; ?>
+<h1>修改書籍基本資料</h1>
+<?php
+    echo $this->Form->create('Book');
+	echo $this->Form->input('id', array('type'=> 'hidden'));
+    echo $this->Form->input('book_type', array('type'=> 'hidden', 'value'=>'B'));
+    $book = $this->request->data["Book"];
+    $book_instances = $this->request->data["Book_Instances"];
+?>
+<table>
+<tr><td>書籍名稱 : <?php echo $this->Form->input('book_name', array('div' => false, 'label' => false)); ?></td></tr>
+<tr><td>作者 : <?php echo $this->Form->input('book_author', array('div' => false, 'label' => false)); ?> 
+        版別 <?php echo $this->Form->input('book_version', array('div' => false, 'label' => false)); ?></td></tr>
+<tr><td>出版商 : <?php echo $this->Form->input('book_publisher', array('div' => false, 'label' => false)); ?> 
+        附屬媒體 <?php echo $this->Form->input('book_attachment', array('div' => false, 'label' => false)); ?></td></tr>
+<tr><td>出版日期 : <?php echo $this->Form->input('publish_date',  array('dateFormat' => 'YMD','div' => false, 'label' => false)); ?> 
+        ISBN <?php echo $this->Form->input('isbn', array('div' => false, 'label' => false)); ?></td></tr>
+<tr><td>書籍分類 : <?php echo $this->Form->input('cate_id', array('div' => false, 'label' => false)); ?>
+        索書號 : <?php echo $this->Form->input('book_search_code', array('div' => false, 'label' => false)); ?>
+        櫃別 : <?php echo $this->Form->input('book_location', array('div' => false, 'label' => false)); ?></td></tr>
+<tr><td>備註 : <?php echo $this->Form->input('memo', array('div' => false, 'label' => false)); ?></td></tr>
+</table>
+<?php echo $this->Form->end('儲存'); ?>
+<table>
+    <tr>
+        <th>書籍編號</th>
+        <th>購買金額</th>
+        <th>書籍狀態</th>
+        <th>借閱等級</th>
+        <th>購買時間</th>
+        <th>可以外借</th>
+        <th>
+            <?php echo $this->Html->link('新增', array('action' => 'book_instance_edit', $book['id'])); ?>
+        </th>
+    </tr>
+    <?php foreach ($book_instances as $book_instance): ?>
+    <tr>
+        <td><?php echo $book_instance['id']; ?></td>
+        <td><?php echo $book_instance['purchase_price']; ?></td>
+        <td><?php echo $book_instance['book_status']; ?></td>
+        <td><?php echo $book_instance['person_level']; ?></td>
+        <td><?php echo $book_instance['purchase_date']; ?></td>
+        <td><?php echo $book_instance['is_lend']; ?></td>
+        <td><?php echo $this->Html->link('修改', array('action' => 'book_instance_edit', $book['id'], $book_instance['id'])); ?></td>
+    </tr>
+
+    <?php endforeach; ?>
+</table>

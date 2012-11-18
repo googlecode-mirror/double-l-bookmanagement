@@ -33,8 +33,12 @@
             <?php echo $book_basic['Book_Basic']['create_time']; ?>
         </td>
         <td>
-            <?php 
-				echo $this->Html->link('修改', array('action' => 'book_basic_edit', $book_basic['Book_Basic']['id']));
+            <?php
+                echo $this->Html->image("edit.png", array(
+                    "alt" => "修改",
+                    'url' => array('action' => 'book_basic_edit', $book_basic['Book_Basic']['id'])
+                )); 
+				//echo $this->Html->link('修改', array('action' => 'book_basic_edit', $book_basic['Book_Basic']['id']));
 				echo '&nbsp';
 				echo $this->Html->link('版本資訊', array('action' => 'book_version_index', $book_basic['Book_Basic']['id']));
             ?>

@@ -1,4 +1,49 @@
 =書籍資料=
+
+  * 書籍基本資料
+{{{
+    Table Name : Books
+    Columns :  
+    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '書籍編號',
+    `book_type` varchar(5) NOT NULL COMMENT '書籍類型 (B:書, M:期刊)',
+    `book_name` varchar(200) NOT NULL COMMENT 'B:書籍名稱, M:期刊名稱',
+    `book_author` varchar(100) NOT NULL COMMENT 'B:作者 M:',
+    `book_publisher` varchar(100) NOT NULL COMMENT '出版商',
+    `cate_id` int(11) NOT NULL COMMENT '書籍分類',
+    `isbn` varchar(20) NOT NULL COMMENT 'B:ISBN, M:ISSN',
+    `book_version` varchar(20) NOT NULL COMMENT 'B:版別, M:刊期',
+    `book_search_code` varchar(100) NOT NULL COMMENT 'B:索書號 M:',
+    `book_location` varchar(100) NOT NULL COMMENT 'B:櫃別 M:',
+    `book_attachment` varchar(100) NOT NULL COMMENT 'B:附屬媒體',
+    `publish_date` date NOT NULL COMMENT 'B:出版日期, M:創刊日',
+    `order_start_date` date NOT NULL COMMENT 'B: M:訂購開始日期',
+    `order_end_date` date NOT NULL COMMENT 'B: M:訂購結束日期',
+    `order_start_version` int(11) NOT NULL COMMENT 'B: M:訂購開始期數',
+    `order_end_version` int(11) NOT NULL COMMENT 'B: M:訂購結束期數',
+    `memo` text NOT NULL COMMENT '備註',
+    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '登記日期',
+
+         
+}}}
+
+  * 書籍實體資料
+{{{
+    Table Name : Book_Instances
+    Columns :
+      `id` VARCHAR( 20 ) NOT NULL ,
+      `book_id` INT NOT NULL ,
+      `book_version` VARCHAR( 10 ) NULL COMMENT ' B:, M:期刊數',
+      `purchase_price` INT NULL COMMENT '購買金額',
+      `book_status` VARCHAR( 10 ) COMMENT '書籍狀態' ,
+      `person_level` INT NOT NULL COMMENT '借閱等級',
+      `purchase_date` DATE NOT NULL COMMENT '購買日' ,
+      `is_lend` VARCHAR( 10 ) NOT NULL COMMENT 'Y/N',
+      `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
+
+}}}
+
+
+
   * 書籍基本資料
 {{{
     Table Name : Book_Basics

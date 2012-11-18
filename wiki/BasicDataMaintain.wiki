@@ -36,7 +36,7 @@
       `purchase_price` INT NULL COMMENT '購買金額',
       `book_status` VARCHAR( 10 ) COMMENT '書籍狀態' ,
       `person_level` INT NOT NULL COMMENT '借閱等級',
-      `purchase_date` DATE NOT NULL COMMENT '購買日' ,
+      `purchase_date` DATE NOT NULL COMMENT 'B:購買日, M:發行日期' ,
       `is_lend` VARCHAR( 10 ) NOT NULL COMMENT 'Y/N',
       `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
 

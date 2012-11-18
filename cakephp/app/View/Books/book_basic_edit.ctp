@@ -7,6 +7,6 @@
     echo $this->Form->input('book_author', array('label'=>'作者'));
     echo $this->Form->input('book_publisher_id', array('label'=>'出版商', 'options' => $publishers));
     echo $this->Form->input('cate_id', array('label'=>'書籍分類'));
-    echo $this->Form->input('publish_date', array('label'=>'出版日期','dateFormat' => 'DMY'));
+    echo $this->Form->input('publish_date', array('label'=>'出版日期','dateFormat' => 'YMD'));
     echo $this->Form->end('儲存');
 ?>

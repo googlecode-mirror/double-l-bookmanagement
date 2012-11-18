@@ -22,12 +22,53 @@ SET time_zone = "+00:00";
 DROP DATABASE `books`;
 CREATE DATABASE `books` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `books`;
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `books`
+--
+DROP TABLE IF EXISTS `books`;
+CREATE TABLE `books`.`books`(
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '書籍編號',
+  `book_type` varchar(5) NOT NULL COMMENT '書籍類型 (B:書, M:期刊)',
+  `book_name` varchar(200) NOT NULL COMMENT 'B:書籍名稱, M:期刊名稱',
+  `book_author` varchar(100) NOT NULL COMMENT 'B:作者 M:',
+  `book_publisher` varchar(100) NOT NULL COMMENT '出版商',
+  `cate_id` int(11) NOT NULL COMMENT '書籍分類',
+  `isbn` varchar(20) NOT NULL COMMENT 'B:ISBN, M:ISSN',
+  `book_version` varchar(20) NOT NULL COMMENT 'B:版別, M:刊期',
+  `book_search_code` varchar(100) NOT NULL COMMENT 'B:索書號 M:',
+  `book_location` varchar(100) NOT NULL COMMENT 'B:櫃別 M:',
+  `book_attachment` varchar(100) NOT NULL COMMENT 'B:附屬媒體',
+  `publish_date` date NOT NULL COMMENT 'B:出版日期, M:創刊日',
+  `order_start_date` date NOT NULL COMMENT 'B: M:訂購開始日期',
+  `order_end_date` date NOT NULL COMMENT 'B: M:訂購結束日期',
+  `order_start_version` int(11) NOT NULL COMMENT 'B: M:訂購開始期數',
+  `order_end_version` int(11) NOT NULL COMMENT 'B: M:訂購結束期數',
+  `memo` text NOT NULL COMMENT '備註',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '登記日期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍資料' ;
 
 -- --------------------------------------------------------
 
 --
--- 表的結構 `book_basics`
+-- 表的結構 `book_instances`
 --
+DROP TABLE IF EXISTS `book_instances`;
+CREATE TABLE `books`.`book_instances`(
+`id` VARCHAR( 20 ) NOT NULL ,
+`book_id` INT NOT NULL ,
+`book_version` VARCHAR( 10 ) NULL ,
+`purchase_price` INT NULL ,
+`book_status` VARCHAR( 10 ) NOT NULL ,
+`person_level` INT NOT NULL ,
+`purchase_date` DATE NOT NULL ,
+`is_lend` VARCHAR( 10 ) NOT NULL ,
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
+PRIMARY KEY ( `id` )
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='書籍實體資料' ;
+
 
 DROP TABLE IF EXISTS `book_basics`;
 CREATE TABLE IF NOT EXISTS `book_basics` (
@@ -41,6 +82,9 @@ CREATE TABLE IF NOT EXISTS `book_basics` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='書籍基本資料' AUTO_INCREMENT=2 ;
+
+
+
 
 -- --------------------------------------------------------
 
@@ -77,11 +121,8 @@ CREATE TABLE IF NOT EXISTS `book_publishers` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出版公司資料';
 
--- --------------------------------------------------------
 
---
--- 表的結構 `book_versions`
---
+
 
 DROP TABLE IF EXISTS `book_versions`;
 CREATE TABLE IF NOT EXISTS `book_versions` (
@@ -97,26 +138,6 @@ CREATE TABLE IF NOT EXISTS `book_versions` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='書籍版別資料' AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
-
---
--- 表的結構 `books`
---
-
-DROP TABLE IF EXISTS `books`;
-CREATE TABLE IF NOT EXISTS `books` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '書籍編號',
-  `version_id` int(11) NOT NULL COMMENT '書籍版別資料編號',
-  `purchase_price` int(11) NOT NULL COMMENT '購買金額',
-  `book_status` int(11) NOT NULL COMMENT '狀態',
-  `person_level` int(11) NOT NULL COMMENT '借閱等級',
-  `purchase_date` date NOT NULL COMMENT '購入日期',
-  `valid` tinyint(1) NOT NULL DEFAULT '1',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '登記日期',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='書籍資料資料' AUTO_INCREMENT=4 ;
-
--- --------------------------------------------------------
-
 --
 -- 表的結構 `person_groups`
 --
@@ -210,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

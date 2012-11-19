@@ -111,10 +111,11 @@ class PersonsController extends AppController {
 		else {
 			if ($this->request->data["Person"]['id'] == '') {
 				$this->request->data["Person"]['id'] = date('YmdHis');
+				$this->request->data["Person"]['create_time'] = date('Y-m-d H:i:s');
 			}
 			if ($this->Person->save($this->request->data)) {
 				$this->Session->setFlash('借閱者新增完成.');
-				$this->redirect(array('action' => 'level_index'));
+				$this->redirect(array('action' => 'person_index'));
 			} else {
 				$this->Session->setFlash('作業失敗.');
 			}
@@ -122,8 +123,31 @@ class PersonsController extends AppController {
 		$this->set('person_titles', $this->Person_Title->find('list', array('fields' => array('id', 'title_name'))));
 		$this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('id', 'level_name'))));
 		$this->set('person_groups', $this->Person_Group->find('list', array('fields' => array('id', 'group_name'))));
-		$this->set('person_gender', $this->Formfunc->person_gender());
+		$this->set('person_genders', $this->Formfunc->person_gender());
 		$this->set('id', $id);
+	}
+	
+	public function person_index() {
+		$this->set('person_titles', $this->Person_Title->find('list', array('fields' => array('id', 'title_name'))));
+		$this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('id', 'level_name'))));
+		$this->set('person_groups', $this->Person_Group->find('list', array('fields' => array('id', 'group_name'))));
+		$this->set('person_genders', $this->Formfunc->person_gender());
+        $this->set('persons', $this->Person->find('all', array('order' => 'valid DESC, id')));
+    }
+	
+	public function person_delete($id) {
+		$this->Person->id = $id;
+		$this->request->data = $this->Person->read();
+		$this->request->data['Person']['valid'] = ($this->request->data['Person']['valid'] + 1)%2;
+		if ($this->request->is('get')) {
+			throw new MethodNotAllowedException();
+		}
+		if ($this->Person->save($this->request->data)) {
+			$this->Session->setFlash('借閱者狀態已變更.');
+			$this->redirect(array('action' => 'person_index'));
+		} else {
+			$this->Session->setFlash('作業失敗.');
+		}	
 	}
 }
 ?>

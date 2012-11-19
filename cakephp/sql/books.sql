@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主機: localhost
--- 產生日期: 2012 年 11 月 16 日 10:56
+-- 產生日期: 2012 年 11 月 19 日 04:36
 -- 伺服器版本: 5.5.16
 -- PHP 版本: 5.3.8
 
@@ -19,56 +19,14 @@ SET time_zone = "+00:00";
 --
 -- 資料庫: `books`
 --
-DROP DATABASE `books`;
 CREATE DATABASE `books` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `books`;
--- --------------------------------------------------------
-
---
--- Table structure for table `books`
---
-DROP TABLE IF EXISTS `books`;
-CREATE TABLE `books`.`books`(
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '書籍編號',
-  `book_type` varchar(5) NOT NULL COMMENT '書籍類型 (B:書, M:期刊)',
-  `book_name` varchar(200) NOT NULL COMMENT 'B:書籍名稱, M:期刊名稱',
-  `book_author` varchar(100) NOT NULL COMMENT 'B:作者 M:',
-  `book_publisher` varchar(100) NOT NULL COMMENT '出版商',
-  `cate_id` int(11) NOT NULL COMMENT '書籍分類',
-  `isbn` varchar(20) NOT NULL COMMENT 'B:ISBN, M:ISSN',
-  `book_version` varchar(20) NOT NULL COMMENT 'B:版別, M:刊期',
-  `book_search_code` varchar(100) NOT NULL COMMENT 'B:索書號 M:',
-  `book_location` varchar(100) NOT NULL COMMENT 'B:櫃別 M:',
-  `book_attachment` varchar(100) NOT NULL COMMENT 'B:附屬媒體',
-  `publish_date` date NOT NULL COMMENT 'B:出版日期, M:創刊日',
-  `order_start_date` date NOT NULL COMMENT 'B: M:訂購開始日期',
-  `order_end_date` date NOT NULL COMMENT 'B: M:訂購結束日期',
-  `order_start_version` int(11) NOT NULL COMMENT 'B: M:訂購開始期數',
-  `order_end_version` int(11) NOT NULL COMMENT 'B: M:訂購結束期數',
-  `memo` text NOT NULL COMMENT '備註',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '登記日期',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍資料' ;
 
 -- --------------------------------------------------------
 
 --
--- 表的結構 `book_instances`
+-- 表的結構 `book_basics`
 --
-DROP TABLE IF EXISTS `book_instances`;
-CREATE TABLE `books`.`book_instances`(
-`id` VARCHAR( 20 ) NOT NULL ,
-`book_id` INT NOT NULL ,
-`book_version` VARCHAR( 10 ) NULL ,
-`purchase_price` INT NULL ,
-`book_status` VARCHAR( 10 ) NOT NULL ,
-`person_level` INT NOT NULL ,
-`purchase_date` DATE NOT NULL ,
-`is_lend` VARCHAR( 10 ) NOT NULL ,
-`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
-PRIMARY KEY ( `id` )
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='書籍實體資料' ;
-
 
 DROP TABLE IF EXISTS `book_basics`;
 CREATE TABLE IF NOT EXISTS `book_basics` (
@@ -81,10 +39,7 @@ CREATE TABLE IF NOT EXISTS `book_basics` (
   `publish_date` date NOT NULL COMMENT '出版日期',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='書籍基本資料' AUTO_INCREMENT=2 ;
-
-
-
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='書籍基本資料';
 
 -- --------------------------------------------------------
 
@@ -100,6 +55,26 @@ CREATE TABLE IF NOT EXISTS `book_catagorys` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍分類資料';
+
+-- --------------------------------------------------------
+
+--
+-- 表的結構 `book_instances`
+--
+
+DROP TABLE IF EXISTS `book_instances`;
+CREATE TABLE IF NOT EXISTS `book_instances` (
+  `id` varchar(20) NOT NULL,
+  `book_id` int(11) NOT NULL,
+  `book_version` varchar(10) DEFAULT NULL,
+  `purchase_price` int(11) DEFAULT NULL,
+  `book_status` varchar(10) NOT NULL,
+  `person_level` int(11) NOT NULL,
+  `purchase_date` date NOT NULL,
+  `is_lend` varchar(10) NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍實體資料';
 
 -- --------------------------------------------------------
 
@@ -121,8 +96,11 @@ CREATE TABLE IF NOT EXISTS `book_publishers` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出版公司資料';
 
+-- --------------------------------------------------------
 
-
+--
+-- 表的結構 `book_versions`
+--
 
 DROP TABLE IF EXISTS `book_versions`;
 CREATE TABLE IF NOT EXISTS `book_versions` (
@@ -135,9 +113,39 @@ CREATE TABLE IF NOT EXISTS `book_versions` (
   `publish_date` date NOT NULL,
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='書籍版別資料' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='書籍版別資料';
 
 -- --------------------------------------------------------
+
+--
+-- 表的結構 `books`
+--
+
+DROP TABLE IF EXISTS `books`;
+CREATE TABLE IF NOT EXISTS `books` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '書籍編號',
+  `book_type` varchar(5) NOT NULL COMMENT '書籍類型 (B:書, M:期刊)',
+  `book_name` varchar(200) NOT NULL COMMENT 'B:書籍名稱, M:期刊名稱',
+  `book_author` varchar(100) NOT NULL COMMENT 'B:作者 M:',
+  `book_publisher` varchar(100) NOT NULL COMMENT '出版商',
+  `cate_id` int(11) NOT NULL COMMENT '書籍分類',
+  `isbn` varchar(20) NOT NULL COMMENT 'B:ISBN, M:ISSN',
+  `book_version` varchar(20) NOT NULL COMMENT 'B:版別, M:刊期',
+  `book_search_code` varchar(100) NOT NULL COMMENT 'B:索書號 M:',
+  `book_location` varchar(100) NOT NULL COMMENT 'B:櫃別 M:',
+  `book_attachment` varchar(100) NOT NULL COMMENT 'B:附屬媒體',
+  `publish_date` date NOT NULL COMMENT 'B:出版日期, M:創刊日',
+  `order_start_date` date NOT NULL COMMENT 'B: M:訂購開始日期',
+  `order_end_date` date NOT NULL COMMENT 'B: M:訂購結束日期',
+  `order_start_version` int(11) NOT NULL COMMENT 'B: M:訂購開始期數',
+  `order_end_version` int(11) NOT NULL COMMENT 'B: M:訂購結束期數',
+  `memo` text NOT NULL COMMENT '備註',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '登記日期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍資料';
+
+-- --------------------------------------------------------
+
 --
 -- 表的結構 `person_groups`
 --
@@ -149,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `person_groups` (
   `valid` tinyint(1) NOT NULL DEFAULT '1',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='人員群組資料' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='人員群組資料';
 
 -- --------------------------------------------------------
 
@@ -166,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `person_levels` (
   `valid` tinyint(1) NOT NULL DEFAULT '1',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='人員等級權限' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='人員等級權限';
 
 -- --------------------------------------------------------
 
@@ -181,7 +189,7 @@ CREATE TABLE IF NOT EXISTS `person_titles` (
   `valid` tinyint(1) NOT NULL DEFAULT '1',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='人員職務名稱' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='人員職務名稱';
 
 -- --------------------------------------------------------
 
@@ -207,14 +215,34 @@ CREATE TABLE IF NOT EXISTS `persons` (
   `memo` varchar(255) DEFAULT NULL COMMENT '備註',
   `level_id` int(11) NOT NULL COMMENT '借閱等級',
   `password` varchar(100) NOT NULL COMMENT '查詢密碼',
-  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '建立日期',
+  `create_time` datetime NOT NULL COMMENT '建立日期',
   `card_create_date` date DEFAULT NULL COMMENT '發卡日期',
   `card_return_date` date DEFAULT NULL COMMENT '退卡日期',
   `card_create_count` int(11) DEFAULT NULL COMMENT '補卡次數',
   `card_reissue_date` date DEFAULT NULL COMMENT '補卡日期',
+  `valid` tinyint(1) NOT NULL DEFAULT '1' COMMENT '生效',
+  `modi_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改日期',
   PRIMARY KEY (`id`),
   UNIQUE KEY `social_id` (`social_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='借閱者資本資料';
+
+-- --------------------------------------------------------
+
+--
+-- 表的結構 `system_inc`
+--
+
+DROP TABLE IF EXISTS `system_inc`;
+CREATE TABLE IF NOT EXISTS `system_inc` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(20) NOT NULL COMMENT '字首',
+  `serial_mode` varchar(20) NOT NULL COMMENT '流水號模式',
+  `subfix` varchar(20) NOT NULL COMMENT '字尾',
+  `count` varchar(20) NOT NULL DEFAULT '0' COMMENT '最後一次值',
+  `create_time` datetime NOT NULL COMMENT '建立日期',
+  `modi_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系統編碼頁';
 
 -- --------------------------------------------------------
 
@@ -231,7 +259,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

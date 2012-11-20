@@ -1,6 +1,6 @@
 <?php
 class BooksController extends AppController {
-	public $uses = array('Book_Cate', 'Book_Basic', 'Book_Version', 'Book', 'Book_Instance','Book_Publisher', 'Person_Level');
+	public $uses = array('Book_Cate', 'Book', 'Book_Instance','Book_Publisher', 'Person_Level');
     public $helpers = array('Html', 'Form', 'Session');
     public $components = array('Session', 'Formfunc');
 
@@ -22,10 +22,13 @@ class BooksController extends AppController {
     	$this->set('cates', $cates);
     	
     	if($this->request->is('get')){
-    		$this->request->data = $this->Book->read(); 		
+    		$this->request->data = $this->Book->read(); 
     	} else {
-    		if ($this->Book->save($this->request->data)) {
+			$ret = $this->Book->save($this->request->data);
+    		if ($ret) {
   				$this->Session->setFlash('儲存成功.');
+				$this->Book->id = $ret['Book']['id'];
+				$this->request->data = $this->Book->read(); 
     		}else {
 				$this->Session->setFlash('儲存失敗.');
 			}
@@ -40,8 +43,11 @@ class BooksController extends AppController {
     	if($this->request->is('get')){
     		$this->request->data = $this->Book->read();
     	} else {
-    		if ($this->Book->save($this->request->data)) {
+			$ret = $this->Book->save($this->request->data);
+    		if ($ret) {
     			$this->Session->setFlash('儲存成功.');
+				$this->Book->id = $ret['Book']['id'];
+				$this->request->data = $this->Book->read(); 
     		}else {
     			$this->Session->setFlash('儲存失敗.');
     		}
@@ -57,12 +63,18 @@ class BooksController extends AppController {
     		$this->Book_Instance->id = $id;
     		if($this->request->is('get')){
     				$book_instance = $this->Book_Instance->read();
-    				$this->request->data = $book_instance;
+					if ($book_instance !== false) {
+						$this->request->data = $book_instance;
+					}
+					else {
+						$this->request->data['Book_Instance']['id'] = null;
+						$this->request->data['Book_Instance']['is_lend'] = 'N';
+					}
     		}
     		else{
     			if ($this->Book_Instance->save($this->request->data)) {
     				$this->Session->setFlash('儲存成功.');
-    				$this->redirect(array('action' => 'book_instance_edit/',$book_id,$this->request->data["Book_Instance"]["id"]));
+    				$this->redirect(array('action' => 'book_edit/',$book_id));
     			} else {
     				$this->Session->setFlash('儲存失敗.');
     			}
@@ -92,11 +104,10 @@ class BooksController extends AppController {
     		else{
     			if ($this->Book_Instance->save($this->request->data)) {
     				$this->Session->setFlash('儲存成功.');
-    				$this->redirect(array('action' => 'journal_instance_edit/',$book_id,$this->request->data["Book_Instance"]["id"]));
+    				$this->redirect(array('action' => 'journal_edit/',$book_id));
     			} else {
     				$this->Session->setFlash('儲存失敗.');
     			}
-    
     		}
     	} else{
     		$error_msg = '操作禁止';

@@ -5,6 +5,7 @@
     echo $this->Form->input('book_type', array('type'=> 'hidden', 'value'=>'B'));
     $book = $this->request->data["Book"];
     $book_instances = $this->request->data["Book_Instances"];
+	if($book_instances == null ) {$book_instances=array();}
 ?>
 <table>
 <tr><td>書籍名稱 : <?php echo $this->Form->input('book_name', array('div' => false, 'label' => false)); ?></td></tr>
@@ -29,7 +30,7 @@
         <th>購買時間</th>
         <th>可以外借</th>
         <th>
-            <?php echo $this->Html->link('新增', array('action' => 'book_instance_edit', $book['id'])); ?>
+            <?php echo $this->Html->link('新增書本', array('action' => 'book_instance_edit', $book['id'])); ?>
         </th>
     </tr>
     <?php foreach ($book_instances as $book_instance): ?>
@@ -42,6 +43,5 @@
         <td><?php echo $book_instance['is_lend']; ?></td>
         <td><?php echo $this->Html->link('修改', array('action' => 'book_instance_edit', $book['id'], $book_instance['id'])); ?></td>
     </tr>
-
     <?php endforeach; ?>
 </table>

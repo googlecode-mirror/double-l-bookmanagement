@@ -1,11 +1,12 @@
 <h1>修改期刊基本資料</h1>
-<?php    
+<?php
+    echo $this->Form->create('Book');
+	echo $this->Form->input('id', array('type'=> 'hidden'));
+    echo $this->Form->input('book_type', array('type'=> 'hidden', 'value'=>'M'));
     $book = $this->request->data["Book"];
     $book_instances = $this->request->data["Book_Instances"];
+	if($book_instances == null ) {$book_instances=array();}
 ?>
-<?php echo $this->Form->create('Book'); ?>
-<?php echo $this->Form->input('id', array('type'=> 'hidden')); ?>
-<?php echo $this->Form->input('book_type', array('type'=> 'hidden', 'value'=>'M')); ?>
 <table>
 <tr><td>期刊名稱 : <?php echo $this->Form->input('book_name', array('div' => false, 'label' => false)); ?></td></tr>
 <tr><td>ISSN <?php echo $this->Form->input('isbn', array('div' => false, 'label' => false)); ?></td></tr>
@@ -41,7 +42,7 @@
         <th>狀態</th>
         <th>可以外借</th>
         <th>
-            <?php echo $this->Html->link('新增', array('action' => 'journal_instance_edit', $book['id'])); ?>
+            <?php echo $this->Html->link('新增期別', array('action' => 'journal_instance_edit', $book['id'])); ?>
         </th>
     </tr>
     <?php foreach ($book_instances as $book_instance): ?>

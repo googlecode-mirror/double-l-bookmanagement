@@ -1,8 +1,8 @@
 <?php
 class BooksController extends AppController {
-	public $uses = array('Book_Cate', 'Book', 'Book_Instance','Book_Publisher', 'Person_Level');
+	public $uses = array('Book_Cate', 'Book', 'Book_Instance','Book_Publisher','Person_Level','System_Inc');
     public $helpers = array('Html', 'Form', 'Session');
-    public $components = array('Session', 'Formfunc');
+    public $components = array('Session', 'Formfunc','Systeminc');
 
     public function book_index(){
     	$this->set('books', $this->Book->find('all',array(
@@ -72,13 +72,20 @@ class BooksController extends AppController {
 					}
     		}
     		else{
+    			
+                if($this->request->data['Book_Instance']['id'] == '')  {
+    				$this->request->data['Book_Instance']['id'] = $this->Systeminc->get_id("BOOK_B");
+    			}	
+                
     			if ($this->Book_Instance->save($this->request->data)) {
     				$this->Session->setFlash('儲存成功.');
-    				$this->redirect(array('action' => 'book_edit/',$book_id));
+                    $this->redirect(array('action' => 'book_edit',$book_id));
+
     			} else {
     				$this->Session->setFlash('儲存失敗.');
     			}
-    			 
+                
+
     		}
     	} else{
     		$error_msg = '操作禁止';
@@ -92,26 +99,40 @@ class BooksController extends AppController {
     }
     
     public function journal_instance_edit($book_id=null, $id=null){
-    	$error_msg = '';
-    	if($book_id != null){
-    		$this->Book->id = $book_id;
-    		$book = $this->Book->read();
-    		$this->Book_Instance->id = $id;
-    		if($this->request->is('get')){
-    			$book_instance = $this->Book_Instance->read();
-    			$this->request->data = $book_instance;
-    		}
-    		else{
-    			if ($this->Book_Instance->save($this->request->data)) {
-    				$this->Session->setFlash('儲存成功.');
-    				$this->redirect(array('action' => 'journal_edit/',$book_id));
-    			} else {
-    				$this->Session->setFlash('儲存失敗.');
-    			}
-    		}
-    	} else{
-    		$error_msg = '操作禁止';
-    	}
+        $error_msg = '';
+        if($book_id != null){
+            $this->Book->id = $book_id;
+            $book = $this->Book->read();
+            $this->Book_Instance->id = $id;
+            if($this->request->is('get')){
+                    $book_instance = $this->Book_Instance->read();
+                    if ($book_instance !== false) {
+                        $this->request->data = $book_instance;
+                    }
+                    else {
+                        $this->request->data['Book_Instance']['id'] = null;
+                        $this->request->data['Book_Instance']['is_lend'] = 'N';
+                    }
+            }
+            else{
+                
+                if($this->request->data['Book_Instance']['id'] == '')  {
+                    $this->request->data['Book_Instance']['id'] = $this->Systeminc->get_id("BOOK_M");
+                }   
+                
+                if ($this->Book_Instance->save($this->request->data)) {
+                    $this->Session->setFlash('儲存成功.');
+                    $this->redirect(array('action' => 'journal_edit',$book_id));
+
+                } else {
+                    $this->Session->setFlash('儲存失敗.');
+                }
+                
+
+            }
+        } else{
+            $error_msg = '操作禁止';
+        }
     	 
     	$this->set('book_status', $this->Formfunc->book_status());
     	$this->set('is_lends',$this->Formfunc->is_lends());

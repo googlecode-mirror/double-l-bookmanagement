@@ -5,6 +5,7 @@
        id : 流水號
        record_type : 種類(0:借閱, 1:預約)
        book_id : 書籍
+       book_instance_id : 書本UID
        person_id : 出借人
        status : 狀態 (C:出借中, R:歸還, D:遺失, R:預約, D:取消, E:延長)
        reserve_date : 預借日期

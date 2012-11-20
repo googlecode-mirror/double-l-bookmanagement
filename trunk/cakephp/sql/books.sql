@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主機: localhost
--- 產生日期: 2012 年 11 月 20 日 07:10
+-- 產生日期: 2012 年 11 月 19 日 04:36
 -- 伺服器版本: 5.5.16
 -- PHP 版本: 5.3.8
 
@@ -22,6 +22,8 @@ SET time_zone = "+00:00";
 CREATE DATABASE `books` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `books`;
 
+
+--
 -- --------------------------------------------------------
 
 --
@@ -79,24 +81,6 @@ CREATE TABLE IF NOT EXISTS `book_publishers` (
 
 -- --------------------------------------------------------
 
---
--- 表的結構 `book_versions`
---
-
-DROP TABLE IF EXISTS `book_versions`;
-CREATE TABLE IF NOT EXISTS `book_versions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '書籍版別資料編號',
-  `basic_id` int(11) NOT NULL COMMENT '書籍基本資料編號',
-  `isbn` varchar(13) NOT NULL COMMENT '(根據定義有時版別不同會有不同ISBN)',
-  `book_version` varchar(10) NOT NULL COMMENT '版別',
-  `book_search_code` varchar(20) NOT NULL COMMENT '索書號',
-  `book_location` varchar(20) NOT NULL COMMENT '櫃別',
-  `publish_date` date NOT NULL,
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍版別資料' AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
 
 --
 -- 表的結構 `books`
@@ -236,17 +220,15 @@ CREATE TABLE IF NOT EXISTS `persons` (
 -- 表的結構 `system_inc`
 --
 
-DROP TABLE IF EXISTS `system_inc`;
-CREATE TABLE IF NOT EXISTS `system_inc` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `prefix` varchar(20) NOT NULL COMMENT '字首',
-  `serial_mode` varchar(20) NOT NULL COMMENT '流水號模式',
-  `subfix` varchar(20) NOT NULL COMMENT '字尾',
-  `count` varchar(20) NOT NULL DEFAULT '0' COMMENT '最後一次值',
+DROP TABLE IF EXISTS `system_incs`;
+CREATE TABLE IF NOT EXISTS `system_incs` (
+  `id` varchar(20) NOT NULL,
+  `format` varchar(20) NOT NULL COMMENT '流水號模式',
+  `count` int(11) NOT NULL DEFAULT '0' COMMENT '最後一次值',
   `create_time` datetime NOT NULL COMMENT '建立日期',
   `modi_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系統編碼頁' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系統編碼頁';
 
 -- --------------------------------------------------------
 

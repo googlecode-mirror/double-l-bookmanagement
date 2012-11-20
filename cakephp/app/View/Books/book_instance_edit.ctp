@@ -46,10 +46,7 @@
 		<tr>
 			<td>書籍編號</td>
 			<td><?php 
-				$is_readonly = true;
-				if($this->request->data["Book_Instance"]["id"] == null)
-					$is_readonly=false;
-				echo $this->Form->input('id', array('div'=>false,'label'=>false,'type'=> 'text', 'readonly'=>$is_readonly)); 
+				echo $this->Form->input('id', array('div'=>false,'label'=>false,'type'=> 'text', 'readonly'=>true)); 
 			?></td>
 		</tr>
 		<tr>

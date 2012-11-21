@@ -18,6 +18,32 @@
 
 解法
 {{{
+登入角色: 
+   Admin : 全部都有
+   LocalAdmin : 書本出借, 密碼修改, 盤點啓動
+   User : 書本查詢與預約
+
+職務名稱:
+   Schema =>
+      id : 
+      name : 職務名稱
+
+借閱等級:
+   Schema =>
+      id : 借閱等級ID
+      Name : 名稱
+      lead_days : 借閱天數
+      lead_count : 借閱數量
+      is_cross_lead : 跨校借閱
+群組 : 
+   Schema =>
+      id : 群組id
+      org_id: 組織id
+      group_name: 群組名稱
+      create_time:
+}}}
+
+{{{
 4. 書籍編碼: 
    [A-Z] :由書本分校設定得來
    [5d]  :由書本資訊流水編號

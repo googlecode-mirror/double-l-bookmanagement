@@ -1,7 +1,7 @@
 <?php
 class Book extends AppModel {
 	public $useDbConfig = 'default';
-	public $useTable = 'Books';
+	public $useTable = 'books';
 	public $hasMany = array(
 		'Book_Instances' => array(
 			'className' => 'Book_Instance',

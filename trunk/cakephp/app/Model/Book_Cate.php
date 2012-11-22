@@ -1,7 +1,7 @@
 <?php
 class Book_Cate extends AppModel {
 	public $useDbConfig = 'default';
-	public $useTable = 'Book_Catagorys';
+	public $useTable = 'book_catagorys';
 	public $validate = array(
 		'id' => array(
             array('rule' => 'notEmpty', 'message' => '分類代號不可空白'),

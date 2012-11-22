@@ -1,7 +1,7 @@
 <?php
 class Person_Level extends AppModel {
 	public $useDbConfig = 'default';
-	public $useTable = 'Person_Levels';
+	public $useTable = 'person_levels';
 	public $validate = array(
         'level_name' => array(
             array('rule' => 'notEmpty', 'message' => '等級權限名稱不可空白'),

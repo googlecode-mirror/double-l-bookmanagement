@@ -1,7 +1,7 @@
 <?php
 class Lend_Record extends AppModel {
 	public $useDbConfig = 'default';
-	public $useTable = 'Lend_Records';
+	public $useTable = 'lend_records';
 	public $belongsTo = array(	
 		'Book_Instance' => array(
 			'className' => 'Book_Instance',

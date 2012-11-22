@@ -1,7 +1,7 @@
 <?php
 class Book_Publisher extends AppModel {
 	public $useDbConfig = 'default';
-	public $useTable = 'Book_Publishers';
+	public $useTable = 'book_publishers';
 	public $validate = array(
 		'id' => array(
             array('rule' => 'notEmpty', 'message' => '出版商代號不可空白'),

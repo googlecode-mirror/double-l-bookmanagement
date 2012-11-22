@@ -1,3 +1,4 @@
-library.columbiaenglish.com.tw
+ftp://library.columbiaenglish.com.tw
+http://library.columbiaenglish.com.tw/phpmyadmin/
 
 library/CEls23619547

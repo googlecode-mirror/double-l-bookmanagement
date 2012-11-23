@@ -14,7 +14,10 @@
 
 		echo $this->Html->css('cake.generic');
 		echo $this->Html->css('application');
-
+		echo $this->Html->css('redmond/jquery-ui-1.9.1.custom.css');
+        echo $this->Html->script('jquery-1.8.2.js');
+        echo $this->Html->script('jquery-ui-1.9.1.custom.js');
+		
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');

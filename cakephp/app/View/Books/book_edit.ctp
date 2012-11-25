@@ -1,6 +1,12 @@
+ <script>
+    $(function() {
+        $(".jquery_date" ).datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
+    });
+</script>
+
 <h1>修改書籍基本資料</h1>
 <?php
-    echo $this->Form->create('Book');
+    echo $this->Form->create('Book',array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false)));
 	echo $this->Form->input('id', array('type'=> 'hidden'));
     echo $this->Form->input('book_type', array('type'=> 'hidden', 'value'=>'B'));
     $book = $this->request->data["Book"];
@@ -13,7 +19,7 @@
         版別 <?php echo $this->Form->input('book_version', array('div' => false, 'label' => false)); ?></td></tr>
 <tr><td>出版商 : <?php echo $this->Form->input('book_publisher', array('div' => false, 'label' => false)); ?> 
         附屬媒體 <?php echo $this->Form->input('book_attachment', array('div' => false, 'label' => false)); ?></td></tr>
-<tr><td>出版日期 : <?php echo $this->Form->input('publish_date',  array('dateFormat' => 'YMD','div' => false, 'label' => false)); ?> 
+<tr><td>出版日期 : <?php echo $this->Form->text('publish_date',  array('readonly'=>true, 'class' => 'ref_field, jquery_date', 'style'=>'width:120px'));?> 
         ISBN <?php echo $this->Form->input('isbn', array('div' => false, 'label' => false)); ?></td></tr>
 <tr><td>書籍分類 : <?php echo $this->Form->input('cate_id', array('div' => false, 'label' => false)); ?>
         索書號 : <?php echo $this->Form->input('book_search_code', array('div' => false, 'label' => false)); ?>

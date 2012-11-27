@@ -1,6 +1,6 @@
 <?php
 class PersonsController extends AppController {
-	public $uses = array('Person_Title', 'Person_Group', 'Person_Level', 'Person');
+	public $uses = array('Person_Title', 'Person_Group', 'Person_Level', 'Person', 'System_Location');
     public $helpers = array('Html', 'Form', 'Session');
     public $components = array('Session', 'Formfunc');
 
@@ -123,6 +123,7 @@ class PersonsController extends AppController {
 		$this->set('person_titles', $this->Person_Title->find('list', array('fields' => array('id', 'title_name'))));
 		$this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('id', 'level_name'))));
 		$this->set('person_groups', $this->Person_Group->find('list', array('fields' => array('id', 'group_name'))));
+		$this->set('system_locations', $this->System_Location->find('list', array('fields' => array('id', 'location_name'))));
 		$this->set('person_genders', $this->Formfunc->person_gender());
 		$this->set('id', $id);
 	}
@@ -131,8 +132,9 @@ class PersonsController extends AppController {
 		$this->set('person_titles', $this->Person_Title->find('list', array('fields' => array('id', 'title_name'))));
 		$this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('id', 'level_name'))));
 		$this->set('person_groups', $this->Person_Group->find('list', array('fields' => array('id', 'group_name'))));
+		$this->set('system_locations', $this->System_Location->find('list', array('fields' => array('id', 'location_name'))));
 		$this->set('person_genders', $this->Formfunc->person_gender());
-        $this->set('persons', $this->Person->find('all', array('order' => 'valid DESC, id')));
+        $this->set('persons', $this->Person->find('all', array('order' => 'Person.valid DESC, Person.id')));
     }
 	
 	public function person_delete($id) {

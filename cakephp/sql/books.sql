@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主機: localhost
--- 產生日期: 2012 年 11 月 19 日 04:36
+-- 產生日期: 2012 年 11 月 27 日 09:37
 -- 伺服器版本: 5.5.16
 -- PHP 版本: 5.3.8
 
@@ -52,9 +52,10 @@ CREATE TABLE IF NOT EXISTS `book_instances` (
   `book_version` varchar(10) DEFAULT NULL,
   `purchase_price` int(11) DEFAULT NULL,
   `book_status` varchar(10) NOT NULL,
-  `person_level` int(11) NOT NULL,
+  `level_id` int(11) NOT NULL,
   `purchase_date` date NOT NULL,
   `is_lend` varchar(10) NOT NULL,
+  `location_id` int(11) DEFAULT NULL COMMENT '地點代號',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍實體資料';
@@ -124,10 +125,12 @@ CREATE TABLE IF NOT EXISTS `lend_records` (
   `person_id` int(11) NOT NULL COMMENT '出借人',
   `status` char(1) NOT NULL COMMENT '狀態 (C:出借中, R:歸還, D:遺失, R:預約, D:取消, E:延長)',
   `reserve_date` date NOT NULL COMMENT '預借日期',
-  `lead_date` date NOT NULL COMMENT '出借日期',
-  `return_date` date NOT NULL COMMENT '歸還日期',
-  `lead_cnt` int(11) NOT NULL DEFAULT '0' COMMENT '續借次數',
-  `create_time` date NOT NULL COMMENT '建立日期',
+  `lend_date` datetime NOT NULL COMMENT '出借日期',
+  `s_return_date` date NOT NULL COMMENT '應歸還時間',
+  `return_date` datetime DEFAULT NULL COMMENT '歸還日期',
+  `lend_cnt` int(11) NOT NULL DEFAULT '0' COMMENT '續借次數',
+  `location_id` int(11) NOT NULL COMMENT '地點代號',
+  `create_time` datetime NOT NULL COMMENT '建立日期',
   `modi_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '變更日期',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍操作紀錄檔' AUTO_INCREMENT=1 ;
@@ -194,6 +197,7 @@ CREATE TABLE IF NOT EXISTS `persons` (
   `birthday` date NOT NULL COMMENT '生日',
   `title_id` int(11) NOT NULL COMMENT '職稱',
   `group_id` int(11) NOT NULL COMMENT '群組',
+  `location_id` int(11) NOT NULL COMMENT '地點',
   `phone` varchar(20) NOT NULL COMMENT '聯絡電話',
   `home_phone` varchar(20) DEFAULT NULL COMMENT '住家電話',
   `mobile_phone` varchar(20) DEFAULT NULL COMMENT '行動電話',
@@ -229,6 +233,23 @@ CREATE TABLE IF NOT EXISTS `system_incs` (
   `modi_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系統編碼頁';
+
+-- --------------------------------------------------------
+
+--
+-- 表的結構 `system_locations`
+--
+
+DROP TABLE IF EXISTS `system_locations`;
+CREATE TABLE IF NOT EXISTS `system_locations` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '地點代號',
+  `location_name` varchar(30) NOT NULL COMMENT '地點名稱',
+  `create_time` datetime NOT NULL,
+  `modi_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `valid` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `location_name` (`location_name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 

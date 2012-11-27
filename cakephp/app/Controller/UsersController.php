@@ -1,6 +1,7 @@
 <?php
 // app/Controller/UsersController.php
 class UsersController extends AppController {
+	public $uses = array('Person');
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow('add'); // Letting users register themselves
@@ -10,7 +11,11 @@ class UsersController extends AppController {
 		$this->layout = 'login';
 		if ($this->request->is('post')) {
 			if ($this->Auth->login()) {
-				$this->Session->write("username",$this->Auth->user('username'));
+				$uname =  $this->Auth->user('username');
+				if(empty($uname))
+					$uname = $this->Auth->user('name');
+				$this->Session->write("id",$this->Auth->user('id'));
+				$this->Session->write("username",$uname);
 				$this->Session->write('isLogin', true);
 				$this->redirect($this->Auth->redirect());
 			} else {

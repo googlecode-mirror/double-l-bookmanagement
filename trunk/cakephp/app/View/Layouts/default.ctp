@@ -1,6 +1,6 @@
 <?php echo $this->element('default_header'); ?>
 		<div id="content">
-			<table>
+			<table id='layout'>
 				<tr>
 					<td style="width:200px">
 						<?php echo $this->element('left_menu'); ?>

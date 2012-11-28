@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `book_instances` (
   `level_id` int(11) NOT NULL,
   `purchase_date` date NOT NULL,
   `is_lend` varchar(10) NOT NULL,
-  `location_id` int(11) DEFAULT NULL COMMENT '地點代號',
+  `location_id` varchar(10) NOT NULL COMMENT '地點代號',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍實體資料';
@@ -197,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `persons` (
   `birthday` date NOT NULL COMMENT '生日',
   `title_id` int(11) NOT NULL COMMENT '職稱',
   `group_id` int(11) NOT NULL COMMENT '群組',
-  `location_id` int(11) NOT NULL COMMENT '地點',
+  `location_id` varchar(3) NOT NULL COMMENT '地點',
   `phone` varchar(20) NOT NULL COMMENT '聯絡電話',
   `home_phone` varchar(20) DEFAULT NULL COMMENT '住家電話',
   `mobile_phone` varchar(20) DEFAULT NULL COMMENT '行動電話',
@@ -242,14 +242,14 @@ CREATE TABLE IF NOT EXISTS `system_incs` (
 
 DROP TABLE IF EXISTS `system_locations`;
 CREATE TABLE IF NOT EXISTS `system_locations` (
-  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '地點代號',
-  `location_name` varchar(30) NOT NULL COMMENT '地點名稱',
+  `id` varchar(3) NOT NULL COMMENT '地點代號',
+  `location_name` varchar(50) NOT NULL COMMENT '地點名稱',
   `create_time` datetime NOT NULL,
   `modi_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `valid` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `location_name` (`location_name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 

@@ -52,6 +52,11 @@
 			<td><?php echo $this->Form->input('book_status', array('div'=>false, 'label'=>false, 'options' => $book_status, 'notempty'=>true));?></td>
 		</tr>
 		<tr>
+			<td style='width:80px'>分校</td>
+			<td><?php echo $this->Form->input('location_id', array('div'=>false,'label'=>false, 'options' => $system_locations, 'notempty'=>true));?></td>
+		</tr>
+
+		<tr>
 			<td style='width:80px'>借閱等級</td>
 			<td><?php echo $this->Form->input('level_id', array('div'=>false,'label'=>false, 'options' => $person_levels, 'notempty'=>true));?></td>
 		</tr>

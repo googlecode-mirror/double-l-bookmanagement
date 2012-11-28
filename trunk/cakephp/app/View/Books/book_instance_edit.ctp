@@ -3,6 +3,7 @@
         $(".jquery_date" ).datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
     });
 </script>
+
 <h1>修改書籍資料</h1>
 <?php if ($book != null): ?>
 	<?php echo $this->Form->create('Book_Instance',array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); ?>
@@ -50,9 +51,11 @@
 		</tr>
 		<tr>
 			<td style='width:80px'>書籍編號</td>
-			<td><?php 
-				echo $this->Form->input('id', array('div'=>false,'label'=>false,'type'=> 'text', 'readonly'=>true)); 
-			?></td>
+			<td><?php echo $this->Form->input('id', array('type'=> 'text', 'readonly'=>true)); ?></td>
+		</tr>
+		<tr>
+			<td style='width:80px'>分校</td>
+			<td><?php echo $this->Form->input('location_id', array('div'=>false,'label'=>false, 'options' => $system_locations, 'notempty'=>true));?></td>
 		</tr>
 		<tr>
 			<td style='width:80px'>購買金額</td>
@@ -68,7 +71,7 @@
 		</tr>
 		<tr>
 			<td style='width:80px'>可借閱?</td>
-			<td><?php echo $this->Form->input('is_lend', array('div'=>false,'label'=>false, 'options' => $is_lends, 'notempty'=>true));?></td>
+			<td><?php echo $this->Form->input('is_lend', array('div'=>false,'label'=>false, 'options' => $is_lends, 'notempty'=>true)); ?></td>
 		</tr>	
 		<tr>
 			<td style='width:80px'>購入日期</td>	

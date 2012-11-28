@@ -64,7 +64,7 @@
 		</tr>
 		<tr>
 			<td style='width:80px'>借閱等級</td>
-			<td><?php echo $this->Form->input('person_level', array('div'=>false,'label'=>false, 'options' => $person_levels, 'notempty'=>true));?></td>
+			<td><?php echo $this->Form->input('level_id', array('div'=>false,'label'=>false, 'options' => $person_levels, 'notempty'=>true));?></td>
 		</tr>
 		<tr>
 			<td style='width:80px'>可借閱?</td>

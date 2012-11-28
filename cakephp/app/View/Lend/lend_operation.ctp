@@ -32,15 +32,31 @@
 		else
 			key = e.which;     //firefox
 		if(key == 13) {
-			//$.post("lend_book", { person_id: jQuery('#person_id')[0].value, book_id: book_id.value } );
 			$.ajax(
 				{	
 					url:"lend_book", 
 					data:{ person_id: jQuery('#person_id')[0].value, book_id: book_id.value, book_cnt: jQuery('#lend_table tr').length }, 
 					type: "post", 
 					success: function(response){
-						if (response == '') {
-							alert('書籍代號：' + book_id.value + '不存在');
+						if (response.length <= 2) {
+							if (response == 1) {
+								alert('借髂號碼：' + jQuery('#person_id')[0].value + '不存在');
+							}
+							else if (response == 2){
+								alert('書籍代號：' + book_id.value + '不存在');
+							}
+							else if (response == 3) {							
+								alert('書籍代號：' + book_id.value + '不在庫');
+							}
+							else if (response == 4) {							
+								alert('書籍代號：' + book_id.value + '不可外借');
+							}
+							else if (response == 5) {							
+								alert('借閱等級不足');
+							}
+							else {
+								alert('錯誤');
+							}
 						}
 						else {
 							jQuery('#lend_table').append(response);

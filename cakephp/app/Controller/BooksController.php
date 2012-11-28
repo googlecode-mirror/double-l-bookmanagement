@@ -1,8 +1,9 @@
 <?php
+App::uses('HttpSocket', 'Network/Http');
 class BooksController extends AppController {
-	public $uses = array('Book_Cate', 'Book', 'Book_Instance','Book_Publisher','Person_Level','System_Inc');
+	public $uses = array('Book_Cate', 'Book', 'Book_Instance','Book_Publisher','Person_Level','System_Inc','System_Location');
     public $helpers = array('Html', 'Form', 'Session');
-    public $components = array('Session', 'Formfunc','Systeminc');
+    public $components = array('Session', 'Formfunc','Systeminc','Bookfunc');
 
     public function book_index(){
     	$this->set('books', $this->Book->find('all',array(
@@ -54,7 +55,7 @@ class BooksController extends AppController {
     	}
     }
     
-    
+    //public function journal_instance_edit($book_id=null, $id=null){
     public function book_instance_edit($book_id=null, $id=null){
     	$error_msg = '';
     	if($book_id != null){
@@ -74,7 +75,10 @@ class BooksController extends AppController {
     		else{
     			
                 if($this->request->data['Book_Instance']['id'] == '')  {
-    				$this->request->data['Book_Instance']['id'] = $this->Systeminc->get_id("BOOK_B");
+    				//$this->request->data['Book_Instance']['id'] = $this->Systeminc->get_id("BOOK_B");
+                    $this->request->data['Book_Instance']['id'] = $this->Bookfunc->create_book_instance_id(
+                                                                            $this->request->data['Book_Instance']['location_id'],
+                                                                            $this->request->data['Book_Instance']['book_id']);
     			}	
                 
     			if ($this->Book_Instance->save($this->request->data)) {
@@ -90,14 +94,15 @@ class BooksController extends AppController {
     	} else{
     		$error_msg = '操作禁止';
     	}
-    	
-    	$this->set('book_status', $this->Formfunc->book_status());
-    	$this->set('is_lends',$this->Formfunc->is_lends());
-    	$this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('Person_Level.id', 'Person_Level.level_name'))));
-    	$this->set('book',$book);
-    	$this->set('error_msg', $error_msg);
+
+        $this->set('book_status', $this->Formfunc->book_status());
+        $this->set('is_lends',$this->Formfunc->is_lends());
+        $this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('Person_Level.id', 'Person_Level.level_name'))));
+        $this->set('book',$book);
+        $this->set('error_msg', $error_msg);
+        $this->set('system_locations', $this->System_Location->find('list',array('fields' => array('System_Location.id', 'System_Location.location_name'))));
     }
-    
+    //public function book_instance_edit($book_id=null, $id=null){
     public function journal_instance_edit($book_id=null, $id=null){
         $error_msg = '';
         if($book_id != null){
@@ -139,8 +144,11 @@ class BooksController extends AppController {
     	$this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('Person_Level.id', 'Person_Level.level_name'))));
     	$this->set('book',$book);
     	$this->set('error_msg', $error_msg);
+        $this->set('system_locations', $this->System_Location->find('list',array('fields' => array('System_Location.id', 'System_Location.location_name'))));
+
     }    
     
+
     public function catagory_index() {
         $this->set('cates', $this->Book_Cate->find('all', array('order' => 'valid DESC, id')));
     }
@@ -206,5 +214,29 @@ class BooksController extends AppController {
 			$this->Session->setFlash('作業失敗.');
 		}	
 	}
+
+    public function search_isbn($isbn=null){
+        //$url = "http://192.83.186.170/search*cht?/i9789861993454/i9789861993454/0,0,0/marc&FF=i9789861993454";
+        $url = "http://search.books.com.tw/exep/prod_search.php?cat=BKA&key=9789861993454";
+        $HttpSocket = new HttpSocket();
+        $result = $HttpSocket->get($url);
+        $htmlbody = $result->body;
+        $htmlbody = $this->catdata($htmlbody,'<li class="item">', '</li>');
+        //var_dump($response->body());
+        $this->set('html_body', $htmlbody);
+        //$code_start = strpos($result->body, '<pre>')+5;
+        //$code_end = strpos($result->body, '</pre>');
+        //$this->set('html_body',$result->raw);
+
+    }
+
+    private function catdata($html, $start_s, $end_s){
+        $start_index = strpos($html, $start_s);
+        if($start_index == false) return "Miss Start.";
+        $end_index = strpos($html, $end_s, $start_index);
+        if($end_index == false) return "Miss End.";
+        return substr($html, $start_index, $end_index-1);
+    }
+
 }
 ?>

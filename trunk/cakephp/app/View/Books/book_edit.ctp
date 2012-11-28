@@ -44,7 +44,7 @@
         <td><?php echo $book_instance['id']; ?></td>
         <td><?php echo $book_instance['purchase_price']; ?></td>
         <td><?php echo $book_instance['book_status']; ?></td>
-        <td><?php echo $book_instance['person_level']; ?></td>
+        <td><?php echo $book_instance['level_id']; ?></td>
         <td><?php echo $book_instance['purchase_date']; ?></td>
         <td><?php echo $book_instance['is_lend']; ?></td>
         <td><?php echo $this->Html->link('修改', array('action' => 'book_instance_edit', $book['id'], $book_instance['id'])); ?></td>

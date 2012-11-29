@@ -25,50 +25,55 @@
 		}
 	}
 
-	function add_book(book_id, e) {
+	function add_book(book_instance_id, e) {
 		var key;
 		if(window.event)
 			key = window.event.keyCode;     //IE
 		else
 			key = e.which;     //firefox
 		if(key == 13) {
-			$.ajax(
-				{	
-					url:"lend_book", 
-					data:{ person_id: jQuery('#person_id')[0].value, book_id: book_id.value, book_cnt: jQuery('#lend_table tr').length }, 
-					type: "post", 
-					success: function(response){
-						if (response.length <= 2) {
-							if (response == 1) {
-								alert('借髂號碼：' + jQuery('#person_id')[0].value + '不存在');
-							}
-							else if (response == 2){
-								alert('書籍代號：' + book_id.value + '不存在');
-							}
-							else if (response == 3) {							
-								alert('書籍代號：' + book_id.value + '不在庫');
-							}
-							else if (response == 4) {							
-								alert('書籍代號：' + book_id.value + '不可外借');
-							}
-							else if (response == 5) {							
-								alert('借閱等級不足');
+			if (jQuery("#lend_table tr td:contains('"+book_instance_id.value.trim()+"')").length == 0) {
+				$.ajax(
+					{	
+						url:"lend_book", 
+						data:{ person_id: jQuery('#person_id')[0].value, book_instance_id: book_instance_id.value, book_cnt: jQuery('#lend_table tr').length }, 
+						type: "post", 
+						success: function(response){
+							if (response.length <= 2) {
+								if (response == 1) {
+									alert('借髂號碼：' + jQuery('#person_id')[0].value + '不存在');
+								}
+								else if (response == 2){
+									alert('書籍代號：' + book_instance_id.value + '不存在');
+								}
+								else if (response == 3) {							
+									alert('書籍代號：' + book_instance_id.value + '不在庫');
+								}
+								else if (response == 4) {							
+									alert('書籍代號：' + book_instance_id.value + '不可外借');
+								}
+								else if (response == 5) {							
+									alert('借閱等級不足');
+								}
+								else {
+									alert('錯誤');
+								}
 							}
 							else {
-								alert('錯誤');
+								jQuery('#lend_table').append(response);
+								jQuery('#lend_cnt')[0].innerHTML = jQuery('#lend_table tr').length - 1;
+								jQuery('#can_lend')[0].innerHTML = jQuery('#can_lend1')[0].innerHTML - jQuery('#lend_table tr').length + 1;
+							}
+							if (jQuery('#lend_table tr').length > 1) {
+								jQuery('#SaveData').show();
 							}
 						}
-						else {
-							jQuery('#lend_table').append(response);
-							jQuery('#lend_cnt')[0].innerHTML = jQuery('#lend_table tr').length - 1;
-							jQuery('#can_lend')[0].innerHTML = jQuery('#can_lend1')[0].innerHTML - jQuery('#lend_table tr').length + 1;
-						}
-						if (jQuery('#lend_table tr').length > 1) {
-							jQuery('#SaveData').show();
-						}
 					}
-				}
-			);
+				);
+			}
+			else {
+				alert('書籍代號：' + book_id.value + '已選取');
+			}
 			return false;
 		}
 		else {	return true;}
@@ -85,7 +90,7 @@
 				<td>借卡狀況</td>
 				<td><?php if (isset($person_info['Person']['id'])) {echo $person_info['Person']['valid'];}?></td>
 				<td>目前狀況</td>
-				<td><?php if (isset($this->data['Lend_Record']['id'])) {echo $this->data['Lend_Record']['id'];}?></td>
+				<td></td>
 			</tr>
 			<tr>
 				<td>姓名</td>
@@ -154,13 +159,13 @@
 						</tr>
 						<?php foreach ($lend_records as $lend_record): ?>
 						<tr>
-							<td><?php echo $lend_record['Lead_Record']['lead_date']; ?></td>
-							<td><?php echo $lend_record[0]['s_return_date']; ?></td>
+							<td><?php echo $lend_record['Lend_Record']['lend_date']; ?></td>
+							<td><?php echo $lend_record['Lend_Record']['s_return_date']; ?></td>
 							<td><?php echo $lend_record['Book']['id']; ?></td>
 							<td><?php echo $lend_record['Book']['book_name']; ?></td>
 							<td><?php echo $lend_record['Person']['name']; ?></td>
-							<td><?php echo $lend_record['Lead_Record']['status']; ?></td>
-							<td><?php echo $lend_record['Lead_Record']['lead_cnt']; ?></td>
+							<td><?php echo $lend_record['Lend_Record']['status']; ?></td>
+							<td><?php echo $lend_record['Lend_Record']['lend_cnt']; ?></td>
 						</tr>
 						<?php endforeach; ?>
 					</table>

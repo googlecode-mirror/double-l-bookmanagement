@@ -6,12 +6,12 @@
 		else
 			key = e.which;     //firefox
 		if(key == 13) {
-			alert('A');
+
 		}
 		else {	return true;}
 	}
 </script>
-<h1>書籍借閱作業</h1>
+<h1>書籍歸還作業</h1>
 <table>
 	<tr>
 		<table>
@@ -73,7 +73,7 @@
 						</tr>
 						<?php foreach ($lend_records as $lend_record): ?>
 						<tr>
-							<td><?php echo $lend_record['Lend_Record']['lend_date']; ?></td>
+							<td><?php echo $lend_record['Lend_Record']['lend_time']; ?></td>
 							<td><?php echo $lend_record['Lend_Record']['s_return_date']; ?></td>
 							<td><?php echo $lend_record['Book']['id']; ?></td>
 							<td><?php echo $lend_record['Book']['book_name']; ?></td>

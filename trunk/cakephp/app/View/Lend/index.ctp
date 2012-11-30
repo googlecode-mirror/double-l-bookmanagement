@@ -15,13 +15,13 @@
     <tr>
         <td><?php echo $lend_record['Book']['book_name']; ?></td>
         <td><?php echo $lend_record['Person']['name']; ?></td>
-        <td><?php echo $lend_record['Lead_Record']['id']; ?></td>
-        <td><?php echo $lend_record['Lead_Record']['status']; ?></td>
-        <td><?php echo $lend_record['Lead_Record']['reserve_date']; ?></td>
-        <td><?php echo $lend_record['Lead_Record']['lead_date']; ?></td>
-        <td><?php echo $lend_record['Lead_Record']['return_date']; ?></td>
-        <td><?php echo $lend_record['Lead_Record']['lead_cnt']; ?></td>
-        <td><?php echo $this->Html->link('修改', array('action' => 'lend_edit', $lend_record['Lead_Record']['id'])); ?></td>
+        <td><?php echo $lend_record['Lend_Record']['book_instance_id']; ?></td>
+        <td><?php echo $lend_status[$lend_record['Lend_Record']['status']]; ?></td>
+        <td><?php echo $lend_record['Lend_Record']['reserve_time']; ?></td>
+        <td><?php echo $lend_record['Lend_Record']['lend_time']; ?></td>
+        <td><?php echo $lend_record['Lend_Record']['return_time']; ?></td>
+        <td><?php echo $lend_record['Lend_Record']['lend_cnt']; ?></td>
+        <td><?php echo $this->Html->link('修改', array('action' => 'lend_edit', $lend_record['Lend_Record']['id'])); ?></td>
     </tr>
 
     <?php endforeach; ?>

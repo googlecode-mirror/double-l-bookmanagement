@@ -114,7 +114,7 @@ class PersonsController extends AppController {
 				$this->request->data["Person"]['create_time'] = date('Y-m-d H:i:s');
 			}
 			if ($this->Person->save($this->request->data)) {
-				$this->Session->setFlash('借閱者新增完成.');
+				$this->Session->setFlash('借閱者儲存完成.');
 				$this->redirect(array('action' => 'person_index'));
 			} else {
 				$this->Session->setFlash('作業失敗.');

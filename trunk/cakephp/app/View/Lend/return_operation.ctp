@@ -64,22 +64,22 @@
 					<table>
 						<tr>
 							<th>出借日期</th>
-							<th>應還日期</th>
 							<th>書籍編號</th>
 							<th>書籍名稱</th>
 							<th>附屬媒體</th>
 							<th>狀態</th>
 							<th>續借次數</th>
+							<th>應還日期</th>
 						</tr>
 						<?php foreach ($lend_records as $lend_record): ?>
 						<tr>
 							<td><?php echo $lend_record['Lend_Record']['lend_time']; ?></td>
-							<td><?php echo $lend_record['Lend_Record']['s_return_date']; ?></td>
-							<td><?php echo $lend_record['Book']['id']; ?></td>
+							<td><?php echo $lend_record['Book_Instance']['id']; ?></td>
 							<td><?php echo $lend_record['Book']['book_name']; ?></td>
-							<td><?php echo $lend_record['Person']['name']; ?></td>
-							<td><?php echo $lend_record['Lend_Record']['status']; ?></td>
+							<td><?php echo $lend_record['Book']['book_attachment']; ?></td>
+							<td><?php echo $lend_status[$lend_record['Lend_Record']['status']]; ?></td>
 							<td><?php echo $lend_record['Lend_Record']['lend_cnt']; ?></td>
+							<td><?php echo $lend_record['Lend_Record']['s_return_date']; ?></td>
 						</tr>
 						<?php endforeach; ?>
 					</table>

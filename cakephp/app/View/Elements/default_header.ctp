@@ -22,16 +22,47 @@
 		echo $this->fetch('css');
 		echo $this->fetch('script');
 	?>
+<script type="text/javascript">
+	$(function(){
+		// 幫 #menu li 加上 hover 事件
+		$('#menu>li').hover(function(){
+			// 先找到 li 中的子選單
+			var _this = $(this),
+				_subnav = _this.children('ul');
+			
+			// 變更目前母選項的背景顏色
+			// 同時顯示子選單(如果有的話)
+			_this.css('backgroundColor', '#06c').siblings().css('backgroundColor', '');
+			_subnav.css('display', 'block');
+		} , function(){
+			// 同時隱藏子選單(如果有的話)
+			// 也可以把整句拆成上面的寫法
+			$(this).children('ul').css('display', 'none');
+		});
+		
+		// 取消超連結的虛線框
+		$('a').focus(function(){
+			this.blur();
+		});
+	});
+</script>
+
 </head>
 <body>
 	<div id="container">
 		<div id="header">
-			
+			<div style="float:left;"><h1>Book Management</h1></div>
+			<div id="menu_div" style="float:left;">
+				<?php 
+					if($this->Session->read('user_role'))
+						echo $this->element('menu_'.$this->Session->read('user_role'));
+				?>
+			</div>			
 			<div id="account">
 			<?php
 				if($this->Session->read('isLogin')){
 					echo '<li>';
-					echo $this->Session->read('username');
+					echo $this->Session->read('user_name');
 					echo '</li>';
 					echo '<li>';
 					echo $this->Html->link(
@@ -44,5 +75,8 @@
 				}
 			?>
 			</div>		
-			<h1>Book Management</h1>	
+			
+				
+
 		</div>
+

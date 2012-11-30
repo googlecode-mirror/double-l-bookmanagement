@@ -3,7 +3,7 @@
 	class LendfuncComponent extends Component {
 		
 		public function lead_status() {
-			return array('C' => '出借中', 'R' => '歸還', 'D' => '遺失', 'R' => '預約', 'D' => '取消', 'E' => '續借中');
+			return array('C' => '出借中', 'I' => '歸還', 'D' => '遺失', 'R' => '預約', 'D' => '取消', 'E' => '續借中');
 		}
 		
 		public function book_auth($person, $book) {
@@ -18,6 +18,8 @@
 				else {
 					if ($book['Book_Instance']['is_lend'] != 'Y') {
 						$result = 4;
+					}else if ($book['Book_Instance']['book_status'] == 6) {
+						$result = 6;
 					}else if ($book['Book_Instance']['book_status'] != 1) {
 						$result = 3;
 					//}else if ($book['Book_Instance']['level_id'] > $person['Person']['level_id']) {

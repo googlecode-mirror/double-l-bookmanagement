@@ -1,5 +1,6 @@
 <ul>
 	<li><?php echo $this->Html->link('書籍借閱作業',array('controller'=>'lend', 'action'=>'lend_operation')); ?></li>
+	<li><?php echo $this->Html->link('書籍歸還作業',array('controller'=>'lend', 'action'=>'return_operation')); ?></li>
 	<li><?php echo $this->Html->link('書籍借閱紀錄',array('controller'=>'lend', 'action'=>'index')); ?></li>
 	<li><?php echo $this->Html->link('書籍分類資料',array('controller'=>'books', 'action'=>'catagory_index')); ?></li>
 	<li><?php echo $this->Html->link('書籍出版商資料',array('controller'=>'books', 'action'=>'publisher_index')); ?></li>

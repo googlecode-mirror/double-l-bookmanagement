@@ -41,7 +41,7 @@
 						success: function(response){
 							if (response.length <= 2) {
 								if (response == 1) {
-									alert('借髂號碼：' + jQuery('#person_id')[0].value + '不存在');
+									alert('借卡號碼：' + jQuery('#person_id')[0].value + '不存在');
 								}
 								else if (response == 2){
 									alert('書籍代號：' + book_instance_id.value + '不存在');
@@ -54,6 +54,9 @@
 								}
 								else if (response == 5) {							
 									alert('借閱等級不足');
+								}
+								else if (response == 6) {							
+									alert('書籍代號：' + book_instance_id.value + '有人預約中');
 								}
 								else {
 									alert('錯誤');
@@ -159,7 +162,7 @@
 						</tr>
 						<?php foreach ($lend_records as $lend_record): ?>
 						<tr>
-							<td><?php echo $lend_record['Lend_Record']['lend_date']; ?></td>
+							<td><?php echo $lend_record['Lend_Record']['lend_time']; ?></td>
 							<td><?php echo $lend_record['Lend_Record']['s_return_date']; ?></td>
 							<td><?php echo $lend_record['Book']['id']; ?></td>
 							<td><?php echo $lend_record['Book']['book_name']; ?></td>

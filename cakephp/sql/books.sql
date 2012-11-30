@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主機: localhost
--- 產生日期: 2012 年 11 月 29 日 11:13
+-- 產生日期: 2012 年 11 月 30 日 05:04
 -- 伺服器版本: 5.5.16
 -- PHP 版本: 5.3.8
 
@@ -49,11 +49,12 @@ CREATE TABLE IF NOT EXISTS `book_instances` (
   `book_id` int(11) NOT NULL,
   `book_version` varchar(10) DEFAULT NULL,
   `purchase_price` int(11) DEFAULT NULL,
-  `book_status` varchar(10) NOT NULL,
+  `book_status` varchar(10) NOT NULL COMMENT '書籍狀態(0=>購買中,1=>在庫,2=>借出,3=>已歸還,4=>整理中,5=>運送中, 6=>預約中))',
   `level_id` int(11) NOT NULL,
   `purchase_date` date NOT NULL,
   `is_lend` varchar(10) NOT NULL,
   `s_return_date` datetime DEFAULT NULL COMMENT '預計歸還時間',
+  `reserve_person_id` varchar(20) DEFAULT NULL COMMENT '預約人代號',
   `location_id` varchar(3) DEFAULT NULL COMMENT '地點代號',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登記日期',
   PRIMARY KEY (`id`)
@@ -122,13 +123,13 @@ CREATE TABLE IF NOT EXISTS `lend_records` (
   `book_instance_id` varchar(20) NOT NULL COMMENT '書本UID',
   `person_id` varchar(20) NOT NULL COMMENT '出借人',
   `status` char(1) NOT NULL COMMENT '狀態 (C:出借中, R:歸還, D:遺失, R:預約, D:取消, E:延長)',
-  `reserve_date` date DEFAULT NULL COMMENT '預借日期',
-  `lend_date` datetime NOT NULL COMMENT '出借日期',
+  `reserve_time` datetime DEFAULT NULL COMMENT '預借日期',
+  `lend_time` datetime NOT NULL COMMENT '出借日期',
   `s_return_date` date NOT NULL COMMENT '應歸還時間',
-  `return_date` datetime DEFAULT NULL COMMENT '歸還日期',
+  `return_time` datetime DEFAULT NULL COMMENT '歸還日期',
   `lend_cnt` int(11) NOT NULL DEFAULT '0' COMMENT '續借次數',
   `location_id` varchar(3) DEFAULT NULL COMMENT '地點代號',
-  `create_time` date NOT NULL COMMENT '建立日期',
+  `create_time` datetime NOT NULL COMMENT '建立日期',
   `modi_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '變更日期',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='書籍操作紀錄檔';

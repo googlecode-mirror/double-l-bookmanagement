@@ -2,8 +2,16 @@
 	App::uses('Component', 'Controller');
 	class LendfuncComponent extends Component {
 		
+		public $leadStatus = array(
+				'C' => '出借中', 
+				'R' => '歸還', 
+				'D' => '遺失', 
+				'R' => '預約', 
+				'D' => '取消', 
+				'E' => '續借中');
+		
 		public function lead_status() {
-			return array('C' => '出借中', 'I' => '歸還', 'D' => '遺失', 'R' => '預約', 'D' => '取消', 'E' => '續借中');
+			return $this->leadStatus;
 		}
 		
 		public function book_auth($person, $book) {

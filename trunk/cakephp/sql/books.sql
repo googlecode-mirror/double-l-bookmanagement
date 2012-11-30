@@ -206,6 +206,7 @@ CREATE TABLE IF NOT EXISTS `persons` (
   `memo` varchar(255) DEFAULT NULL COMMENT '備註',
   `level_id` int(11) NOT NULL COMMENT '借閱等級',
   `password` varchar(100) NOT NULL COMMENT '查詢密碼',
+  `role` varchar(20) COLLATE utf8_unicode_ci DEFAULT 'user',
   `create_time` datetime NOT NULL COMMENT '建立日期',
   `card_create_date` date DEFAULT NULL COMMENT '發卡日期',
   `card_return_date` date DEFAULT NULL COMMENT '退卡日期',
@@ -262,6 +263,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `username` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `password` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `role` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `location_id` varchar(3) NOT NULL COMMENT '地點代號',
+  `valid` tinyint(1) NOT NULL DEFAULT '1',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)

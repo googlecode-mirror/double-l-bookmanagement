@@ -24,3 +24,41 @@
 #header a, a:link, a:visited {
     text-decoration: none;
 }
+
+
+	#menu {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		position: relative;
+		
+		float: left;
+		background: #000;
+	}
+	#menu li {
+		margin: 0;
+		padding: 0;
+		float: left;
+		border-right: 1px solid #999;
+	}
+	#menu li a {
+		padding: 5px 15px;
+		display: block;
+		color: #fff;
+		text-decoration: none;
+	}
+	#menu li ul {
+		margin: 0;
+		padding: 10px 0;
+		list-style: none;
+		float: left;
+		position: absolute;
+		left: 0;
+
+		color: #fff;
+		background: #06c url('bottom.gif') no-repeat bottom;
+		display: none;
+	}
+	#menu li ul li { border-right: 1px solid #fff; }
+	#menu li ul li a { display: inline; }
+	#menu li ul li a:hover { text-decoration: underline; }

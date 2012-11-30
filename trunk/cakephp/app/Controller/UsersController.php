@@ -14,8 +14,9 @@ class UsersController extends AppController {
 				$uname =  $this->Auth->user('username');
 				if(empty($uname))
 					$uname = $this->Auth->user('name');
-				$this->Session->write("id",$this->Auth->user('id'));
-				$this->Session->write("username",$uname);
+				$this->Session->write("user_id",$this->Auth->user('id'));
+				$this->Session->write("user_name",$uname);
+				$this->Session->write("user_role", $this->Auth->user('role'));
 				$this->Session->write('isLogin', true);
 				$this->redirect($this->Auth->redirect());
 			} else {
@@ -25,11 +26,17 @@ class UsersController extends AppController {
 	}
 
 	public function logout() {
-		$this->Session->delete('username');
+		
 		//$this->Session->delete('role');
-		$this->Session->delete('isLogin');
+		_clean();
 		$this->redirect($this->Auth->logout());
 		
+	}
+	private function _clean(){
+		$this->Session->delete('user_name');
+		$this->Session->delete('user_id');
+		$this->Session->delete('user_role');
+		$this->Session->delete('isLogin');
 	}
 
     public function index() {

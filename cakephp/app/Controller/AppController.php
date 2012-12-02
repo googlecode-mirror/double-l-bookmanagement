@@ -37,7 +37,7 @@ class AppController extends Controller {
         'Session',
         'Auth' => array(
             'loginRedirect' => array('controller' => 'books', 'action' => 'book_index'),
-            'logoutRedirect' => array('controller' => 'users', 'action' => 'login', 'home'),
+            'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
         	'authenticate' => array(
         		'Form'=>array('fields' => array('username'=> 'username','name'=>'username','id'=>'id')),
         		'Person'=>array('userModel'=> 'Person', 
@@ -49,6 +49,9 @@ class AppController extends Controller {
 
     public function beforeFilter() {
         $this->Auth->allow('index', 'view');
+        
+        if($this->request->conroller == 'User' and $this->request['action'] == 'login')
+        	$this->Session->delete("Auth.redirect");
         //$this->Session->write("Auth.redirect",$this->request->here);
     }
 }

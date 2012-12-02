@@ -25,8 +25,6 @@
 		<td><?php echo sizeof($book["Book_Instances"]); ?></td>
  	<td><?php
         echo $this->Html->link('查看', array('action' => 'book_view', $book['Book']['id']));
-        echo ' | ';
-        echo $this->Html->link('修改', array('action' => 'book_edit', $book['Book']['id']));
 	?></td>            		
 	</tr>
 	 <?php endforeach; ?>

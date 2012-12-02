@@ -3,8 +3,9 @@
         $(".jquery_date" ).datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
     });
 </script>
-
+<div id="pageheader">
 <h1>修改書籍基本資料</h1>
+</div>
 <?php
     echo $this->Form->create('Book',array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false)));
 	echo $this->Form->input('id', array('type'=> 'hidden'));
@@ -43,7 +44,7 @@
     <tr>
         <td><?php echo $book_instance['id']; ?></td>
         <td><?php echo $book_instance['purchase_price']; ?></td>
-        <td><?php echo $book_instance['book_status']; ?></td>
+        <td><?php echo $book_status[$book_instance['book_status']]; ?></td>
         <td><?php echo $book_instance['level_id']; ?></td>
         <td><?php echo $book_instance['purchase_date']; ?></td>
         <td><?php echo $book_instance['is_lend']; ?></td>

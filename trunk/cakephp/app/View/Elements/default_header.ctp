@@ -51,7 +51,7 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<div style="float:left;"><h1>Book Management</h1></div>
+			<div style="float:left;"><h1>哥大圖書</h1></div>
 			<div id="menu_div" style="float:left;">
 				<?php 
 					if($this->Session->read('user_role'))

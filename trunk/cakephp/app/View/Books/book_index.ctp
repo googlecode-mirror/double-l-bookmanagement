@@ -1,4 +1,6 @@
+<div id="pageheader">
 <h1>書籍資料列表</h1>
+</div>
 <table>
 	<tr>
         <th>書籍名稱</th>
@@ -22,7 +24,9 @@
         <td><?php echo $book['Book']['book_location']; ?></td>		
 		<td><?php echo sizeof($book["Book_Instances"]); ?></td>
  	<td><?php
- 	      echo $this->Html->link('修改', array('action' => 'book_edit', $book['Book']['id']));
+        echo $this->Html->link('查看', array('action' => 'book_view', $book['Book']['id']));
+        echo ' | ';
+        echo $this->Html->link('修改', array('action' => 'book_edit', $book['Book']['id']));
 	?></td>            		
 	</tr>
 	 <?php endforeach; ?>

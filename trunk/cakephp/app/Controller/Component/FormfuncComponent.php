@@ -1,6 +1,12 @@
 <?php
 	App::uses('Component', 'Controller');
 	class FormfuncComponent extends Component {
+		public $adminRoles = array(
+				'admin'=>'總管理員',
+				'localadmin' => '分校管理員',
+				'localmanager' => '分校經理'
+				);
+		
 		public function convert_options($result, $model, $key=id, $label='name') {
 			$rt = array();
 			foreach($result as $item) {

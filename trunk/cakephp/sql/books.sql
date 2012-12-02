@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 --
 -- 資料庫: `books`
 --
-CREATE DATABASE `books` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+-- CREATE DATABASE `books` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `books`;
 
 -- --------------------------------------------------------
@@ -257,18 +257,19 @@ CREATE TABLE IF NOT EXISTS `system_locations` (
 -- 表的結構 `users`
 --
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `username` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `role` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `location_id` varchar(3) NOT NULL COMMENT '地點代號',
+  `location_id` varchar(3) COLLATE utf8_unicode_ci NOT NULL COMMENT '地點代號',
   `valid` tinyint(1) NOT NULL DEFAULT '1',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

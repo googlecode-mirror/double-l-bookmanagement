@@ -2,9 +2,6 @@
 		<div id="content">
 			<table id='layout'>
 				<tr>
-					<td style="width:200px">
-						<?php echo $this->element('left_menu'); ?>
-					</td>
 					<td>
 						<?php echo $this->Session->flash(); ?>
 

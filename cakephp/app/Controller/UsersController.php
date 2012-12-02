@@ -2,6 +2,15 @@
 // app/Controller/UsersController.php
 class UsersController extends AppController {
 	public $uses = array('Person');
+	public $components = array('Userfunc');
+	
+	public $paginate = array(
+			'limit' => 10,
+			'order' => array(
+					'User.username' => 'asc'
+			)
+	);
+	
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow('add'); // Letting users register themselves
@@ -11,12 +20,17 @@ class UsersController extends AppController {
 		$this->layout = 'login';
 		if ($this->request->is('post')) {
 			if ($this->Auth->login()) {
-				$uname =  $this->Auth->user('username');
-				if(empty($uname))
-					$uname = $this->Auth->user('name');
+				if($this->Auth->user('valid') == 0){
+					$this->Session->setFlash(__('帳號已被停止'));
+					return;						
+				}
+				$uname =  $this->Auth->user('name');
+				//if(empty($uname))
+				//	$uname = $this->Auth->user('name');
 				$this->Session->write("user_id",$this->Auth->user('id'));
 				$this->Session->write("user_name",$uname);
 				$this->Session->write("user_role", $this->Auth->user('role'));
+				$this->Session->write("user_location", $this->Auth->user('location_id'));
 				$this->Session->write('isLogin', true);
 				$this->redirect($this->Auth->redirect());
 			} else {
@@ -28,7 +42,7 @@ class UsersController extends AppController {
 	public function logout() {
 		
 		//$this->Session->delete('role');
-		_clean();
+		$this->_clean();
 		$this->redirect($this->Auth->logout());
 		
 	}
@@ -36,14 +50,55 @@ class UsersController extends AppController {
 		$this->Session->delete('user_name');
 		$this->Session->delete('user_id');
 		$this->Session->delete('user_role');
+		$this->Session->delete('user_location');
 		$this->Session->delete('isLogin');
 	}
 
-    public function index() {
+    public function admin_index() {
         $this->User->recursive = 0;
-        $this->set('users', $this->paginate());
+        $this->paginate = array('conditions' => $this->Userfunc->getLocationCondition());
+        $this->set('users', $this->paginate('User'));
+        $this->set('locations', $this->Userfunc->getLocationOptions());
+        $this->set('roles', $this->Userfunc->getRoleOptinons());
     }
 
+    public function admin_edit($id=null){
+    	$this->User->id = $id;
+    	if ($this->request->is('get')) {
+    		$this->request->data = $this->User->read();
+    	}
+    	else {
+    		if ($this->request->data["User"]['id'] == '') {
+    			$this->request->data["User"]['id'] = $this->request->data["User"]['username'];
+    			$this->request->data["Person"]['created'] = date('Y-m-d H:i:s');
+    		}
+    		if ($this->User->save($this->request->data)) {
+    			$this->Session->setFlash('管理者儲存完成.');
+    			$this->redirect(array('action' => 'admin_index'));
+    		} else {
+    			$this->Session->setFlash('作業失敗.');
+    		}
+    	}
+        $this->set('locations', $this->Userfunc->getLocationOptions());
+        $this->set('roles', $this->Userfunc->getRoleOptinons());
+        
+    }
+    
+    public function admin_delete($id) {
+    	$this->User->id = $id;
+    	$this->request->data = $this->User->read();
+    	$this->request->data['User']['valid'] = ($this->request->data['User']['valid'] + 1)%2;
+    	if ($this->request->is('get')) {
+    		throw new MethodNotAllowedException();
+    	}
+    	if ($this->User->save($this->request->data)) {
+    		$this->Session->setFlash('管理者狀態已變更.');
+    		$this->redirect(array('action' => 'admin_index'));
+    	} else {
+    		$this->Session->setFlash('作業失敗.');
+    	}
+    }
+    
     public function view($id = null) {
         $this->User->id = $id;
         if (!$this->User->exists()) {

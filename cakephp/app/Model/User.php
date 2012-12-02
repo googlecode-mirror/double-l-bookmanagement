@@ -17,11 +17,22 @@ class User extends AppModel {
                 'message' => 'A password is required'
             )
         ),
+    	'name' => array(
+    		'valid' => array(
+    		'rule' => array('notEmpty'),
+    		'message' => 'Please enter a name',
+    		)
+    	),    		
         'role' => array(
             'valid' => array(
-                'rule' => array('inList', array('admin', 'author')),
+                'rule' => array('notEmpty'),
                 'message' => 'Please enter a valid role',
-                'allowEmpty' => false
+            )
+        ),
+        'location_id' => array(
+            'valid' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Please enter a valid location',
             )
         )
     );

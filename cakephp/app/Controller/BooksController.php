@@ -3,7 +3,7 @@ App::uses('HttpSocket', 'Network/Http');
 class BooksController extends AppController {
 	public $uses = array('Book_Cate', 'Book', 'Book_Instance','Book_Publisher','Person_Level','System_Inc','System_Location');
     public $helpers = array('Html', 'Form', 'Session');
-    public $components = array('Session', 'Formfunc','Systeminc','Bookfunc');
+    public $components = array('Session', 'Formfunc','Systeminc','Bookfunc','Userfunc');
 
     public function book_index(){
     	$this->set('books', $this->Book->find('all',array(
@@ -15,6 +15,18 @@ class BooksController extends AppController {
     	$this->set('books', $this->Book->find('all',array(
         						'conditions' => array('Book.book_type' => 'M'))
     	));  	 
+    }
+    public function book_view($id=null){
+        if($id == null) {
+            $this->redirect(array('action' => 'book_index'));
+        }
+        $this->Book->id = $id;
+        $this->request->data = $this->Book->read(); 
+
+        $cates = $this->Formfunc->convert_options($this->Book_Cate->find('all'), 'Book_Cate', 'id', 'catagory_name');
+        $this->set('cates', $cates);
+        $this->set('book_status', $this->Formfunc->book_status());
+
     }
 
     public function book_edit($id = null){
@@ -34,6 +46,7 @@ class BooksController extends AppController {
 				$this->Session->setFlash('儲存失敗.');
 			}
     	}
+        $this->set('book_status', $this->Formfunc->book_status());
     }
     
     public function journal_edit($id = null){
@@ -66,10 +79,12 @@ class BooksController extends AppController {
     				$book_instance = $this->Book_Instance->read();
 					if ($book_instance !== false) {
 						$this->request->data = $book_instance;
+                        $this->set('is_modify',false);
 					}
 					else {
 						$this->request->data['Book_Instance']['id'] = null;
 						$this->request->data['Book_Instance']['is_lend'] = 'N';
+                        $this->set('is_modify',true);
 					}
     		}
     		else{
@@ -100,7 +115,8 @@ class BooksController extends AppController {
         $this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('Person_Level.id', 'Person_Level.level_name'))));
         $this->set('book',$book);
         $this->set('error_msg', $error_msg);
-        $this->set('system_locations', $this->System_Location->find('list',array('fields' => array('System_Location.id', 'System_Location.location_name'))));
+        //$this->set('system_locations', $this->System_Location->find('list',array('fields' => array('System_Location.id', 'System_Location.location_name'))));
+        $this->set('system_locations', $this->Userfunc->getLocationOptions());
     }
     //public function book_instance_edit($book_id=null, $id=null){
     public function journal_instance_edit($book_id=null, $id=null){

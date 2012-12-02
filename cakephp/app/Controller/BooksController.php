@@ -40,8 +40,9 @@ class BooksController extends AppController {
 			$ret = $this->Book->save($this->request->data);
     		if ($ret) {
   				$this->Session->setFlash('儲存成功.');
-				$this->Book->id = $ret['Book']['id'];
-				$this->request->data = $this->Book->read(); 
+                $this->redirect(array('action' => 'book_view',$ret['Book']['id']));
+				//$this->Book->id = $ret['Book']['id'];
+				//$this->request->data = $this->Book->read(); 
     		}else {
 				$this->Session->setFlash('儲存失敗.');
 			}
@@ -98,7 +99,7 @@ class BooksController extends AppController {
                 
     			if ($this->Book_Instance->save($this->request->data)) {
     				$this->Session->setFlash('儲存成功.');
-                    $this->redirect(array('action' => 'book_edit',$book_id));
+                    $this->redirect(array('action' => 'book_view',$book_id));
 
     			} else {
     				$this->Session->setFlash('儲存失敗.');

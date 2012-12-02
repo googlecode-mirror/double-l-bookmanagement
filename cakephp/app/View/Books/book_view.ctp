@@ -1,3 +1,8 @@
+ <?php 
+    $book = $this->request->data["Book"];
+    $book_instances = $this->request->data["Book_Instances"];
+    if($book_instances == null ) {$book_instances=array();}
+ ?>
  <script>
     $(function() {
         $(".jquery_date" ).datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
@@ -5,14 +10,16 @@
 </script>
 <div>
 <h1 id="pageheader">書籍基本資料</h1>
+<?php 
+    if($this->Session->read('user_role') !== 'user') {
+        echo $this->Html->link('修改', array('action' => 'book_edit', $book['id'])); 
+    }
+?>
 </div>
 <?php
     echo $this->Form->create('Book',array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false,'readonly'=>true)));
 	echo $this->Form->input('id', array('type'=> 'hidden'));
     echo $this->Form->input('book_type', array('type'=> 'hidden', 'value'=>'B'));
-    $book = $this->request->data["Book"];
-    $book_instances = $this->request->data["Book_Instances"];
-	if($book_instances == null ) {$book_instances=array();}
 ?>
 <table>
 <tr><td>書籍名稱 : <?php echo $this->Form->input('book_name'); ?></td></tr>

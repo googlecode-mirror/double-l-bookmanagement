@@ -19,10 +19,10 @@
 解法
 {{{
 登入角色: 
-   Admin : 全部都有
-   LocalAdmin : 書本出借, 密碼修改, 盤點啓動
-   User : 書本查詢與預約
-
+   admin : 全部都有
+   localadmin : 書本出借, 密碼修改, 盤點啓動
+   localmanager : 書本查詢與預約
+   user : 書本查詢與預約
 職務名稱:
    Schema =>
       id : 

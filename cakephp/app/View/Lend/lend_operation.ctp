@@ -35,7 +35,7 @@
 			if (jQuery("#lend_table tr td:contains('"+book_instance_id.value.trim()+"')").length == 0) {
 				$.ajax(
 					{	
-						url:"lend_book", 
+						url:'<?php echo $this->html->url(array('controller'=>'lend', 'action' => 'lend_book'));?>', 
 						data:{ person_id: jQuery('#person_id')[0].value, book_instance_id: book_instance_id.value, book_cnt: jQuery('#lend_table tr').length }, 
 						type: "post", 
 						success: function(response){

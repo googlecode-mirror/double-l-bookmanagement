@@ -23,7 +23,6 @@
 	<li><a href="#">系統資料維護</a>
 		<ul>
 			<li><?php echo $this->Html->link('分校資料維護',array('controller'=>'system', 'action'=>'location_index')); ?></li>
-			<li><a href="#">管理者維護</a></li>
 			<li><a href="#">盤點作業</a></li>
 			<li><?php echo $this->Html->link('管理者維護',array('controller'=>'users', 'action'=>'admin_index')); ?></li>
 		</ul>

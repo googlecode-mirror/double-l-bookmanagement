@@ -58,6 +58,9 @@
 								else if (response == 6) {							
 									alert('書籍代號：' + book_instance_id.value + '有人預約中');
 								}
+								else if (response == 5) {							
+									alert('借卡號碼：' + jQuery('#person_id')[0].value + '不可跨區');
+								}
 								else {
 									alert('錯誤');
 								}
@@ -90,10 +93,10 @@
 			<tr>
 				<td>借卡號碼</td>
 				<td><?php if (isset($person_info['Person']['id'])) {echo $person_info['Person']['id']; echo $this->Form->hidden('person_id', array('value' => $person_info['Person']['id']));} else {echo $this->Form->text('person_id', array('onkeypress' => 'search_person_id(event);'));}?></td>
+				<td>借閱人姓名</td>
+				<td></td>
 				<td>借卡狀況</td>
 				<td><?php if (isset($person_info['Person']['id'])) {echo $person_info['Person']['valid'];}?></td>
-				<td>目前狀況</td>
-				<td></td>
 			</tr>
 			<tr>
 				<td>已借未還</td>

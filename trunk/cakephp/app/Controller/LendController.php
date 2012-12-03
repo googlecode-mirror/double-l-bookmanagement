@@ -7,7 +7,7 @@ class LendController extends AppController {
     public function index(){
 		$lend_records = $this->Lend_Record->find('all');
     	$this->set('lend_records', $lend_records);  
-    	$this->set('lend_status', $this->Lendfunc->lead_status());		
+    	$this->set('lend_status', $this->Lendfunc->lend_status());		
     } 
 
 	public function lend_operation() {
@@ -56,7 +56,7 @@ class LendController extends AppController {
 		$this->set('person_info', $person_info);
 		$this->set('lend_records', $lend_records);
 		$this->set('over_lend_records', $over_lend_records); 
-		$this->set('lend_status', $this->Lendfunc->lead_status());
+		$this->set('lend_status', $this->Lendfunc->lend_status());
 	}
 	
 	public function return_operation() {
@@ -66,40 +66,42 @@ class LendController extends AppController {
 		if (!empty($this->data)) {
 			$return_record = $this->Lend_Record->find('all', array('conditions' => array('status' => 'C')));
 			if (($return_record !== false) && (!empty($return_record))) {
-				$return_record = $return_record[0];
-				$return_rec = array();
-				$return_rec["id"] = $return_record["Lend_Record"]["id"];
-				$return_rec["status"] = 'I';
-				$return_rec["return_time"] = date('Y-m-d H:i:s');
-				$ret = $this->Lend_Record->save($return_rec);
-				if ($ret !== false) {
-					$record_id = $ret["Lend_Record"]["id"];
-					$book_instance_modi = array();
-					$book_instance_modi['id'] = $return_record["Lend_Record"]['book_instance_id'];
-					$book_instance_modi['book_status'] = 1;
-					$book_instance_modi['s_return_date'] = null;
-					$reserve_rec = $this->Lend_Record->find('all', array('conditions' =>array('status' => 'R'), 'order' => 'reserve_time'));
-					var_Dump($reserve_rec);
-					if (!empty($reserve_rec)) {
-						$reserve_rec = $reserve_rec[0];
-						$book_instance_modi['book_status'] = 6;
-						$book_instance_modi['reserve_person_id'] = $reserve_rec["Lend_Record"]['person_id'];
+				if (($person['Person_Level']['is_cross_lend']) || ($person['Person']['location_id'] == $userinfo['user_location'])) {
+					$return_record = $return_record[0];
+					$return_rec = array();
+					$return_rec["id"] = $return_record["Lend_Record"]["id"];
+					$return_rec["status"] = 'I';
+					$return_rec["return_time"] = date('Y-m-d H:i:s');
+					$ret = $this->Lend_Record->save($return_rec);
+					if ($ret !== false) {
+						$record_id = $ret["Lend_Record"]["id"];
+						$book_instance_modi = array();
+						$book_instance_modi['id'] = $return_record["Lend_Record"]['book_instance_id'];
+						$book_instance_modi['book_status'] = 1;
+						$book_instance_modi['s_return_date'] = null;
+						$reserve_rec = $this->Lend_Record->find('all', array('conditions' =>array('status' => 'R'), 'order' => 'reserve_time'));
+						//var_Dump($reserve_rec);
+						if (!empty($reserve_rec)) {
+							$reserve_rec = $reserve_rec[0];
+							$book_instance_modi['book_status'] = 6;
+							$book_instance_modi['reserve_person_id'] = $reserve_rec["Lend_Record"]['person_id'];
+						}
+						$ret = $this->Book_Instance->save($book_instance_modi);
+						if ($ret === false) {
+							$this->Lend_Record->save($return_record["Lend_Record"]);
+						}
 					}
-					$ret = $this->Book_Instance->save($book_instance_modi);
-					if ($ret === false) {
-						$this->Lend_Record->save($return_record["Lend_Record"]);
-					}
+					$this->Person->id = $return_record['Person']['id'];
+					$person_info = $this->Person->read();
+					$lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $return_record['Person']['id'], 'return_time' => null, 'status in ("C", "E")') ));
+					$over_lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $return_record['Person']['id'], 'return_time' => null, 'book_instance.s_return_date > current_timestamp', 'status in ("C", "E")') ));
 				}
-				$this->Person->id = $return_record['Person']['id'];
-				$person_info = $this->Person->read();
-				$lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $return_record['Person']['id'], 'return_time' => null, 'status in ("C", "E")') ));
-				$over_lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $return_record['Person']['id'], 'return_time' => null, 'book_instance.s_return_date > current_timestamp', 'status in ("C", "E")') ));
 			}
 		}
 		$this->set('person_info', $person_info);
 		$this->set('lend_records', $lend_records);  	
 		$this->set('over_lend_records', $over_lend_records); 
-		$this->set('lend_status', $this->Lendfunc->lead_status());
+		$this->set('lend_status', $this->Lendfunc->lend_status());
 	}
 
 	public function reserve_operation() {
@@ -108,7 +110,11 @@ class LendController extends AppController {
 		$lend_records = array();
 		$over_lend_records = array();
 		$person_info = array();
-		$this->Person->id = $this->Session->read('id');
+		$this->Person->id = $this->Session->read('user_id');
+		var_Dump($this->Session->read('user_id'));
+		var_Dump($this->Session->read('user_name'));
+		var_Dump($this->Session->read('user_role'));
+		var_Dump($this->Session->read('user_location'));
 		$person_info = $this->Person->read();
 		if (!empty($this->data)) {
 		/*	if (isset($this->data['Lend_Record']['person_id'])) {
@@ -152,7 +158,7 @@ class LendController extends AppController {
 		$this->set('lend_records', $lend_records);
 		$this->set('reserve_records', $reserve_records);
 		$this->set('over_lend_records', $over_lend_records); 
-		$this->set('lend_status', $this->Lendfunc->lead_status());
+		$this->set('lend_status', $this->Lendfunc->lend_status());
 	}
 	
 	public function lend_book() {
@@ -162,7 +168,7 @@ class LendController extends AppController {
 		$person = $this->Person->read();
 		$this->Book_Instance->id = $this->data["book_instance_id"];
 		$book = $this->Book_Instance->read();
-		$error_code = $this->Lendfunc->book_auth($person, $book);
+		$error_code = $this->Lendfunc->book_auth($person, $book, $this->create_userinfo());
 		if ($error_code != 0) {
 			$person = array();
 			$book = array();
@@ -173,6 +179,15 @@ class LendController extends AppController {
 		$this->set('person', $person);
 		$this->set('book', $book);
 		$this->set('error_code', $error_code);
+	}
+	
+	private function create_userinfo() {
+		$user_info = array();
+		$user_info['user_id'] = $this->Session->read('user_id');
+		$user_info['user_name'] = $this->Session->read('user_name');
+		$user_info['user_role'] = $this->Session->read('user_role');
+		$user_info['user_location'] = $this->Session->read('user_location');
+		return $user_info;
 	}
 }
 ?>

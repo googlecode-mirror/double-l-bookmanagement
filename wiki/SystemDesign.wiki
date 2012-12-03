@@ -49,3 +49,13 @@
    [5d]  :由書本資訊流水編號
    [2d]  :Select count(*) from book_instances Where s_id and book_id
 }}}
+
+
+login Info 
+{{{
+  使用者登入後, 會在Session 紀錄下列資料
+  1. user_id : 使用者代號
+  2. user_name : 使用者名稱
+  3. user_role :  使用者角色
+  4. user_location : 使用者分校代碼
+}}}

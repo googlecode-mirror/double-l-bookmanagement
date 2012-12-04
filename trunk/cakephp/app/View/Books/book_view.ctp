@@ -8,8 +8,8 @@
         $(".jquery_date" ).datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
     });
 </script>
-<div>
-<h1 id="pageheader">書籍基本資料</h1>
+<div class="pageheader_div"><h1 id="pageheader">書籍基本資料</h1></div>
+<div class="pagemenu_div">
 <?php 
     if($this->Session->read('user_role') !== 'user') {
         echo $this->Html->link('修改', array('action' => 'book_edit', $book['id'])); 
@@ -22,13 +22,15 @@
     echo $this->Form->input('book_type', array('type'=> 'hidden', 'value'=>'B'));
 ?>
 <table>
-<tr><td>書籍名稱 : <?php echo $this->Form->input('book_name'); ?></td></tr>
+<tr><td>書籍名稱 : <?php echo $this->Form->input('book_name'); ?>
+        副標題 : <?php echo $this->Form->input('book_title', array('size'=>50)); ?></td></tr>
 <tr><td>作者 : <?php echo $this->Form->input('book_author'); ?> 
-        版別 <?php echo $this->Form->input('book_version'); ?></td></tr>
-<tr><td>出版商 : <?php echo $this->Form->input('book_publisher'); ?> 
-        附屬媒體 <?php echo $this->Form->input('book_attachment'); ?></td></tr>
+        版別 <?php echo $this->Form->input('book_version', array('size'=>5)); ?>
+        集叢書:<?php echo $this->Form->input('book_suite', array('size'=>20)); ?></td></tr>
 <tr><td>出版日期 : <?php echo $this->Form->text('publish_date', array('style'=>'width:120px'));?> 
-        ISBN <?php echo $this->Form->input('isbn'); ?></td></tr>
+        ISBN <?php echo $this->Form->input('isbn', array('size'=>10)); ?>
+        出版商 : <?php echo $this->Form->input('book_publisher'); ?> 
+        附屬媒體 <?php echo $this->Form->input('book_attachment', array('size'=>10)); ?></td></tr>
 <tr><td>書籍分類 : <?php echo $this->Form->input('cate_id'); ?>
         索書號 : <?php echo $this->Form->input('book_search_code'); ?>
         櫃別 : <?php echo $this->Form->input('book_location'); ?></td></tr>

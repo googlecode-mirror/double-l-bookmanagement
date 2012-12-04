@@ -1,4 +1,12 @@
 @CHARSET "UTF-8";
+
+.pageheader_div {
+	float:left;
+}
+.pagemenu_div{
+	float:left;
+	padding:5px 5px 5px 5px;
+}
 #pageheader{
 	font-size : 150%;
 }
@@ -102,3 +110,5 @@
 	color: red;
 	font-weight: bold;
 }
+
+

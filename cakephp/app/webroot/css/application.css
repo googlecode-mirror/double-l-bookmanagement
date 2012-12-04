@@ -66,3 +66,8 @@
 	#menu li ul li { border-right: 1px solid #fff; }
 	#menu li ul li a { display: inline; }
 	#menu li ul li a:hover { text-decoration: underline; }
+
+.notice_msg {
+	color: red;
+	font-weight: bold;
+}

@@ -15,13 +15,15 @@
 	if($book_instances == null ) {$book_instances=array();}
 ?>
 <table>
-<tr><td>書籍名稱 : <?php echo $this->Form->input('book_name', array('div' => false, 'label' => false)); ?></td></tr>
-<tr><td>作者 : <?php echo $this->Form->input('book_author', array('div' => false, 'label' => false)); ?> 
-        版別 <?php echo $this->Form->input('book_version', array('div' => false, 'label' => false)); ?></td></tr>
-<tr><td>出版商 : <?php echo $this->Form->input('book_publisher', array('div' => false, 'label' => false)); ?> 
-        附屬媒體 <?php echo $this->Form->input('book_attachment', array('div' => false, 'label' => false)); ?></td></tr>
-<tr><td>出版日期 : <?php echo $this->Form->text('publish_date',  array('readonly'=>true, 'class' => 'ref_field, jquery_date', 'style'=>'width:120px'));?> 
-        ISBN <?php echo $this->Form->input('isbn', array('div' => false, 'label' => false)); ?></td></tr>
+<tr><td>書籍名稱 : <?php echo $this->Form->input('book_name'); ?>
+        副標題 : <?php echo $this->Form->input('book_title', array('size'=>50)); ?></td></tr>
+<tr><td>作者 : <?php echo $this->Form->input('book_author'); ?> 
+        版別 <?php echo $this->Form->input('book_version', array('size'=>5)); ?>
+        集叢書:<?php echo $this->Form->input('book_suite', array('size'=>20)); ?></td></tr>
+<tr><td>出版日期 : <?php echo $this->Form->text('publish_date', array('style'=>'width:120px'));?> 
+        ISBN <?php echo $this->Form->input('isbn', array('size'=>10)); ?>
+        出版商 : <?php echo $this->Form->input('book_publisher'); ?> 
+        附屬媒體 <?php echo $this->Form->input('book_attachment', array('size'=>10)); ?></td></tr>
 <tr><td>書籍分類 : <?php echo $this->Form->input('cate_id', array('div' => false, 'label' => false)); ?>
         索書號 : <?php echo $this->Form->input('book_search_code', array('div' => false, 'label' => false)); ?>
         櫃別 : <?php echo $this->Form->input('book_location', array('div' => false, 'label' => false)); ?></td></tr>

@@ -14,6 +14,10 @@ class Lend_Record extends AppModel {
 		'Person' => array(
 			'className' => 'Person',
 			'foreignKey' => 'person_id',
+		),
+		'System_Location' => array(
+			'className' => 'System_Location',
+			'foreignKey' => 'location_id',
 		)
 	);	
 }

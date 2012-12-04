@@ -15,6 +15,11 @@
 <table>
 	<tr>
 		<table>
+			<?php if($msg != ''): ?>
+			<tr>
+				<td colspan=6 class="notice_msg"><?php echo $msg;?></td>
+			</tr>
+			<?php endif;?>
 			<?php if (isset($person_info['Person']['id'])): ?>
 			<tr>
 				<td>借卡號碼</td>

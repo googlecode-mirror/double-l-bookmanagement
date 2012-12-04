@@ -139,6 +139,7 @@
 							<th>應還日期</th>
 							<th>借閱等級</th>
 							<th>狀態</th>
+							<th>地點</th>
 							<th><?php echo $this->Form->submit('儲存', array('style'=>'display:none', 'id' => 'SaveData')); ?></th>
 						</tr>
 					</table>
@@ -159,6 +160,7 @@
 							<th>狀態</th>
 							<th>續借次數</th>
 							<th>應還日期</th>
+							<th>地點</th>
 						</tr>
 						<?php foreach ($lend_records as $lend_record): ?>
 						<tr>
@@ -169,6 +171,7 @@
 							<td><?php echo $lend_status[$lend_record['Lend_Record']['status']]; ?></td>
 							<td><?php echo $lend_record['Lend_Record']['lend_cnt']; ?></td>
 							<td><?php echo $lend_record['Lend_Record']['s_return_date']; ?></td>
+							<td><?php echo $lend_record['System_Location']['location_name']; ?></td>
 						</tr>
 						<?php endforeach; ?>
 					</table>

@@ -28,9 +28,9 @@
 						$result = 4;
 					}else if ((!$person['Person_Level']['is_cross_lend']) && ($person['Person']['location_id'] != $userinfo['user_location'])) {
 						$result = 7;
-					}else if ($book['Book_Instance']['book_status'] == 6) {
+					}else if (($book['Book_Instance']['book_status'] == 6) && ($book['Book_Instance']['reserve_person_id'] != $person['Person']['id'])) {
 						$result = 6;
-					}else if ($book['Book_Instance']['book_status'] != 1) {
+					}else if (($book['Book_Instance']['book_status'] != 1) && ($book['Book_Instance']['book_status'] != 6)) {
 						$result = 3;
 					//}else if ($book['Book_Instance']['level_id'] > $person['Person']['level_id']) {
 					//	$result = 5;

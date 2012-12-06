@@ -50,9 +50,13 @@
 </head>
 <body>
 	<div id="container">
-		<div id="header">
-			<div style="float:left;"><h1>哥大圖書</h1></div>
-			<div id="menu_div" style="float:left;">
+		<div id="header" sytle="clear:left; float:left; background: #6494CD;">
+			
+			<div style="float:left; height:27px;">
+				<span style="letter-spacing: 4.0px; font-size:32px;">哥<b style="color:#F3E378;">大</b>英語</span> 
+				<span style="letter-spacing: 2.4px; font-size:12px;">蒙特梭利教學</font></span>
+			</div>
+			<div id="menu_div" style="float:left;"> 
 				<?php 
 					if($this->Session->read('user_role'))
 						echo $this->element('menu_'.$this->Session->read('user_role'));
@@ -74,9 +78,10 @@
 					echo '</li>';
 				}
 			?>
-			</div>		
+			</div>				
 			
-				
-
+		</div>
+		<div style="clear:left; float:left; padding: 3px 3px;">
+			<span style="letter-spacing: 1.4px; font-size:9px"><span style="font-size:12px;">C</span>OLUMBIA <span style="font-size:12px;">E</span>NGLISH <span style="font-size:12px;">L</span>ANGUAGE <span style="font-size:12px;">P</span>ROGRAM</span>
 		</div>
 

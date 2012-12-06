@@ -1,5 +1,5 @@
 <?php echo $this->element('default_header'); ?>
-		<div id="content">
+		<div id="content" style="background:#F3E378;">
 			<table>
 				<tr>
 					<td>

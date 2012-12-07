@@ -26,7 +26,7 @@ class BooksController extends AppController {
         $cates = $this->Formfunc->convert_options($this->Book_Cate->find('all'), 'Book_Cate', 'id', 'catagory_name');
         $this->set('cates', $cates);
         $this->set('book_status', $this->Formfunc->book_status());
-
+		$this->set('locations', $this->System_Location->find('list', array('fields' => array('id', 'location_name'))));
     }
 
     public function book_edit($id = null){
@@ -247,6 +247,17 @@ class BooksController extends AppController {
 
     }
 
+	public function book_search() {
+		$this->Person->Id =$this->Session->read('user_id');
+		$person_info = $this->Person->read();
+		$filter = array();
+		//if ($person_info['Person_Level']['is_cross'] == 0) {
+		//	$filter = array_merge($filter,array('Book_Instance.location_id' => $this->Session->read('user_location')));
+		//}
+		$books = $this->Book->find('all', array('conditions' => $filter));
+		$this->set('books', $books);
+	} 
+	
     private function catdata($html, $start_s, $end_s){
         $start_index = strpos($html, $start_s);
         if($start_index == false) return "Miss Start.";
@@ -254,6 +265,5 @@ class BooksController extends AppController {
         if($end_index == false) return "Miss End.";
         return substr($html, $start_index, $end_index-1);
     }
-
 }
 ?>

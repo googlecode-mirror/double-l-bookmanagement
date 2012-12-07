@@ -111,4 +111,13 @@
 	font-weight: bold;
 }
 
+#content {
+	background-color: rgb(243, 227, 120);
+	min-height: 450px;
+}
+
+table tr:nth-child(2n) {
+	background-color:yellow;
+}
+
 

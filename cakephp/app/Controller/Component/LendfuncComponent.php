@@ -1,6 +1,7 @@
 <?php
 	App::uses('Component', 'Controller');
 	class LendfuncComponent extends Component {
+		public $components = array('Session','Formfunc');
 		
 		public $lendStatus = array(
 				'C' => '出借中', 
@@ -40,6 +41,15 @@
 				}
 			}
 			return $result;
+		}
+		
+		public function create_userinfo() {
+			$user_info = array();
+			$user_info['user_id'] = $this->Session->read('user_id');
+			$user_info['user_name'] = $this->Session->read('user_name');
+			$user_info['user_role'] = $this->Session->read('user_role');
+			$user_info['user_location'] = $this->Session->read('user_location');
+			return $user_info;
 		}
 	}
 ?>

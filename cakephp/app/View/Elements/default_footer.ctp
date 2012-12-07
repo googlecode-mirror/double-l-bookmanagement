@@ -5,6 +5,7 @@
 					array('target' => '_blank', 'escape' => false)
 				);*/
 			?>
+			Copyright
 		</div>
 	</div>
 	

@@ -46,6 +46,7 @@
         <th>購買時間</th>
         <th>預計歸還時間</th>
         <th>可以外借</th>
+        <th>地點</th>
         <th>
             <?php
                 if($this->Session->read('user_role') !== 'user') {
@@ -63,6 +64,7 @@
         <td><?php echo $book_instance['purchase_date']; ?></td>
         <td><?php echo $book_instance['s_return_date']; ?></td>
         <td><?php echo $book_instance['is_lend']; ?></td>
+        <td><?php echo $locations[$book_instance['location_id']]; ?></td>
         <td><?php 
                 if($this->Session->read('user_role') !== 'user') {
                     echo $this->Html->link('修改', array('action' => 'book_instance_edit', $book['id'], $book_instance['id'])); 

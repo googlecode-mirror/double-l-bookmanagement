@@ -3,7 +3,7 @@ App::uses('HttpSocket', 'Network/Http');
 class BooksController extends AppController {
 	public $uses = array('Book_Cate', 'Book', 'Book_Instance','Book_Publisher','Person_Level','System_Inc','System_Location');
     public $helpers = array('Html', 'Form', 'Session');
-    public $components = array('Session', 'Formfunc','Systeminc','Bookfunc','Userfunc');
+    public $components = array('Session', 'Formfunc','Systeminc','Bookfunc','Userfunc','Isbnfunc');
 
     public function book_index(){
     	$this->set('books', $this->Book->find('all',array(
@@ -234,17 +234,41 @@ class BooksController extends AppController {
 
     public function search_isbn($isbn=null){
         //$url = "http://192.83.186.170/search*cht?/i9789861993454/i9789861993454/0,0,0/marc&FF=i9789861993454";
-        $url = "http://search.books.com.tw/exep/prod_search.php?cat=BKA&key=9789861993454";
-        $HttpSocket = new HttpSocket();
-        $result = $HttpSocket->get($url);
-        $htmlbody = $result->body;
-        $htmlbody = $this->catdata($htmlbody,'<li class="item">', '</li>');
+        //$url = "http://search.books.com.tw/exep/prod_search.php?cat=BKA&key=9789861993454";
+        //$url = "http://isbndb.com/search-all.html?kw=1586853333&x=10&y=13";
+        //$HttpSocket = new HttpSocket();
+        //$result = $HttpSocket->get($url);
+        //$htmlbody = $result->body;
+        //$htmlbody = $this->isbndb_cat($htmlbody);
+        //$htmlbody = $this->catdata($htmlbody,'<li class="item">', '</li>');
         //var_dump($response->body());
+        
+        $bookinfo = $this->Isbnfunc->amazon_search($isbn);
+        //$bookinfo = $this->Isbnfunc->isbndb_search($isbn);
+        $imgs = (array)$bookinfo->largeImageUrls;
+        sort($imgs);
+        $this->set('imgs',$imgs);
+        //var_dump($bookinfo);
+      
+
+
+        //$htmlbody = $this->isbndb_search();
         $this->set('html_body', $htmlbody);
         //$code_start = strpos($result->body, '<pre>')+5;
         //$code_end = strpos($result->body, '</pre>');
         //$this->set('html_body',$result->raw);
 
+    }
+    private function isbndb_search($isbn=null){
+        $HttpSocket = new HttpSocket();
+        $response = $HttpSocket->get('http://isbndb.com/search-all.html?kw=1586853333&x=10&y=13', array(), array('redirect' => true));
+        return $this->isbndb_cat($response->body);
+
+    }
+
+    private function isbndb_cat($html){
+        $r = $this->catdata($html, '<DIV CLASS="bookInfo">','</div>');
+        return $r;
     }
 
 	public function book_search() {
@@ -261,9 +285,9 @@ class BooksController extends AppController {
     private function catdata($html, $start_s, $end_s){
         $start_index = strpos($html, $start_s);
         if($start_index == false) return "Miss Start.";
-        $end_index = strpos($html, $end_s, $start_index);
+        $end_index = stripos($html, $end_s, $start_index);
         if($end_index == false) return "Miss End.";
-        return substr($html, $start_index, $end_index-1);
+        return substr($html, $start_index, $end_index + strlen($end_s) - $start_index);
     }
 }
 ?>

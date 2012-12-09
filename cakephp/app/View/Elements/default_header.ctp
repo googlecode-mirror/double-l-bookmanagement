@@ -52,9 +52,8 @@
 	<div id="container">
 		<div id="header" sytle="clear:left; float:left; background: #6494CD;">
 			
-			<div style="float:left; height:27px;">
-				<span style="letter-spacing: 4.0px; font-size:32px;">哥<b style="color:#F3E378;">大</b>英語</span> 
-				<span style="letter-spacing: 2.4px; font-size:12px;">蒙特梭利教學</font></span>
+			<div style="float:left; height:25px; margin-top: -1px; margin-left: -3px;">
+				<?php echo $this->Html->image('logo.jpg', array('height'=>'55px'));?>
 			</div>
 			<div id="menu_div" style="float:left;"> 
 				<?php 
@@ -81,7 +80,7 @@
 			</div>				
 			
 		</div>
-		<div style="clear:left; float:left; padding: 3px 3px;">
-			<span style="letter-spacing: 1.4px; font-size:9px"><span style="font-size:12px;">C</span>OLUMBIA <span style="font-size:12px;">E</span>NGLISH <span style="font-size:12px;">L</span>ANGUAGE <span style="font-size:12px;">P</span>ROGRAM</span>
+		<div style="clear:left; float:left; padding: 3px 3px; height:11px;">
+			
 		</div>
 

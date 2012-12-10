@@ -1,0 +1,1 @@
+<IMG SRC="http://localhost/cakephp/graph/barcode39/<?php echo $type;?>/<?php echo $id; ?>">

@@ -120,4 +120,9 @@ table tr:nth-child(2n) {
 	background-color:yellow;
 }
 
+td h1 {
+	font-weight:bold;
+	color: blue;
+}
+
 

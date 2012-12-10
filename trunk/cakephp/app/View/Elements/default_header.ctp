@@ -53,7 +53,7 @@
 		<div id="header" sytle="clear:left; float:left; background: #6494CD;">
 			
 			<div style="float:left; height:25px; margin-top: -1px; margin-left: -3px;">
-				<?php echo $this->Html->image('logo.jpg', array('height'=>'55px'));?>
+				<?php echo $this->Html->image('bg-logo.png', array('height'=>'71px'));?>
 			</div>
 			<div id="menu_div" style="float:left;"> 
 				<?php 
@@ -80,7 +80,3 @@
 			</div>				
 			
 		</div>
-		<div style="clear:left; float:left; padding: 3px 3px; height:11px;">
-			
-		</div>
-

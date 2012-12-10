@@ -79,12 +79,13 @@ p {
 
 #header{
 	padding: 1px 3px;
-	background: #77AFFF;
-	height: 36px;
+	/**background: #77AFFF;**/
+	background: #003d4c url('../img/bg-header.png') left;
+	height: 69px;
 }
 #header h1 {
 	line-height:20px;
-	background: #003d4c /**url('../img/cake.icon.png')**/ no-repeat left;
+	/**background: #003d4c url('../img/cake.icon.png') no-repeat left; **/
 	/**color: #fff;**/
 	padding: 0px 30px;
 }

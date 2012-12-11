@@ -272,15 +272,33 @@ class BooksController extends AppController {
     }
 
 	public function book_search() {
-		$this->Person->Id =$this->Session->read('user_id');
+		$this->Person->Id = $this->Session->read('user_id');
 		$person_info = $this->Person->read();
 		$filter = array();
 		//if ($person_info['Person_Level']['is_cross'] == 0) {
 		//	$filter = array_merge($filter,array('Book_Instance.location_id' => $this->Session->read('user_location')));
 		//}
+		if ((isset($this->data['Book']['keyword'])) && (trim($this->data['Book']['keyword']) != ''))  {
+			$filter = array_merge($filter,array("book_name like '".$this->data['Book']['keyword']."%'"));
+		}
+		else {
+			$filter = array_merge($filter,array(" 1= 2 "));
+		}
 		$books = $this->Book->find('all', array('conditions' => $filter));
 		$this->set('books', $books);
 	} 
+	
+    public function book_search_view($id=null){
+        if($id == null) {
+            $this->redirect(array('action' => 'book_search'));
+        }
+		$personinfo = $this->Person->findById($this->Session->read('user_id'));
+		$this->set('userinfo', $personinfo);
+		$this->set('books', $this->Book_Instance->find('all', array('conditions' => array('book_id' => $id))));
+        $this->set('cates', $this->Book_Cate->find('list', array('fields' => array('id', 'catagory_name'))));
+        $this->set('book_status', $this->Formfunc->book_status());
+		$this->set('locations', $this->System_Location->find('list', array('fields' => array('id', 'location_name'))));
+    }
 	
     private function catdata($html, $start_s, $end_s){
         $start_index = strpos($html, $start_s);

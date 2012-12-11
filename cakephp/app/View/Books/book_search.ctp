@@ -4,7 +4,7 @@
 <table>
 	<tr>
         <td>
-		<?php echo $this->Form->create('Book_Instance',array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); ?>
+		<?php echo $this->Form->create('Book',array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); ?>
 		書籍名稱<?php echo $this->Form->input('keyword');?><?php echo $this->Form->submit('搜尋');?>
 		<?php echo $this->Form->end(); ?>
 		</td>
@@ -28,7 +28,7 @@
         <td><?php echo $book['Book']['book_location']; ?></td>		
 		<td><?php echo sizeof($book["Book_Instances"]); ?></td>
  	<td><?php
-        echo $this->Html->link('查看', array('action' => 'book_view', $book['Book']['id']));
+        echo $this->Html->link('查看', array('action' => 'book_search_view', $book['Book']['id']));
 	?></td>            		
 	</tr>
 	 <?php endforeach; ?>

@@ -21,6 +21,8 @@
 	echo $this->Form->input('id', array('type'=> 'hidden'));
     echo $this->Form->input('book_type', array('type'=> 'hidden', 'value'=>'B'));
 ?>
+<div id="book_zone">
+<div id="book_info" style="float:left; clear:left;">
 <table>
 <tr><td>書籍名稱 : <?php echo $this->Form->input('book_name'); ?>
         副標題 : <?php echo $this->Form->input('book_title', array('size'=>50)); ?></td></tr>
@@ -36,6 +38,11 @@
         櫃別 : <?php echo $this->Form->input('book_location'); ?></td></tr>
 <tr><td>備註 : <?php echo $this->Form->input('memo'); ?></td></tr>
 </table>
+</div>
+<div id="book_image" style="float:left; clear:right;">
+<?php echo $this->Html->image( $book['book_image'], array('height'=>'200px','width'=>'200px'));?>
+</div>
+</div>
 <?php echo $this->Form->end(); ?>
 <table>
     <tr>

@@ -231,6 +231,41 @@ class BooksController extends AppController {
 			$this->Session->setFlash('作業失敗.');
 		}	
 	}
+    public function isbn_add($isbn=null){
+        $isbn = $this->request->data['Book']['isbn'];
+        if( $isbn == ''){
+            $this->Session->setFlash('ISBN 不能為空.');
+            $this->redirect(array('action' => 'book_index'));
+        }
+        $book = $this->Book->find('first', array('conditions'=> array('Book.isbn'=> $isbn)));
+        if($book != null){
+            $this->request->data = $book;
+            $this->redirect(array('action' => 'book_edit',$book['Book']['id']));
+        }
+        // 找尋圖片
+        $book['Book']['isbn'] = $isbn;
+        $book['Book']['book_image'] = 'book_empty.png';
+        $bookinfo = $this->Isbnfunc->amazon_search($isbn);
+        if($bookinfo != null){
+                $imgs = (array)$bookinfo->largeImageUrls;
+                sort($imgs);
+                $book['Book']['book_image'] = reset($imgs);
+        }
+        $bookinfo = $this->Isbnfunc->isbndb_search($isbn);
+        if($bookinfo != null){
+            $book['Book']['book_publisher'] = $bookinfo['publisher'];
+            $book['Book']['book_author'] = $bookinfo['author'];
+            $book['Book']['book_name'] = $bookinfo['bookname'];
+            $book['Book']['publish_date'] = $bookinfo['date'];
+        }
+        $this->request->data = $book;
+
+        $cates = $this->Formfunc->convert_options($this->Book_Cate->find('all'), 'Book_Cate', 'id', 'catagory_name');
+        $this->set('cates', $cates);        
+        $this->set('book_status', $this->Formfunc->book_status());
+        $this->render('book_edit');
+
+    }
 
     public function search_isbn($isbn=null){
         //$url = "http://192.83.186.170/search*cht?/i9789861993454/i9789861993454/0,0,0/marc&FF=i9789861993454";

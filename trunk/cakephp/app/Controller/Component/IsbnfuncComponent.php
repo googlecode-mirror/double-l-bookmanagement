@@ -48,21 +48,21 @@ class IsbnfuncComponent extends Component {
 		// bookname
 		$bookname = $this->trimdata($tmphtml,'<h1>','</h1>');
 		$tmphtml = $this->cutdata($tmphtml,'</h1>');
-		$r['bookname'] = $bookname;
+		$r['bookname'] = trim($bookname);
 		
 		// author
 		$tmpa = $this->trimdata($tmphtml,'>','Publisher:');
 		$author = strip_tags($tmpa);
 		$tmphtml = $this->cutdata($tmphtml,'<br>');
-		$r['author'] = $author;
+		$r['author'] = trim(trim($author), ',');
 		// publisher
 		$tmpp = $this->trimdata($tmphtml,'Publisher:','<br>');
 		$publisher = strip_tags($tmpp);
 		$tmphtml = $this->cutdata($tmphtml,'<br>');
-		$r['publisher'] = $publisher;
+		$r['publisher'] = trim($publisher);
 		// publish date
 		$tmpd = $this->trimdata($tmphtml,'; ','</span>');
-		$r['date'] = $tmpd;
+		$r['date'] = trim($tmpd);
 	
 		return $r;
 	

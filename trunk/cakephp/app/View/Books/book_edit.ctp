@@ -7,20 +7,23 @@
 <h1>修改書籍基本資料</h1>
 </div>
 <?php
-    echo $this->Form->create('Book',array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false)));
+    echo $this->Form->create('Book',array('action'=>'book_edit','div'=>false, 'inputDefaults' => array('label' => false,'div' => false)));
 	echo $this->Form->input('id', array('type'=> 'hidden'));
     echo $this->Form->input('book_type', array('type'=> 'hidden', 'value'=>'B'));
+    echo $this->Form->input('book_image', array('type'=> 'hidden', 'value'=>$book['book_image']));
     $book = $this->request->data["Book"];
     $book_instances = $this->request->data["Book_Instances"];
 	if($book_instances == null ) {$book_instances=array();}
 ?>
+<div id="book_zone">
+<div id="book_info" style="float:left; clear:left;">
 <table>
 <tr><td>書籍名稱 : <?php echo $this->Form->input('book_name'); ?>
         副標題 : <?php echo $this->Form->input('book_title', array('size'=>50)); ?></td></tr>
 <tr><td>作者 : <?php echo $this->Form->input('book_author'); ?> 
         版別 <?php echo $this->Form->input('book_version', array('size'=>5)); ?>
         集叢書:<?php echo $this->Form->input('book_suite', array('size'=>20)); ?></td></tr>
-<tr><td>出版日期 : <?php echo $this->Form->text('publish_date', array('style'=>'width:120px'));?> 
+<tr><td>出版日期 : <?php echo $this->Form->text('publish_date', array('readonly'=>true, 'class' => 'ref_field, jquery_date', 'style'=>'width:120px'));?> 
         ISBN <?php echo $this->Form->input('isbn', array('size'=>10)); ?>
         出版商 : <?php echo $this->Form->input('book_publisher'); ?> 
         附屬媒體 <?php echo $this->Form->input('book_attachment', array('size'=>10)); ?></td></tr>
@@ -29,6 +32,11 @@
         櫃別 : <?php echo $this->Form->input('book_location', array('div' => false, 'label' => false)); ?></td></tr>
 <tr><td>備註 : <?php echo $this->Form->input('memo', array('div' => false, 'label' => false)); ?></td></tr>
 </table>
+</div>
+<div id="book_image" style="float:left; clear:right;">
+<?php echo $this->Html->image( $book['book_image'], array('height'=>'200px','width'=>'200px'));?>
+</div>
+</div>
 <?php echo $this->Form->end('儲存'); ?>
 <table>
     <tr>

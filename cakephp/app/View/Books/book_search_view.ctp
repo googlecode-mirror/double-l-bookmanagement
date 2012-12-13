@@ -7,37 +7,7 @@
 					data:{ reserve_person_id: jQuery('#Lend_RecordReservePersonId')[0].value, book_instance_id: book_instance_id }, 
 					type: "post", 
 					success: function(response){
-						if (response.length <= 2) {
-							if (response == 1) {
-								alert('借卡號碼：' + jQuery('#person_id')[0].value + '不存在');
-							}
-							else if (response == 2){
-								alert('書籍代號：' + book_instance_id.value + '不存在');
-							}
-							else if (response == 3) {							
-								alert('書籍代號：' + book_instance_id.value + '不在庫');
-							}
-							else if (response == 4) {							
-								alert('書籍代號：' + book_instance_id.value + '不可外借');
-							}
-							else if (response == 5) {							
-								alert('借閱等級不足');
-							}
-							else if (response == 6) {							
-								alert('書籍代號：' + book_instance_id.value + '有人預約中');
-							}
-							else {
-								alert('錯誤');
-							}
-						}
-						else {
-							jQuery('#lend_table').append(response);
-							jQuery('#lend_cnt')[0].innerHTML = jQuery('#lend_table tr').length - 1;
-							jQuery('#can_lend')[0].innerHTML = jQuery('#can_lend1')[0].innerHTML - jQuery('#lend_table tr').length + 1;
-						}
-						if (jQuery('#lend_table tr').length > 1) {
-							jQuery('#SaveData').show();
-						}
+						alert(response);
 					}
 				}
 			)
@@ -45,7 +15,7 @@
 		else {
 			alert('借卡號碼：不可為空白');
 		}
-		return false;
+		//return false;
 	}
 </script>
 <div class="pageheader_div"><h1 id="pageheader">書籍資料查詢結果</h1></div>

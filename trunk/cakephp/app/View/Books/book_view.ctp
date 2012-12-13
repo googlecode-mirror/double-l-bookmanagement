@@ -40,7 +40,7 @@
 </table>
 </div>
 <div id="book_image" style="float:left; clear:right;">
-<?php echo $this->Html->image( $book['book_image'], array('height'=>'200px','width'=>'200px'));?>
+<?php echo $this->Html->image( $book['book_image'], array('height'=>'300px','width'=>'200px'));?>
 </div>
 </div>
 <?php echo $this->Form->end(); ?>

@@ -1,3 +1,9 @@
+  <?php 
+    $book = $this->request->data["Book"];
+    $book_instances = $this->request->data["Book_Instances"];
+    if($book_instances == null ) {$book_instances=array();}
+ ?>
+
  <script>
     $(function() {
         $(".jquery_date" ).datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
@@ -34,7 +40,7 @@
 </table>
 </div>
 <div id="book_image" style="float:left; clear:right;">
-<?php echo $this->Html->image( $book['book_image'], array('height'=>'200px','width'=>'200px'));?>
+<?php echo $this->Html->image( $book['book_image'], array('height'=>'300px','width'=>'200px'));?>
 </div>
 </div>
 <?php echo $this->Form->end('儲存'); ?>

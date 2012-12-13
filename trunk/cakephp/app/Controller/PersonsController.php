@@ -104,20 +104,31 @@ class PersonsController extends AppController {
 	}
 	
 	public function person_edit($id=null) {
+		$isModify = true;
+		$isSave = true;
+		if($id == null) {
+			$isModify = false;
+		}
 		$this->Person->id = $id;
 		if ($this->request->is('get')) {
 			$this->request->data = $this->Person->read();
 		}
 		else {
-			if ($this->request->data["Person"]['id'] == '') {
-				$this->request->data["Person"]['id'] = date('YmdHis');
+			if($this->request->data["submit"] == 'New'){
+				$isModify = false;
+				$isSave = $this->_check_new_person($this->request->data);
 				$this->request->data["Person"]['create_time'] = date('Y-m-d H:i:s');
+				
 			}
-			if ($this->Person->save($this->request->data)) {
+			$p['Person'] = $this->request->data['Person'];
+
+			if($isSave){
+			if ($isSave && $this->Person->save($p)) {
 				$this->Session->setFlash('借閱者儲存完成.');
 				$this->redirect(array('action' => 'person_index'));
 			} else {
 				$this->Session->setFlash('作業失敗.');
+			}
 			}
 		}
 		$this->set('person_titles', $this->Person_Title->find('list', array('fields' => array('id', 'title_name'))));
@@ -125,7 +136,23 @@ class PersonsController extends AppController {
 		$this->set('person_groups', $this->Person_Group->find('list', array('fields' => array('id', 'group_name'))));
 		$this->set('system_locations', $this->System_Location->find('list', array('fields' => array('id', 'location_name'))));
 		$this->set('person_genders', $this->Formfunc->person_gender());
+		$this->set('isModify',$isModify);
 		$this->set('id', $id);
+	}
+
+	private function _check_new_person($data){
+		$id = trim($data["Person"]['id']);
+		if( $id == ''){
+			$this->Session->setFlash('請輸入借卡代號.');
+			return false;
+		}
+		$p = $this->Person->find('first',array('conditions'=>array('Person.id'=>$id)));
+		if($p != null){
+			$this->Session->setFlash('借卡代號已存在.');
+			return false;
+		}
+		return true;
+
 	}
 	
 	public function person_index() {

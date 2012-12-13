@@ -124,61 +124,66 @@ class LendController extends AppController {
 		$this->set('lend_status', $this->Lendfunc->lend_status());
 	}
 
-	public function reserve_operation() {
-		//var_Dump($this->data);
-		//var_Dump($this->Session->read('id'));
+	public function reserve_book() {
+		$msg = '';
+		$this->layout = 'ajax'; 
 		$lend_records = array();
-		$over_lend_records = array();
 		$person_info = array();
-		$this->Person->id = $this->Session->read('user_id');
-		var_Dump($this->Session->read('user_id'));
-		var_Dump($this->Session->read('user_name'));
-		var_Dump($this->Session->read('user_role'));
-		var_Dump($this->Session->read('user_location'));
-		$person_info = $this->Person->read();
 		if (!empty($this->data)) {
-		/*	if (isset($this->data['Lend_Record']['person_id'])) {
-				$this->Person->id = $this->data['Lend_Record']['person_id'];
-				$person_info = $this->Person->read();
-				if ($person_info !== false) {
-					if (sizeof($this->data) >1) {
-						foreach (array_keys($this->data) as $key)	{
-							if ($key !== 'Lend_Record') {
-								$book_status = $this->Book_Instance->find('all', array('conditions'=>array('book_status'=>1)));
-								if (!empty($book_status)) {
-									$lend_books = $this->data[$key];
-									$lend_books['person_id'] = $this->data['Lend_Record']['person_id'];
-									$lend_books['status'] = 'C';
-									$lend_books['lend_time'] = date('Y-m-d H:i:s');
-									$lend_books['create_time'] = $lend_books['lend_time'];
-									$ret = $this->Lend_Record->save($lend_books);
-									if ($ret !== false) {
-										$record_id = $ret["Lend_Record"]["id"];
-										$book_instance_modi = array();
-										$book_instance_modi['id'] = $lend_books['book_instance_id'];
-										$book_instance_modi['book_status'] = 2;
-										$book_instance_modi['s_return_date'] = $lend_books['s_return_date'];
-										$book_instance_modi['reserve_person_id'] = null;
-										$ret = $this->Book_Instance->save($book_instance_modi);
-										if ($ret === false) {
-											$this->Lend_Record->delete($record_id);
-										}
-									}
-								}
+			if ($this->Session->read('user_role') !== 'user') {
+				$reserve_person_id = $this->data['reserve_person_id'];
+			}
+			else {
+				$reserve_person_id = $this->Session->read('user_id');
+			}
+			$person_info = $this->Person->find('all', array('conditions' =>array('Person.id' => $reserve_person_id)));
+			if (empty($person_info)) {
+				$msg = '無此借卡號碼：'.$reserve_person_id;
+			}
+			else {
+				$book_instance = $this->Book_Instance->find('all', array('conditions' =>array('Book_Instance.id' => $this->data['book_instance_id'])));
+				if (empty($book_instance)) {
+					$msg = '無此書籍代號：'.$this->data['book_instance_id'];
+				}
+				else {
+					if ((!$person_info[0]['Person_Level']['is_cross_lend']) && ($person_info[0]['Person']['location_id'] != $book_instance[0]['Book_Instance']['location_id'])) {
+						$msg = '借卡號碼：'.$reserve_person_id.' 不可跨區借閱';
+					}
+					else if (!$book_instance[0]["Book_Instance"]["is_lend"]){
+						$msg = '書籍代號：'.$this->data['book_instance_id'].'不可借閱';
+					}
+					else {
+						$lend_books = array();
+						$lend_books['id'] = null;
+						$lend_books['record_type'] = 1;
+						$lend_books['person_id'] = $reserve_person_id;
+						$lend_books['book_id'] = $book_instance[0]["Book_Instance"]["book_id"];
+						$lend_books['book_instance_id'] = $this->data['book_instance_id'];
+						$lend_books['status'] = 'R';
+						$lend_books['reserve_time'] = date('Y-m-d H:i:s');
+						$lend_books['s_return_date'] = date('Y-m-d', mktime(0,0,0,date('m'),date('d')+$person_info[0]['Person_Level']['max_day'],date('Y')));
+						$lend_books['create_time'] = $lend_books['reserve_time'];
+						$ret = $this->Lend_Record->save($lend_books);
+						if ($ret !== false) {
+							if ($book_instance[0]["Book_Instance"]["book_status"] == 1)  {
+								$book_instance[0]["Book_Instance"]['book_status'] = 6;
+								$book_instance[0]["Book_Instance"]['reserve_person_id'] = $reserve_person_id;
+								$book_instance[0]["Book_Instance"]['s_return_date'] = date('Y-m-d', mktime(0,0,0,date('m'),date('d')+7));
+								$ret = $this->Book_Instance->save($book_instance[0]);
 							}
+							$msg = '書籍代號：'.$this->data['book_instance_id'].'預約成功';
+						}
+						else {
+							$msg = '書籍代號：'.$this->data['book_instance_id'].'預約失敗';
 						}
 					}
 				}
-			}*/
+			}
 		}
-		$lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $person_info['Person']['id'], 'return_time' => null, 'status in ("C", "E")') ));
-		$over_lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $person_info['Person']['id'], 'return_time' => null, 'book_instance.s_return_date < current_timestamp', 'status in ("C", "E")') ));
-		$reserve_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $person_info['Person']['id'], 'return_time' => null, 'status' => "R") ));
-		$this->set('person_info', $person_info);
-		$this->set('lend_records', $lend_records);
-		$this->set('reserve_records', $reserve_records);
-		$this->set('over_lend_records', $over_lend_records); 
-		$this->set('lend_status', $this->Lendfunc->lend_status());
+		else {
+			$msg = '錯誤';
+		}
+		$this->set('msg', $msg);
 	}
 	
 	public function user_status() {

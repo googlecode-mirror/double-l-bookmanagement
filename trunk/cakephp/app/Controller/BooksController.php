@@ -342,5 +342,32 @@ class BooksController extends AppController {
         if($end_index == false) return "Miss End.";
         return substr($html, $start_index, $end_index + strlen($end_s) - $start_index);
     }
+	
+	public function print_book_barcode() {
+		$books = array();
+		$filter = array();
+		$intX = 1;
+		$intY = 1;
+		if (!empty($this->data)) {
+			$intX = $this->data['Book_Instance']['start_x'];
+			$intY = $this->data['Book_Instance']['start_y'];
+			if ($this->Session->read('user_role') != 'admin') {
+				$filter = array_merge($filter,array('Book_Instance.location_id' => $this->Session->read('user_location')));
+			}
+			if ((isset($this->data['Book_Instance']['start_id'])) && (trim($this->data['Book_Instance']['start_id'])!='')) {
+				$filter = array_merge($filter,array("Book_Instance.id >= '".$this->data['Book_Instance']['start_id']."' "));
+			}
+			if ((isset($this->data['Book_Instance']['end_id'])) && (trim($this->data['Book_Instance']['end_id'])!='')) {
+				$filter = array_merge($filter,array("Book_Instance.id <= '".$this->data['Book_Instance']['end_id']."' "));
+			}		
+			$books = $this->Book_Instance->find('all', array('conditions' => $filter));
+		}
+		
+		$this->set('books', $books);
+		$this->set('intXs', array(1=>1,2=>2,3=>3));
+		$this->set('intYs', array(1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9));
+		$this->set('intX', $intX);
+		$this->set('intY', $intY);
+	}
 }
 ?>

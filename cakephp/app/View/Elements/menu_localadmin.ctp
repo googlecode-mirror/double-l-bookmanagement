@@ -3,6 +3,7 @@
 		<ul>
 		<li><?php echo $this->Html->link('借書作業',array('controller'=>'lend', 'action'=>'lend_operation')); ?></li>		
 		<li><?php echo $this->Html->link('還書作業',array('controller'=>'lend', 'action'=>'return_operation')); ?></li>	
+		<li><?php echo $this->Html->link('書籍查詢',array('controller'=>'books', 'action'=>'book_search')); ?></li>
 		</ul>
 	</li>
 	<li><a href="#">書籍基本資料維護</a>
@@ -10,6 +11,7 @@
 			<li><?php echo $this->Html->link('書籍出版商資料',array('controller'=>'books', 'action'=>'publisher_index')); ?></li>
 			<li><?php echo $this->Html->link('書籍分類資料',array('controller'=>'books', 'action'=>'catagory_index')); ?></li>
 			<li><?php echo $this->Html->link('書籍基本資料',array('controller'=>'books', 'action'=>'book_index')); ?></li>
+			<li><?php echo $this->Html->link('書籍標籤列印',array('controller'=>'books', 'action'=>'print_book_barcode')); ?></li>
 		</ul>
 	</li>
 	<li><a href="#">人員管理</a>

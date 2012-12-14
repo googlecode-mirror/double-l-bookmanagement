@@ -5,7 +5,7 @@
 	<tr>
         <td>
 		<?php echo $this->Form->create('Book',array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); ?>
-		書籍名稱<?php echo $this->Form->input('keyword');?><?php echo $this->Form->submit('搜尋');?>
+		書籍名稱<?php echo $this->Form->input('keyword');?><?php echo $this->Form->submit('搜尋', array('div'=>false));?>
 		<?php echo $this->Form->end(); ?>
 		</td>
 	</tr>

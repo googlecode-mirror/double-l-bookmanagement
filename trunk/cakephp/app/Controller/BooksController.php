@@ -237,6 +237,12 @@ class BooksController extends AppController {
             $this->Session->setFlash('ISBN 不能為空.');
             $this->redirect(array('action' => 'book_index'));
         }
+        $isbn = $this->Isbnfunc->fixIsbn($isbn);
+        if( $isbn == null) {
+            $this->Session->setFlash('ISBN 格式錯誤, 須為10碼或13碼數字.');
+            $this->redirect(array('action' => 'book_index'));
+        }
+
         $book = $this->Book->find('first', array('conditions'=> array('Book.isbn'=> $isbn)));
         if($book != null){
             $this->request->data = $book;
@@ -249,7 +255,8 @@ class BooksController extends AppController {
         if($bookinfo != null){
                 $imgs = (array)$bookinfo->largeImageUrls;
                 sort($imgs);
-                $book['Book']['book_image'] = reset($imgs);
+                //$book['Book']['book_image'] = reset($imgs);
+                $book['Book']['book_image'] = $this->Isbnfunc->saveImage($isbn, reset($imgs));
         }
         $bookinfo = $this->Isbnfunc->isbndb_search($isbn);
         if($bookinfo != null){

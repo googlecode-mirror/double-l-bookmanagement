@@ -1,8 +1,12 @@
 <?php
 App::uses('Component', 'Controller');
 App::uses('HttpSocket', 'Network/Http');
+App::uses('Folder', 'Utility');
+App::uses('File', 'Utility');
+
 class IsbnfuncComponent extends Component {
 
+	static $DEFAULT_BOOK_IMAGE = 'book_empty.png';
 	public function catdata($html, $start_s, $end_s){
 		$start_index = strpos($html, $start_s);
 		if($start_index == false) return "Miss Start.";
@@ -68,8 +72,24 @@ class IsbnfuncComponent extends Component {
 	
 	}
 	
+	public function fixIsbn($isbn=null){
+		if($isbn==null) return null;
+		$isbn = str_replace(array("-"," "), "", $isbn);
+		if(strlen($isbn) == 13) $isbn = substr($isbn,3); 
+		if(strlen($isbn) !=10) return null;
+		return $isbn;
+	}
 
-
+	public function saveImage($isbn=null, $url=null){
+		if($isbn== null || $url == null || $url=='') return $this->DEFAULT_BOOK_IMAGE;
+		$http = new HttpSocket();
+		$f = fopen(WWW_ROOT . 'img'.DS.'books' .DS. $isbn.'.png', 'w');
+		$http->setContentResource($f);
+		$http->get($url);
+		fclose($f);
+		return 'books/'.$isbn.'.png';
+		
+	}
 	function checkDateFormat($date)
 	{
 		//match the format of the date

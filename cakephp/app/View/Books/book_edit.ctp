@@ -9,9 +9,8 @@
         $(".jquery_date" ).datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
     });
 </script>
-<div id="pageheader">
-<h1>修改書籍基本資料</h1>
-</div>
+<div class="pageheader_div"><h1 id="pageheader">修改書籍基本資料</h1></div>
+<div class="pagemenu_div"></div>
 <?php
     echo $this->Form->create('Book',array('action'=>'book_edit','div'=>false, 'inputDefaults' => array('label' => false,'div' => false)));
 	echo $this->Form->input('id', array('type'=> 'hidden'));
@@ -40,7 +39,7 @@
 </table>
 </div>
 <div id="book_image" style="float:left; clear:right;">
-<?php echo $this->Html->image( $book['book_image'], array('height'=>'300px','width'=>'200px'));?>
+<?php echo $this->Html->image( $book['book_image'], array('height'=>'300px','width'=>'190px'));?>
 </div>
 </div>
 <?php echo $this->Form->end('儲存'); ?>

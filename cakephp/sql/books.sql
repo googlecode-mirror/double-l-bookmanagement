@@ -33,6 +33,7 @@ DROP TABLE IF EXISTS `book_catagorys`;
 CREATE TABLE IF NOT EXISTS `book_catagorys` (
   `id` varchar(10) NOT NULL COMMENT '分類號',
   `catagory_name` varchar(20) NOT NULL COMMENT '分類名稱',
+  `catagory_color` varchar(10) NOT NULL COMMENT '分類顏色',
   `valid` tinyint(1) NOT NULL DEFAULT '1',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)

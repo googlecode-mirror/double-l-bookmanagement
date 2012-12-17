@@ -1,4 +1,5 @@
 <?php
+//UTF8編碼
 App::uses('Component', 'Controller');
 App::uses('HttpSocket', 'Network/Http');
 App::uses('Folder', 'Utility');

@@ -161,7 +161,9 @@ class LendController extends AppController {
 						$lend_books['book_instance_id'] = $this->data['book_instance_id'];
 						$lend_books['status'] = 'R';
 						$lend_books['reserve_time'] = date('Y-m-d H:i:s');
-						$lend_books['s_return_date'] = date('Y-m-d', mktime(0,0,0,date('m'),date('d')+$person_info[0]['Person_Level']['max_day'],date('Y')));
+						if ($book_instance[0]["Book_Instance"]["book_status"] == 1) {
+							$lend_books['s_return_date'] = date('Y-m-d', mktime(0,0,0,date('m'),date('d')+$person_info[0]['Person_Level']['max_day'],date('Y')));
+						}
 						$lend_books['create_time'] = $lend_books['reserve_time'];
 						$ret = $this->Lend_Record->save($lend_books);
 						if ($ret !== false) {

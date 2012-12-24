@@ -18,6 +18,10 @@ class Lend_Record extends AppModel {
 		'System_Location' => array(
 			'className' => 'System_Location',
 			'foreignKey' => 'location_id',
+		),
+		'Lend_Status' => array(
+			'className' => 'Lend_Status',
+			'foreignKey' => 'status',
 		)
 	);	
 }

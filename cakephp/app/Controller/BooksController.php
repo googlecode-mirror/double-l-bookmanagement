@@ -367,7 +367,7 @@ class BooksController extends AppController {
 			if ((isset($this->data['Book_Instance']['end_id'])) && (trim($this->data['Book_Instance']['end_id'])!='')) {
 				$filter = array_merge($filter,array("Book_Instance.id <= '".$this->data['Book_Instance']['end_id']."' "));
 			}		
-			$books = $this->Book_Instance->find('all', array('conditions' => $filter));
+			$books = $this->Book_Instance->find('all', array('conditions' => $filter,'recursive' => 2));
 		}
 		
 		$this->set('books', $books);

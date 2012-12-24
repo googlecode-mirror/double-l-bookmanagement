@@ -11,6 +11,10 @@ class Book_Instance extends AppModel {
 		'System_Location' => array(
 			'className' => 'System_Location',
 			'foreignKey' => 'location_id',
+		),
+		'Book_Status' => array(
+			'className' => 'Book_Status',
+			'foreignKey' => 'book_status',
 		)
 	);	
 }

@@ -276,6 +276,32 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- --------------------------------------------------------
+
+--
+-- 表的結構 `book_status`
+--
+
+DROP TABLE IF EXISTS `book_status`;
+CREATE TABLE IF NOT EXISTS `book_status` (
+  `id` int(11) NOT NULL,
+  `status_nme` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的結構 `lend_status`
+--
+
+DROP TABLE IF EXISTS `lend_status`;
+CREATE TABLE IF NOT EXISTS `lend_status` (
+  `id` char(1) NOT NULL,
+  `lend_status_name` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

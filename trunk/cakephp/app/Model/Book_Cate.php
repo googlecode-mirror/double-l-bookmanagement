@@ -12,10 +12,5 @@ class Book_Cate extends AppModel {
 			array('rule' => 'isUnique', 'message' => '書籍分類不可重複')
         )
     );
-	public $hasMany = array('Book' => array(
-								'className' => 'Book',
-								'foreignKey' => 'cate_id',
-							)
-	);
 }
 ?>

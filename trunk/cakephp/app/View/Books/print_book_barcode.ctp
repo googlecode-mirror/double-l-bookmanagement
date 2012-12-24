@@ -54,12 +54,15 @@
 		<table style="padding:0px; margin:0px;">
 			<tr style="background-color:#FFF;padding:0px; margin:0px";>
 				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none">哥大英語圖書館</td>
+				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none" rowspan=2>
+					<table style="width:40px;height:40px;border:1px solid black;margin-top:15px;background-color:<?php echo $book["Book"]["Book_Cate"]['catagory_color'] ?>"><tr><td style="border:none"></td></tr></table>
+				</td>
 			</tr>
 			<tr style="background-color:#FFF;padding:0px; margin:0px">
 				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><? echo $this->html->image(array('controller' => 'graph', 'action'=> 'barcode39','B', $book['Book_Instance']['id'])); ?></td>
 			</tr>
 			<tr style="background-color:#FFF;padding:0px; margin:0px">
-				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none;font-size:10px;word-break:break-all"><? echo substr($book['Book']['book_name'],0,64); ?></td>
+				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none;font-size:10px;word-break:break-all" colspan=2><? echo substr($book['Book']['book_name'],0,64); ?></td>
 			</tr>
 		</table>
 	</div>

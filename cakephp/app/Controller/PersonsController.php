@@ -178,5 +178,32 @@ class PersonsController extends AppController {
 			$this->Session->setFlash('作業失敗.');
 		}	
 	}
+	
+	public function print_person_barcode() {
+		$persons = array();
+		$filter = array();
+		$intX = 1;
+		$intY = 1;
+		if (!empty($this->data)) {
+			$intX = $this->data['Person']['start_x'];
+			$intY = $this->data['Person']['start_y'];
+			if ($this->Session->read('user_role') != 'admin') {
+				$filter = array_merge($filter,array('Person.location_id' => $this->Session->read('user_location')));
+			}
+			if ((isset($this->data['Person']['start_id'])) && (trim($this->data['Person']['start_id'])!='')) {
+				$filter = array_merge($filter,array("Person.id >= '".$this->data['Person']['start_id']."' "));
+			}
+			if ((isset($this->data['Person']['end_id'])) && (trim($this->data['Person']['end_id'])!='')) {
+				$filter = array_merge($filter,array("Person.id <= '".$this->data['Person']['end_id']."' "));
+			}		
+			$persons = $this->Person->find('all', array('conditions' => $filter,'recursive' => 2));
+		}
+		
+		$this->set('persons', $persons);
+		$this->set('intXs', array(1=>1,2=>2,3=>3));
+		$this->set('intYs', array(1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9));
+		$this->set('intX', $intX);
+		$this->set('intY', $intY);
+	}
 }
 ?>

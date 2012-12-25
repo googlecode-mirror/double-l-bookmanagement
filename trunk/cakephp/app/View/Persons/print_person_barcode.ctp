@@ -59,7 +59,7 @@
 				<td style="text-align:left;padding:0px; margin:0px;border-bottom:none;padding-left:10px">校別：<?php echo $person['System_Location']['location_name']; ?></td>
 			</tr>
 			<tr style="background-color:#FFF;padding:0px; margin:0px">
-				<td style="text-align:left;padding:0px; margin:0px;border-bottom:none;padding-left:10px">姓名：<?php echo $person['Person']['name']; ?></td>
+				<td style="text-align:left;padding:0px; margin:0px;border-bottom:none;padding-left:10px">姓名：<?php echo $person['Person']['name'].' '.$person['Person']['ename']; ?></td>
 			</tr>
 			<tr style="background-color:#FFF;padding:0px; margin:0px">
 				<td style="text-align:left;padding:0px; margin:0px;border-bottom:none;padding-left:10px">學號：<?php echo $person['Person']['id']; ?></td>

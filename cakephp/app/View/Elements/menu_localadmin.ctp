@@ -21,6 +21,7 @@
 			<li><?php echo $this->Html->link('借閱者等級權限資料',array('controller'=>'persons', 'action'=>'level_index')); ?></li>
 			<li><?php echo $this->Html->link('借閱者群組資料',array('controller'=>'persons', 'action'=>'group_index')); ?></li>
 			<li><?php echo $this->Html->link('人員職務名稱',array('controller'=>'persons', 'action'=>'title_index')); ?></li>
+			<li><?php echo $this->Html->link('借書證核發列印',array('controller'=>'persons', 'action'=>'print_person_barcode')); ?></li>
 		</ul>
 	</li>
 	<li><a href="#">系統資料維護</a>

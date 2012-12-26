@@ -251,19 +251,36 @@ class BooksController extends AppController {
         // 找尋圖片
         $book['Book']['isbn'] = $isbn;
         $book['Book']['book_image'] = 'book_empty.png';
-        $bookinfo = $this->Isbnfunc->amazon_search($isbn);
-        if($bookinfo != null){
-                $imgs = (array)$bookinfo->largeImageUrls;
-                sort($imgs);
-                //$book['Book']['book_image'] = reset($imgs);
-                $book['Book']['book_image'] = $this->Isbnfunc->saveImage($isbn, reset($imgs));
-        }
-        $bookinfo = $this->Isbnfunc->isbndb_search($isbn);
-        if($bookinfo != null){
-            $book['Book']['book_publisher'] = $bookinfo['publisher'];
-            $book['Book']['book_author'] = $bookinfo['author'];
-            $book['Book']['book_name'] = $bookinfo['bookname'];
-            $book['Book']['publish_date'] = $bookinfo['date'];
+        $amazon_asin = $this->Isbnfunc->get_amazon_asin($isbn);
+        //如果存在asin 就可用 amazon
+        if($amazon_asin !== false){
+            $bookinfo = $this->Isbnfunc->get_amazon_bookinfo($amazon_asin);
+            if($bookinfo != null){
+                    if(array_key_exists('book_image',$bookinfo))
+                        $book['Book']['book_image'] = $this->Isbnfunc->saveImage($isbn, $bookinfo['book_image']);
+                    if(array_key_exists('publisher',$bookinfo))
+                        $book['Book']['book_publisher'] = $bookinfo['publisher'];
+                    if(array_key_exists('author',$bookinfo))
+                        $book['Book']['book_author'] = $bookinfo['author'];
+                    if(array_key_exists('bookname',$bookinfo))
+                        $book['Book']['book_name'] = $bookinfo['bookname'];
+                    if(array_key_exists('bookname',$bookinfo))
+                        $book['Book']['publish_date'] = $bookinfo['date'];
+            }
+        } else { //否則使用 isbndb 找尋
+            $bookinfo = $this->Isbnfunc->isbndb_search($isbn);
+            if($bookinfo != null){
+                    if(array_key_exists('book_image',$book_info))
+                        $book['Book']['book_image'] = $this->Isbnfunc->saveImage($isbn, $bookinfo['book_image']);
+                    if(array_key_exists('publisher',$book_info))
+                        $book['Book']['book_publisher'] = $bookinfo['publisher'];
+                    if(array_key_exists('author',$book_info))
+                        $book['Book']['book_author'] = $bookinfo['author'];
+                    if(array_key_exists('bookname',$book_info))
+                        $book['Book']['book_name'] = $bookinfo['bookname'];
+                    if(array_key_exists('bookname',$book_info))
+                        $book['Book']['publish_date'] = $bookinfo['date'];
+            }
         }
         $this->request->data = $book;
 
@@ -275,22 +292,20 @@ class BooksController extends AppController {
     }
 
     public function search_isbn($isbn=null){
-        //$url = "http://192.83.186.170/search*cht?/i9789861993454/i9789861993454/0,0,0/marc&FF=i9789861993454";
-        //$url = "http://search.books.com.tw/exep/prod_search.php?cat=BKA&key=9789861993454";
-        //$url = "http://isbndb.com/search-all.html?kw=1586853333&x=10&y=13";
-        //$HttpSocket = new HttpSocket();
-        //$result = $HttpSocket->get($url);
-        //$htmlbody = $result->body;
-        //$htmlbody = $this->isbndb_cat($htmlbody);
-        //$htmlbody = $this->catdata($htmlbody,'<li class="item">', '</li>');
-        //var_dump($response->body());
+        $isbn = $this->Isbnfunc->fixIsbn($isbn);
+
+        $amazon_asin = $this->Isbnfunc->get_amazon_asin($isbn);
+        var_dump($amazon_asin);
+        $bookinfo = $this->Isbnfunc->get_amazon_bookinfo($amazon_asin);
+        var_dump($bookinfo);
+        $bookinfo = $this->Isbnfunc->get_isbndb_bookinfo($isbn);
+        var_dump($bookinfo);
+        //$bookinfo = $this->Isbnfunc->amazon_search($isbn);
         
-        $bookinfo = $this->Isbnfunc->amazon_search($isbn);
-        //$bookinfo = $this->Isbnfunc->isbndb_search($isbn);
-        $imgs = (array)$bookinfo->largeImageUrls;
-        sort($imgs);
-        $this->set('imgs',$imgs);
-        //var_dump($bookinfo);
+        //$imgs = (array)$bookinfo->largeImageUrls;
+        //sort($imgs);
+        //$this->set('imgs',$imgs);
+        
       
 
 

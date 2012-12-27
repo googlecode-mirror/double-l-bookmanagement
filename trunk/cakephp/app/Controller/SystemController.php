@@ -39,5 +39,13 @@ class SystemController extends AppController {
 			$this->Session->setFlash('作業失敗.');
 		}	
 	}
+	
+	public function take_stock_management($isTakeStock = null){
+		if($isTakeStock !== null){
+		if($isTakeStock == 1 ) Cache::write($this->Session->read("user_location").'_take_stock', true);
+		if($isTakeStock == 0 ) Cache::write($this->Session->read("user_location").'_take_stock', false);
+		}
+		$this->set('isTakeStock',Cache::read($this->Session->read("user_location").'_take_stock'));
+	}
 }
 ?>

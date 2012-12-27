@@ -1,9 +1,17 @@
 <?php
+App::uses('Cache', 'Cache');
 class LendController extends AppController {
 	public $uses = array('Book_Cate', 'Book', 'Book_Instance','Book_Publisher', 'Person', 'Lend_Record', 'Person_Level', 'System_Location');
     public $helpers = array('Html', 'Form', 'Session');
     public $components = array('Session', 'Formfunc', 'Lendfunc');
-
+    public function beforeFilter() {
+    	parent::beforeFilter();
+    	
+    	$isTakeStock = Cache::read($this->Session->read("user_location").'_take_stock');
+    	if($isTakeStock){
+    		$this->redirect(array('controller'=>'pages', 'action' => 'take_stock'));
+    	}
+    }
     public function index(){
 		$lend_records = $this->Lend_Record->find('all');
     	$this->set('lend_records', $lend_records);  

@@ -5,8 +5,7 @@ class GraphController extends AppController {
     public $components = array('Session', 'Formfunc');
 	public $layout = 'ajax';
 		
-	public function index($type='P', $id=0) {
-		$this->set('type', $type);
+	public function index($id=0) {
 		$this->set('id', $id);
 	}
 	
@@ -51,7 +50,7 @@ class GraphController extends AppController {
 
 		$strText = 'Error';
 		$strTitle = '';
-		$strColor = array('r'=>0,'g'=>0,'b'=>0);
+		$strColor = array('r'=>255,'g'=>255,'b'=>255);
 		$result = $this->Book_Instance->find('all', array('conditions' => array('Book_Instance.id' => $id),'recursive' => 2));
 		if (($result !== false)&& (!empty($result))) {
 			$strText = $result[0]['Book_Instance']['id'];
@@ -66,6 +65,39 @@ class GraphController extends AppController {
 		$this->set('strColor', $strColor);
 	}
 	
+	public function person_barcode( $id=0) {
+		define('IN_CB',true);
+		App::import("Vendor", "barcodegen/BarCode");
+		App::import("Vendor", "barcodegen/FColor");
+		App::import("Vendor", "barcodegen/FDrawing");
+		App::import("Vendor", "barcodegen/code39");
+		define('IMG_FORMAT_PNG',	1);
+		define('IMG_FORMAT_JPEG',	2);
+		define('IMG_FORMAT_WBMP',	4);
+		define('IMG_FORMAT_GIF',	8);
+
+		$strText = 'Error';
+		$strSchool = '';
+		$strName = '';
+		$strColor = array('r'=>255,'g'=>255,'b'=>255);
+		$result = $this->Person->findById($id);
+		if (($result !== false)&& (!empty($result))) {
+			$strText = $result['Person']['id'];
+			//var_Dump($result);
+			$strSchool = $result["System_Location"]["location_name"];
+			$strName = $result['Person']["name"]." ".$result['Person']["ename"];
+			//$strTitle = substr($result[0]['Book']['book_name'],0,34);
+			//if (strlen($result[0]['Book']['book_name']) > 34) {
+			//	$strTitle = $strTitle."\n".substr($result[0]['Book']['book_name'],34,34);
+			//}
+			//$strColor = $this->hex2rgb($result[0]['Book']['Book_Cate']['catagory_color']);
+		}	
+		$this->set('strText', $strText);
+		$this->set('strSchool', $strSchool);
+		$this->set('strName', $strName);
+		$this->set('strColor', $strColor);
+	}
+
 	private function hex2rgb($hex) {
 		$hex = str_replace("#", "", $hex);
 

@@ -27,68 +27,59 @@
 <?php else: ?>
 <?php echo $this->html->link('回搜尋頁',array('controller'=>'persons','action'=>'print_person_barcode'));?>&nbsp;
 <?php echo $this->html->link('列印標簽',"javascript:printDiv('print_div');");?>
-<div id='print_div' align="center" cellspacing=0 cellpadding=0 style="width:700px;">
+<div id='print_div' align="center" cellspacing=0 cellpadding=0 style="width:828px;">
 	<?php $total_div = 0; ?>
-	<?php for($i=1;$i<=$intY;$i++) : ?>
-	<?php $j =1; ?>
-	<?php while((($j<=3) && ($i<$intY) )|| (($j<$intX) && ($i==$intY))) : ?>
-	<div style="float:left;width:230px;height:140px;background-color:#fff;border:1px solid;">
-		<table style="padding:10px; margin:0px">
-			<tr style="background-color:#FFF;padding:0px; margin:0px">
-				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none;"></td>
-			</tr>
-			<tr style="background-color:#FFF;padding:0px; margin:0px">
-				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none;"></td>
-			</tr>
-			<tr style="background-color:#FFF;padding:0px; margin:0px">
-				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none;"></td>
-			</tr>
-			<tr style="background-color:#FFF;padding:0px; margin:0px">
-				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"></td>
-			</tr>
-		</table>
-	</div>
-	<?php $total_div++; ?>
-	<?php $j++; ?>
-	<?php endwhile; ?>
-	<?php endfor; ?>
-	<?php foreach($persons as $person) : ?>
-	<div style="float:left;width:230px;height:140px;background-color:#fff;border:1px solid;">
-		<table style="padding:10px; margin:0px;">
-			<tr style="background-color:#FFF;padding:0px; margin:0px">
-				<td style="text-align:left;padding:0px; margin:0px;border-bottom:none;padding-left:10px">校別：<?php echo $person['System_Location']['location_name']; ?></td>
-			</tr>
-			<tr style="background-color:#FFF;padding:0px; margin:0px">
-				<td style="text-align:left;padding:0px; margin:0px;border-bottom:none;padding-left:10px">姓名：<?php echo $person['Person']['name'].' '.$person['Person']['ename']; ?></td>
-			</tr>
-			<tr style="background-color:#FFF;padding:0px; margin:0px">
-				<td style="text-align:left;padding:0px; margin:0px;border-bottom:none;padding-left:10px">學號：<?php echo $person['Person']['id']; ?></td>
-			</tr>
-			<tr style="background-color:#FFF;padding:0px; margin:0px">
-				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><? echo $this->html->image(array('controller' => 'graph', 'action'=> 'barcode39','P', $person['Person']['id'])); ?></td>
-			</tr>
-		</table>
-	</div>
-	<?php $total_div++; ?>
-	<?php endforeach; ?>
-	<?php while($total_div < 21) : ?>
-	<div style="float:left;width:230px;height:140px;background-color:#fff;border:1px solid;">
-		<table style="padding:10px; margin:0px;">
-			<tr style="background-color:#FFF;padding:0px; margin:0px">
-				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none;"></td>
-			</tr>
-			<tr style="background-color:#FFF;padding:0px; margin:0px">
-				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none;"></td>
-			</tr>
-			<tr style="background-color:#FFF;padding:0px; margin:0px">
-				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none;"></td>
-			</tr>
-			<tr style="background-color:#FFF;padding:0px; margin:0px">
-				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"></td>
-			</tr>
-		</table>
-	</div>
-	<?php $total_div++; ?>
-	<?php endwhile; ?>
+	<table style="padding:0px; margin:0px">
+		<?php for($i=1;$i<$intY;$i++) : ?>
+		<tr style="background-color:#FFF;padding:0px; margin:0px">
+			<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><? echo $this->html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
+			<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><? echo $this->html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
+			<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><? echo $this->html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
+		</tr>
+		<?php $total_div = $total_div + 3; ?>
+		<?php endfor;?>
+		<?php $record = 0; ?>
+		<?php $col = 1; ?>
+		<tr style="background-color:#FFF;padding:0px; margin:0px">
+			<?php for($i=1;$i<$intX;$i++) : ?>
+				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><? echo $this->html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
+				<?php $total_div++; ?>
+				<?php $col++; ?>
+			<?php endfor; ?>
+			<?php while (($col <= 3) && ($record < sizeof($persons))): ?>
+				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><? echo $this->html->image(array('controller' => 'graph', 'action'=> 'person_barcode',$persons[$record]['Person']['id'])); ?></td>
+				<?php $record++; ?>
+				<?php $col++; ?>
+				<?php $total_div++; ?>
+			<?php endwhile; ?>	
+			<?php while ($col <= 3) : ?>
+				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><? echo $this->html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
+				<?php $total_div++; ?>
+				<?php $col++; ?>
+			<?php endwhile; ?>
+		</tr>
+		<?php $col = 1; ?>
+		<tr style="background-color:#FFF;padding:0px; margin:0px">
+			<?php while (($col < 3) && ($record < sizeof($persons))): ?>
+				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><? echo $this->html->image(array('controller' => 'graph', 'action'=> 'person_barcode',$persons[$record]['Person']['id'])); ?></td>
+				<?php $record++; ?>
+				<?php $col++; ?>
+				<?php $total_div++; ?>
+			<?php endwhile; ?>	
+			<?php while ($col <= 3) : ?>
+				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><? echo $this->html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
+				<?php $total_div++; ?>
+				<?php $col++; ?>
+			<?php endwhile; ?>
+		</tr>
+		<?php while($total_div < 27) : ?>
+		<tr style="background-color:#FFF;padding:0px; margin:0px">
+			<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><? echo $this->html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
+			<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><? echo $this->html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
+			<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><? echo $this->html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
+		</tr>
+		<?php $total_div = $total_div + 3; ?>
+		<?php endwhile;?>
+	</table>
 </div>
 <?php endif; ?>

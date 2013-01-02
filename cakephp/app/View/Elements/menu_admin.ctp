@@ -28,6 +28,7 @@
 		<ul>
 			<li><?php echo $this->Html->link('分校資料維護',array('controller'=>'system', 'action'=>'location_index')); ?></li>
 			<li><?php echo $this->Html->link('盤點作業',array('controller'=>'system', 'action'=>'take_stock_management')); ?></li>
+			<li><?php echo $this->Html->link('盤點清冊',array('controller'=>'reports', 'action'=>'book_inv_check')); ?></li>
 			<li><?php echo $this->Html->link('管理者維護',array('controller'=>'users', 'action'=>'admin_index')); ?></li>
 		</ul>
 	</li>	

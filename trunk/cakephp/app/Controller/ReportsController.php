@@ -1,6 +1,6 @@
-<?php
+<?php //中文
 class ReportsController extends AppController {
-	public $uses = array('Lend_Record');
+	public $uses = array('Lend_Record', 'Book_Instance', 'System_Location');
     public $helpers = array('Html', 'Form', 'Session', 'Paginator');
     public $components = array('Session', 'Formfunc', 'Lendfunc');
 
@@ -22,6 +22,22 @@ class ReportsController extends AppController {
 		$this->set('o_lend_records', $o_lend_records);
 		$this->set('o_over_lend_records', $o_over_lend_records); 		
     	$this->set('lend_records', $lend_records);
+    }    
+
+    public function book_inv_check(){
+		$books = array();
+		$location_id = '';
+		if (!empty($this->data)) {
+			$location_id = $this->data['Book_Instance']['location_id'];
+			if ($this->Session->read('user_role') !== 'user') {
+				if ($this->Session->read('user_role') === 'localadmin') {
+					$location_id = $this->Session->read('user_location');
+				}
+				$books = $this->Book_Instance->find('all',array('conditions' => array('book_status' => 'I','location_id' => $location_id)));
+			}	
+		}
+		$this->set('locations', $this->System_Location->find('list',array('condiftions'=>array('valid' => 1), 'fields'=>array('id', 'location_name'))));
+    	$this->set('books', $books);
     }    
 
 }

@@ -1,13 +1,16 @@
 <?php
 class PrintController extends AppController {
-	public $uses = array('System_Print','status' => 1);
-	public function add($type,$location,$pid){
+	public $uses = array('System_Print');
+	
+	public function add($type,$pid){
+		$owner_id = $this->Session->read('user_id');
+		$this->layout = 'ajax';
 		$message = array('message' => "Print Saved");
-		$id = $this->_getKey($type,$location,$pid);
+		$id = $this->_getKey($type,$owner_id,$pid);
 		$this->System_Print->id = $id;
 		$p = $this->System_Print->read();
 		if($p == null){
-			$p = array('id' => $id, 'print_type' => $type, 'print_location' => $location, 'print_id' => $pid);
+			$p = array('id' => $id, 'print_type' => $type, 'print_owner' => $owner_id, 'print_id' => $pid);
 			if(!$this->System_Print->save($p)){
 				$message['message'] = "Print Save is Faile.";
 				$message['status'] = 0;
@@ -25,8 +28,8 @@ class PrintController extends AppController {
 		}
 		$this->set('message',$message);
 	}
-	private function _getKey($type,$location,$pid){
-		return $type.'_'.$location.'_'.$pid;
+	private function _getKey($type,$owner_id,$pid){
+		return $type.'_'.$owner_id.'_'.$pid;
 	}
 }
 ?>

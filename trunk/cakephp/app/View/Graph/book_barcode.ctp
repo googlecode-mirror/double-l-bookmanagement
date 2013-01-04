@@ -21,10 +21,11 @@
 	$background = imagecolorallocate($im2, 255, 255, 255);
 	if ($strText != 'Error') {
 		imagecopyresized($im2, $im, 0+($img_width -10 -$code_generated->lastX)/2, 20, 0, 0, $code_generated->lastX, $code_generated->lastY, $code_generated->lastX, $code_generated->lastY);
-		$imagebox = calculateTextBox('哥大英文圖書館',APP.'Vendor'.DS.'fonts'.DS.'fireflysung.ttf',10,0);
+		$strBrench = '哥大英文'.$strBrench;
+		$imagebox = calculateTextBox($strBrench,APP.'Vendor'.DS.'fonts'.DS.'fireflysung.ttf',10,0);
 		$im = imagecreate($img_width -10,$imagebox["height"] + 5);
 		imagefill($im, 0,0, imagecolorallocate($im,$strColor['r'],$strColor['g'],$strColor['b'])); 
-		imagettftext($im, 10, 0, 2+($img_width -10 -$imagebox["width"])/2, 13,  imagecolorallocate ($im,0,0,0), APP.'Vendor'.DS.'fonts'.DS.'fireflysung.ttf', '哥大英文圖書館');
+		imagettftext($im, 10, 0, 2+($img_width -10 -$imagebox["width"])/2, 13,  imagecolorallocate ($im,0,0,0), APP.'Vendor'.DS.'fonts'.DS.'fireflysung.ttf', $strBrench);
 		imagecopyresized($im2, $im, 0, 0, 0, 0,$img_width -10,$imagebox["height"] + 5, $img_width -10,$imagebox["height"] + 5);
 		$imagebox = calculateTextBox($strTitle,APP.'Vendor'.DS.'fonts'.DS.'fireflysung.ttf',8,0);
 		$im = imagecreate($img_width -10,$imagebox["height"] + 5);

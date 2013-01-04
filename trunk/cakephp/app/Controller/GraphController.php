@@ -54,6 +54,7 @@ class GraphController extends AppController {
 		$result = $this->Book_Instance->find('all', array('conditions' => array('Book_Instance.id' => $id),'recursive' => 2));
 		if (($result !== false)&& (!empty($result))) {
 			$strText = $result[0]['Book_Instance']['id'];
+			$strBrench = $result[0]['System_Location']['location_name'];
 			$strTitle = substr($result[0]['Book']['book_name'],0,34);
 			if (strlen($result[0]['Book']['book_name']) > 34) {
 				$strTitle = $strTitle."\n".substr($result[0]['Book']['book_name'],34,34);
@@ -63,6 +64,7 @@ class GraphController extends AppController {
 		$this->set('strText', $strText);
 		$this->set('strTitle', $strTitle);
 		$this->set('strColor', $strColor);
+		$this->set('strBrench', $strBrench);
 	}
 	
 	public function person_barcode( $id=0) {

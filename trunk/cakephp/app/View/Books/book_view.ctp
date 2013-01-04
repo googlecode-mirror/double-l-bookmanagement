@@ -7,6 +7,21 @@
     $(function() {
         $(".jquery_date" ).datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
     });
+	
+	function add_print_list(book_id) {
+		$.ajax(
+			{	
+				url:'<?php echo $this->html->url(array('controller'=>'print', 'action' => 'add'));?>'+'/B/'+book_id, 
+				data:{ type: 'B', pid: book_id }, 
+				type: "post", 
+				success: function(response){
+					var response_obj = JSON.parse(response);
+					alert(response_obj.message);
+				}
+			}
+		);
+		return false;
+	}
 </script>
 <div class="pageheader_div"><h1 id="pageheader">書籍基本資料</h1></div>
 <div class="pagemenu_div">
@@ -74,7 +89,9 @@
         <td><?php echo $locations[$book_instance['location_id']]; ?></td>
         <td><?php 
                 if($this->Session->read('user_role') !== 'user') {
-                    echo $this->Html->link('修改', array('action' => 'book_instance_edit', $book['id'], $book_instance['id'])); 
+                    echo $this->Html->link('修改', array('action' => 'book_instance_edit', $book['id'], $book_instance['id']));
+					echo '&nbsp;';
+                    echo $this->Html->link('列印',  'javascript:void(0)',array('onclick'=>"add_print_list('".$book_instance['id']."')")); 
                 }
         ?></td>
     </tr>

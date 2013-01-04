@@ -34,9 +34,9 @@
         <td><?php echo $book['Book']['book_search_code']; ?></td>		
         <td><?php echo $book['Book']['book_location']; ?></td>		
 		<td><?php echo sizeof($book["Book_Instances"]); ?></td>
- 	<td><?php
-        echo $this->Html->link('查看', array('action' => 'book_view', $book['Book']['id']));
-	?></td>            		
+		<td>
+			<?php echo $this->Html->link('查看', array('action' => 'book_view', $book['Book']['id']));?>
+		</td>            		
 	</tr>
 	 <?php endforeach; ?>
 </table>

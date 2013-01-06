@@ -11,7 +11,7 @@
 	function add_print_list(book_id) {
 		$.ajax(
 			{	
-				url:'<?php echo $this->html->url(array('controller'=>'print', 'action' => 'add'));?>'+'/B/'+book_id, 
+				url:'<?php echo $this->html->url(array('controller'=>'prints', 'action' => 'add'));?>'+'/B/'+book_id, 
 				data:{ type: 'B', pid: book_id }, 
 				type: "post", 
 				success: function(response){

@@ -266,7 +266,7 @@ DROP TABLE IF EXISTS `system_prints`;
 CREATE TABLE IF NOT EXISTS `system_prints` (
   `id` varchar(50) NOT NULL,
   `print_type` varchar(1) NOT NULL COMMENT '分類(B:書籍, P:人員)',
-  `print_owner` varchar(2) NOT NULL COMMENT '分校代碼',
+  `print_owner` varchar(20) NOT NULL COMMENT '人員代碼',
   `print_id` varchar(20) NOT NULL COMMENT '列印Id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -391,5 +391,24 @@ class BooksController extends AppController {
 		$this->set('intX', $intX);
 		$this->set('intY', $intY);
 	}
+	
+	public function print_book_barcode_sel() {
+		$books = array();
+		$filter = array();
+		$intX = 1;
+		$intY = 1;
+		if (!empty($this->data)) {
+			$intX = $this->data['Book_Instance']['start_x'];
+			$intY = $this->data['Book_Instance']['start_y'];
+			$books = $this->Book_Instance->query("SELECT * FROM `system_prints`, `book_instances`, `books` WHERE print_type = 'B' and print_owner = '".$this->Session->read('user_id')."' and book_instances.id  = print_id and book_id = books.id;");
+		}
+		
+		$this->set('books', $books);
+		$this->set('intXs', array(1=>1,2=>2,3=>3));
+		$this->set('intYs', array(1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9));
+		$this->set('intX', $intX);
+		$this->set('intY', $intY);
+	}
+
 }
 ?>

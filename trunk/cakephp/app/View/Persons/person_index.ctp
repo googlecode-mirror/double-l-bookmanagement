@@ -1,3 +1,23 @@
+ <script>
+    $(function() {
+        $(".jquery_date" ).datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
+    });
+	
+	function add_print_list(person_id) {
+		$.ajax(
+			{	
+				url:'<?php echo $this->html->url(array('controller'=>'prints', 'action' => 'add'));?>'+'/P/'+person_id, 
+				data:{ type: 'P', pid: person_id }, 
+				type: "post", 
+				success: function(response){
+					var response_obj = JSON.parse(response);
+					alert(response_obj.message);
+				}
+			}
+		);
+		return false;
+	}
+</script>
 <h1>借閱者基本資料</h1>
 <p></p>
 <table>
@@ -42,6 +62,8 @@
 				$delbtn,
 				array('action' => 'person_delete', $person['Person']['id']),
 				array('confirm' => '確認變更?'));
+					echo '&nbsp;';
+                    echo $this->Html->link('列印',  'javascript:void(0)',array('onclick'=>"add_print_list('".$person['Person']['id']."')")); 
             ?>
         </td>
     </tr>

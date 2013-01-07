@@ -50,6 +50,7 @@ class GraphController extends AppController {
 
 		$strText = 'Error';
 		$strTitle = '';
+		$strBrench = '';
 		$strColor = array('r'=>255,'g'=>255,'b'=>255);
 		$result = $this->Book_Instance->find('all', array('conditions' => array('Book_Instance.id' => $id),'recursive' => 2));
 		if (($result !== false)&& (!empty($result))) {

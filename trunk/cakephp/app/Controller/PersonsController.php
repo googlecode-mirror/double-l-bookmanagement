@@ -205,5 +205,23 @@ class PersonsController extends AppController {
 		$this->set('intX', $intX);
 		$this->set('intY', $intY);
 	}
+
+	public function print_person_barcode_sel() {
+		$persons = array();
+		$filter = array();
+		$intX = 1;
+		$intY = 1;
+		if (!empty($this->data)) {
+			$intX = $this->data['Person']['start_x'];
+			$intY = $this->data['Person']['start_y'];	
+			$persons = $this->Person->query("SELECT * FROM `system_prints`, `persons`, `system_locations` WHERE print_type = 'P' and print_owner = '".$this->Session->read('user_id')."' and persons.id  = print_id and system_locations.id = persons.location_id;");
+		}
+		
+		$this->set('persons', $persons);
+		$this->set('intXs', array(1=>1,2=>2,3=>3));
+		$this->set('intYs', array(1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9));
+		$this->set('intX', $intX);
+		$this->set('intY', $intY);
+	}
 }
 ?>

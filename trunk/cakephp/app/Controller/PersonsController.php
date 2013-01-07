@@ -1,6 +1,6 @@
 <?php
 class PersonsController extends AppController {
-	public $uses = array('Person_Title', 'Person_Group', 'Person_Level', 'Person', 'System_Location');
+	public $uses = array('Person_Title', 'Person_Group', 'Person_Level', 'Person', 'System_Location', 'System_Print_Person');
     public $helpers = array('Html', 'Form', 'Session');
     public $components = array('Session', 'Formfunc');
 
@@ -214,7 +214,7 @@ class PersonsController extends AppController {
 		if (!empty($this->data)) {
 			$intX = $this->data['Person']['start_x'];
 			$intY = $this->data['Person']['start_y'];	
-			$persons = $this->Person->query("SELECT * FROM `system_prints`, `persons`, `system_locations` WHERE print_type = 'P' and print_owner = '".$this->Session->read('user_id')."' and persons.id  = print_id and system_locations.id = persons.location_id;");
+			$persons = $this->System_Print_Person->find('all', array('conditions'=>array('print_type' => 'P', 'print_owner' => $this->Session->read('user_id'))));
 		}
 		
 		$this->set('persons', $persons);
@@ -222,6 +222,15 @@ class PersonsController extends AppController {
 		$this->set('intYs', array(1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9));
 		$this->set('intX', $intX);
 		$this->set('intY', $intY);
+	}
+
+	public function level_info($id=0) {
+		$this->layout = 'ajax';
+		$levels = $this->Person_Level->findById($id);
+		if ($levels === false) {
+			$levels = array();
+		}
+		$this->set('levels', $levels);
 	}
 }
 ?>

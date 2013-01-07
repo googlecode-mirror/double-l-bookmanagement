@@ -1,7 +1,7 @@
 <?php
 App::uses('HttpSocket', 'Network/Http');
 class BooksController extends AppController {
-	public $uses = array('Book_Cate', 'Book', 'Book_Instance','Book_Publisher','Person_Level','System_Inc','System_Location');
+	public $uses = array('Book_Cate', 'Book', 'Book_Instance','Book_Publisher','Person_Level','System_Inc','System_Location', 'System_Print_Book');
     public $helpers = array('Html', 'Form', 'Session');
     public $components = array('Session', 'Formfunc','Systeminc','Bookfunc','Userfunc','Isbnfunc');
 
@@ -400,7 +400,7 @@ class BooksController extends AppController {
 		if (!empty($this->data)) {
 			$intX = $this->data['Book_Instance']['start_x'];
 			$intY = $this->data['Book_Instance']['start_y'];
-			$books = $this->Book_Instance->query("SELECT * FROM `system_prints`, `book_instances`, `books` WHERE print_type = 'B' and print_owner = '".$this->Session->read('user_id')."' and book_instances.id  = print_id and book_id = books.id;");
+			$books = $this->System_Print_Book->find('all',array('conditions'=>array('print_type'=>'B', 'print_owner' =>$this->Session->read('user_id'))));
 		}
 		
 		$this->set('books', $books);

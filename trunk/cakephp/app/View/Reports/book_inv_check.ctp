@@ -12,7 +12,7 @@
 <?php  if($this->Session->read('user_role') !== 'user')  { echo $this->Form->create('Book_Instance', array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); }?>
 	<table>
 		<tr>
-			<td>借卡號碼
+			<td>學校
 			<?php if ($this->Session->read('user_role') === 'admin') : ?>
 				<?php echo $this->Form->select('location_id', $locations, array('empty' => false));?>
 			<?php elseif ($this->Session->read('user_role') === 'localadmin'): ?>

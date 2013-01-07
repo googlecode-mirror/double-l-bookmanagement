@@ -234,5 +234,75 @@ class LendController extends AppController {
 		$this->set('book', $book);
 		$this->set('error_code', $error_code);
 	}
+	
+	public function extend_book() {
+		$msg = '';
+		$this->layout = 'ajax'; 
+		$lend_records = array();
+		$person_info = array();
+		if (!empty($this->data)) {
+			if ($this->Session->read('user_role') !== 'user') {
+				$extend_person_id = $this->data['extend_person_id'];
+			}
+			else {
+				$extend_person_id = $this->Session->read('user_id');
+			}
+			$person_info = $this->Person->find('all', array('conditions' =>array('Person.id' => $extend_person_id)));
+			if (empty($person_info)) {
+				$msg = '無此借卡號碼：'.$extend_person_id;
+			}
+			else {
+				$book_instance = $this->Book_Instance->find('all', array('conditions' =>array('Book_Instance.id' => $this->data['book_instance_id'])));
+				if (empty($book_instance)) {
+					$msg = '無此書籍代號：'.$this->data['book_instance_id'];
+				}
+				else {
+					if ((!$person_info[0]['Person_Level']['is_cross_lend']) && ($person_info[0]['Person']['location_id'] != $book_instance[0]['Book_Instance']['location_id'])) {
+						$msg = '借卡號碼：'.$extend_person_id.' 不可跨區借閱';
+					}
+					else if (!$book_instance[0]["Book_Instance"]["is_lend"]){
+						$msg = '書籍代號：'.$this->data['book_instance_id'].'不可借閱';
+					}
+					else {
+						$reserve_person = $this->Lend_Record->find('all',array('conditions'=>array('status'=>'R', 'book_instance_id' => $this->data['book_instance_id'])));
+						if (empty($reserve_person)) {
+							$lend_books = $this->Lend_Record->find('all',array('conditions'=>array('status'=>'C', 'book_instance_id' => $this->data['book_instance_id'], 'person_id' => $extend_person_id)));
+							if (!empty($lend_books)) {
+								$lend_books = $lend_books[0]["Lend_Record"];
+								if ($lend_books['lend_cnt'] < 1) {
+									$lend_books['status'] = 'E';
+									$lend_books['lend_cnt'] = $lend_books['lend_cnt'] + 1;
+									$lend_books['s_return_date'] = date('Y-m-d', mktime(0,0,0,date('m',strtotime($lend_books['s_return_date'])),date('d',strtotime($lend_books['s_return_date']))+$person_info[0]['Person_Level']['max_day'],date('Y',strtotime($lend_books['s_return_date']))));
+									$ret = $this->Lend_Record->save($lend_books);
+									if ($ret !== false) {
+										$book_instance[0]["Book_Instance"]['s_return_date'] = $lend_books['s_return_date'];
+										$ret = $this->Book_Instance->save($book_instance[0]);
+										$msg = '書籍代號：'.$this->data['book_instance_id'].'續借成功';
+									}
+									else {
+										$msg = '書籍代號：'.$this->data['book_instance_id'].'續借失敗';
+									}
+								}
+								else {
+									$msg = '書籍代號：'.$this->data['book_instance_id'].'續借失敗，只能續借一次';
+								}
+							}
+							else {
+								$msg = '書籍代號：'.$this->data['book_instance_id'].'續借失敗，無法續借';
+							}
+						}
+						else {
+							$msg = '書籍代號：'.$this->data['book_instance_id'].'續借失敗，已有人預約';
+						}
+					}
+				}
+			}
+		}
+		else {
+			$msg = '錯誤';
+		}
+		$this->set('msg', $msg);
+	}
+
 }
 ?>

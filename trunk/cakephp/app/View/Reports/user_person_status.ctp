@@ -1,3 +1,23 @@
+<script language="JavaScript">
+	function extend_lend(book_instance_id) {
+		if (jQuery('#Lend_RecordPersonId')[0].value.trim() != '') {
+			$.ajax(
+				{	
+					url:'<?php echo $this->html->url(array('controller'=>'lend', 'action' => 'extend_book'));?>', 
+					data:{ extend_person_id: jQuery('#Lend_RecordPersonId')[0].value, book_instance_id: book_instance_id }, 
+					type: "post", 
+					success: function(response){
+						alert(response);
+					}
+				}
+			)
+		}
+		else {
+			alert('借卡號碼：不可為空白');
+		}
+		//return false;
+	}
+</script>
 <h1>學員借閱資料統計</h1>
 <?php  if($this->Session->read('user_role') !== 'user')  { echo $this->Form->create('Lend_Record', array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); }?>
 <table>
@@ -5,7 +25,20 @@
 		<table>
 			<tr>
 				<td>借卡號碼</td>
-				<td><?php if ($this->Session->read('user_role') == 'user') {echo $person_info['Person']['id']; echo $this->Form->hidden('person_id', array('value' => $person_info['Person']['id']));} else {echo $this->Form->text('person_id', array('onkeypress' => 'search_person_id(event);'));}?></td>
+				<td>
+					<?php if ($this->Session->read('user_role') == 'user') {
+							echo $person_info['Person']['id']; 
+							echo $this->Form->hidden('person_id', array('value' => $person_info['Person']['id']));
+						} else {
+							if (isset($person_id)) {
+								echo $this->Form->text('person_id', array('onkeypress' => 'search_person_id(event);', 'onfocus' => 'this.select()', 'value' => $person_id));
+							}
+							else {
+								echo $this->Form->text('person_id', array('onkeypress' => 'search_person_id(event);', 'onfocus' => 'this.select()'));
+							}
+						}
+					?>
+				</td>
 				<td>借卡狀況</td>
 				<td><?php if (isset($person_info['Person']['id'])) {echo $person_info['Person']['valid'];}?></td>
 				<td>目前狀況</td>
@@ -49,19 +82,29 @@
 							<th><?php echo $this->Paginator->sort('Lend_Record.s_return_date','應還日期'); ?></th>
 							<th><?php echo $this->Paginator->sort('Lend_Record.return_time','歸還日期'); ?></th>
 							<th><?php echo $this->Paginator->sort('System_Location.location_name','地點'); ?></th>
+							<th></th>
 						</tr>
 						<?php foreach ($lend_records as $lend_record): ?>
 						<tr>
 							<td><?php echo $lend_record['Book_Instance']['id']; ?></td>
 							<td style="width:300px;word-wrap:break-word;word-break:break-all;"><?php echo $lend_record['Book']['book_name']; ?></td>
 							<td><?php echo $lend_record['Book']['book_attachment']; ?></td>
-							<td><?php echo $lend_status[$lend_record['Lend_Record']['status']]; ?></td>
+							<td><?php echo $lend_record['Lend_Status']['lend_status_name']; ?></td>
 							<td><?php echo $lend_record['Lend_Record']['lend_cnt']; ?></td>
 							<td><?php echo $lend_record['Lend_Record']['lend_time']; ?></td>
 							<td><?php echo $lend_record['Lend_Record']['reserve_time']; ?></td>
-							<td><?php echo $lend_record['Lend_Record']['s_return_date']; ?></td>
+							<td style='<?php if ((strtotime($lend_record['Lend_Record']['s_return_date']) < strtotime(date('Y-m-d')))&& ($lend_record['Lend_Record']['status'] == 'C' || $lend_record['Lend_Record']['status'] == 'E')) {echo 'color:red';}?>'><?php echo $lend_record['Lend_Record']['s_return_date']; ?></td>
 							<td><?php echo $lend_record['Lend_Record']['return_time']; ?></td>
 							<td><?php echo $lend_record['System_Location']['location_name']; ?></td>
+							<td>
+								<?php 
+									if ((strtotime($lend_record['Lend_Record']['s_return_date']) >= strtotime(date('Y-m-d')))
+										&& (strtotime($lend_record['Lend_Record']['s_return_date']) <= strtotime(date('Y-m-d', strtotime('+3 days'))))
+									    && ($lend_record['Lend_Record']['status'] == 'C' )) {
+										echo $this->Html->link('續借', 'javascript:void(0);', array('onclick' => "extend_lend('".$lend_record['Book_Instance']['id']."');")); 
+									}	
+								?>
+							</td>
 						</tr>
 						<?php endforeach; ?>
 						<tr>

@@ -43,7 +43,7 @@
 				<?php $col++; ?>
 			<?php endfor; ?>
 			<?php while (($col <= 3) && ($record < sizeof($persons))): ?>
-				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><? echo $this->html->image(array('controller' => 'graph', 'action'=> 'person_barcode',$persons[$record]['persons']['id'])); ?></td>
+				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><? echo $this->html->image(array('controller' => 'graph', 'action'=> 'person_barcode',$persons[$record]['Person']['id'])); ?></td>
 				<?php $record++; ?>
 				<?php $col++; ?>
 				<?php $total_div++; ?>

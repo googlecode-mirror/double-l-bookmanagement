@@ -28,6 +28,7 @@ class PrintsController extends AppController {
 		}
 		$this->set('message',$message);
 	}
+	
 	public function book_list(){
 		$this->System_Print_Book->recursive = 2 ;
 
@@ -38,6 +39,8 @@ class PrintsController extends AppController {
 		
 		$items = $this->System_Print_Book->find('all', $options);
 		$this->set('items',$items);
+		$this->_initBarcodeXY();
+		
 	}
 	
 	public function book_remove(){
@@ -49,6 +52,25 @@ class PrintsController extends AppController {
 		$this->redirect(array('action' => 'book_list'));
 	}
 	
+	public function book_barcode() {
+		if(!$this->request->is('post') || empty($this->data)){
+			$this->redirect(array('action' => 'book_list'));
+		}
+		$books = array();
+		$filter = array();
+		$intX = 1;
+		$intY = 1;
+		if (!empty($this->data)) {
+			$intX = $this->data['Print']['start_x'];
+			$intY = $this->data['Print']['start_y'];
+			$books = $this->System_Print_Book->find('all',array('conditions'=>array('print_type'=>'B', 'print_owner' =>$this->Session->read('user_id'))));
+		}
+			
+		$this->set('books', $books);
+		$this->set('intX', $intX);
+		$this->set('intY', $intY);
+	}
+	
 	public function person_list(){
 		$this->System_Print_Person->recursive = 2 ;
 	
@@ -57,8 +79,9 @@ class PrintsController extends AppController {
 				'System_Print_Person.print_type' => 'P'
 		);
 	
-		$items = $this->System_Print_Book->find('all', $options);
+		$items = $this->System_Print_Person->find('all', $options);
 		$this->set('items',$items);
+		$this->_initBarcodeXY();
 	}	
 	public function person_remove(){
 		if($this->request->is('post') && $this->request->data['remove'] !==null){
@@ -67,9 +90,39 @@ class PrintsController extends AppController {
 			$this->System_Print_Person->deleteAll($option);
 		}
 		$this->redirect(array('action' => 'person_list'));
-	}	
+	}
+	
+	public function person_barcode() {
+		if(!$this->request->is('post') || empty($this->data)){
+			$this->redirect(array('action' => 'person_list'));
+		}
+		$persons = array();
+		$filter = array();
+		$intX = 1;
+		$intY = 1;
+		if (!empty($this->data)) {
+			$intX = $this->data['Print']['start_x'];
+			$intY = $this->data['Print']['start_y'];
+			$persons = $this->System_Print_Person->find('all',array('conditions'=>array('print_type'=>'P', 'print_owner' =>$this->Session->read('user_id'))));
+		}
+			
+		$this->set('persons', $persons);
+		$this->set('intX', $intX);
+		$this->set('intY', $intY);
+	}
+	
+	
+	
 	private function _getKey($type,$owner_id,$pid){
 		return $type.'_'.$owner_id.'_'.$pid;
+	}
+	private function _initBarcodeXY(){
+		$intX = 1;
+		$intY = 1;
+		$this->set('intXs', array(1=>1,2=>2,3=>3));
+		$this->set('intYs', array(1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9));
+		$this->set('intX', $intX);
+		$this->set('intY', $intY);		
 	}
 }
 ?>

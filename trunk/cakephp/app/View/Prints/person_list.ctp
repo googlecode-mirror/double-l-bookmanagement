@@ -19,8 +19,22 @@
 
 <div>
 <div id="pageheader"><h1>借書證列印列表</h1></div>
+<div class="pagemenu_div">
+<?php 	echo $this->Form->create('Print',array('action'=>'person_barcode','div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); ?>
+	<table>
+		<tr>
+			<td style="width:50px">開始X</td>
+			<td style="width:30px"><?php echo $this->Form->select('start_x', $intXs, array('style' =>'width:50px', 'empty' =>false)); ?></td>
+			<td style="width:50px">開始Y</td>
+			<td style="width:30px"><?php echo $this->Form->select('start_y', $intYs, array('style' =>'width:50px', 'empty' =>false)); ?></td>
+			<td style="width:80px"><?php echo $this->Form->submit('列印',array('label' => false,'div' => false)); ?></td>
+			<td></td>
+		</tr>
+	</table>
+<?php echo $this->Form->end(); ?>
+</div>
 <?php
-    echo $this->Form->create('Print',array('action'=>'book_remove','div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); 
+    echo $this->Form->create('Print',array('action'=>'person_remove','div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); 
 ?>
 <table>
 	<tr>

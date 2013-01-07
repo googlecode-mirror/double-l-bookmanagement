@@ -10,8 +10,18 @@ class ReportsController extends AppController {
 		)
     );
 	
-    public function user_person_static(){
+    public function user_person_status(){
 		$person_id = $this->Session->read('user_id');
+		if ($this->Session->read('user_role') !== 'user') {
+			if (isset($this->data['Lend_Record']['person_id'])) {
+				$person_id = $this->data['Lend_Record']['person_id'];
+			}
+			else {
+				$person_id = $this->Session->read('user_person_status');
+			}
+			$this->set('person_id', $person_id);
+		}
+		$this->Session->write('user_person_status',$person_id);
 		$lend_records = $this->paginate('Lend_Record', array('person_id'=>$person_id));
 		$this->Person->id = $person_id;
 		$person_info = $this->Person->read();

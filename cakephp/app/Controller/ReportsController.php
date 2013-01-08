@@ -43,8 +43,8 @@ class ReportsController extends AppController {
 				if ($this->Session->read('user_role') === 'localadmin') {
 					$location_id = $this->Session->read('user_location');
 				}
-				$books = $this->Book_Instance->find('all',array('conditions' => array('book_status' => '1','location_id' => $location_id)));
-			}	
+				$books = $this->Book_Instance->find('all',array('conditions' => array('book_status in (1,4)','location_id' => $location_id)));
+			}
 		}
 		$options = array(
 			'condiftions'=>array('valid' => 1),

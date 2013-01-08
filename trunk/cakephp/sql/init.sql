@@ -1,3 +1,12 @@
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+08:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
 INSERT INTO `users` (`id`, `username`, `name`, `password`, `role`, `location_id`, `valid`, `created`, `modified`) VALUES
 ('admin', 'admin', 'Default Admin', 'b54025851dd54398f9c83ae6b3a0a376e0b28095', 'admin', 'A', 1, '2012-11-12 15:18:25', '2012-11-12 15:18:25');
 
@@ -23,19 +32,21 @@ INSERT INTO `system_locations` (`id`, `location_name`, `create_time`, `modi_time
 ('G', '光復校', '0000-00-00 00:00:00', '2013-01-02 21:47:31', 1),
 ('H', '仁愛校', '0000-00-00 00:00:00', '2013-01-02 21:47:41', 1);
 
-INSERT INTO `book_status` (`id`, `status_nme`) VALUES
-(0, '�ʶR��'),
-(1, '�b�w'),
-(2, '�ɥX'),
-(3, '�w�k��'),
-(4, '��z��'),
-(5, '�B�e��'),
-(6, '�w��');
+INSERT INTO `book_status` (`id`, `status_name`) VALUES
+(0, '購買中'),
+(1, '在庫'),
+(2, '借出'),
+(3, '已歸還'),
+(4, '整理中'),
+(5, '運送中'),
+(6, '預約中');
 
 INSERT INTO `lend_status` (`id`, `lend_status_name`) VALUES
-('C', '�X�ɤ�'),
-('D', '��'),
-('E', '��ɤ�'),
-('I', '�k��'),
-('R', '�w��'),
-('S', '���');
+('C', '出借中'),
+('D', '遺失'),
+('E', '續借中'),
+('I', '歸還'),
+('R', '預約'),
+('S', '取消');
+
+

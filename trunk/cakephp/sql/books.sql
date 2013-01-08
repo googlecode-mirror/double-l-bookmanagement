@@ -298,7 +298,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 DROP TABLE IF EXISTS `book_status`;
 CREATE TABLE IF NOT EXISTS `book_status` (
   `id` int(11) NOT NULL,
-  `status_nme` varchar(20) NOT NULL,
+  `status_name` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

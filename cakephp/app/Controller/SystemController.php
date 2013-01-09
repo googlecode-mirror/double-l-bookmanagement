@@ -2,7 +2,7 @@
 class SystemController extends AppController {
 	public $uses = array('System_Location', 'Person');
     public $helpers = array('Html', 'Form', 'Session');
-    public $components = array('Session', 'Formfunc');
+    public $components = array('Session', 'Formfunc', 'Userfunc');
 
     public function location_index() {
         $this->set('titles', $this->System_Location->find('all', array('order' => 'valid DESC, id')));
@@ -46,6 +46,26 @@ class SystemController extends AppController {
 		if($isTakeStock == 0 ) Cache::write($this->Session->read("user_location").'_take_stock', false);
 		}
 		$this->set('isTakeStock',Cache::read($this->Session->read("user_location").'_take_stock'));
+	}
+	
+	public function take_stock_index($location = null){
+		if($location !== null){
+			$isTake = Cache::read($location.'_take_stock');
+			Cache::write($location.'_take_stock',!$isTake);
+		}
+		if($this->Session->read('user_role') !== 'admin'){
+			$condition = array('valid'=>1,'id'=>$this->Session->read('user_location'));
+		}else{
+			$condition = array('valid'=>1);
+		}
+		$locations = $this->System_Location->find('all', array(
+				'conditions'=> $condition, 
+				'order' => 'id'));
+		
+		foreach($locations as &$item){
+			$item['System_Location']['isTakeStock'] = Cache::read($item['System_Location']['id'].'_take_stock');
+		}
+		$this->set('items',$locations);
 	}
 }
 ?>

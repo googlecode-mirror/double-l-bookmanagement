@@ -26,7 +26,7 @@ class ReportsController extends AppController {
 		$this->Person->id = $person_id;
 		$person_info = $this->Person->read();
 		$o_lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $person_id, 'return_time' => null, 'status in ("C", "E")') ));
-		$o_over_lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $person_id, 'return_time' => null, 'book_instance.s_return_date < current_timestamp', 'status in ("C", "E")') ));
+		$o_over_lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $person_id, 'return_time' => null, 'Book_Instance.s_return_date < current_timestamp', 'status in ("C", "E")') ));
 		$this->set('person_info', $person_info);
 		$this->set('lend_status', $this->Lendfunc->lend_status());
 		$this->set('o_lend_records', $o_lend_records);

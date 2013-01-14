@@ -1,9 +1,9 @@
-<h1>書籍分類資料</h1>
-<p><?php echo $this->Html->link('新增書籍分類', array('action' => 'catagory_edit')); ?></p>
+<h1>書籍級別資料</h1>
+<p><?php echo $this->Html->link('新增書籍級別', array('action' => 'catagory_edit')); ?></p>
 <table>
     <tr>
-        <th>分類號</th>
-        <th>分類名稱</th>
+        <th>級別代號</th>
+        <th>級別名稱</th>
         <th>有效</th>
         <th>建立時間</th>
         <th></th>

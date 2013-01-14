@@ -70,6 +70,7 @@ class IsbnfuncComponent extends Component {
 	}
 	public function get_amazon_bookinfo($asin){
 		$bookinfo = null;
+		/*
 		$amazon_json = $this->_get_amazon_json($asin);
 		if($amazon_json !== false){
 			if(property_exists($amazon_json,'title')){
@@ -84,37 +85,66 @@ class IsbnfuncComponent extends Component {
 				sort($imgs);
 				$bookinfo['book_image'] = reset($imgs);				
 			}
-		}
-		$this->_get_amazon_bookinfo($asin,$bookinfo);
-		return $bookinfo;
+		}*/
+		$bookinfo = $this->_get_amazon_json($asin);
+		$htmlinfo = $this->_get_amazon_bookinfo($asin,$bookinfo);
+		
+		return $this->_add_bookinfo($bookinfo,$htmlinfo);
 	}
+	// 運用amazon得jaon service 來得到相關商品資訊
 	private function _get_amazon_json($asin){
+		$bookinfo = null;
 		$HttpSocket = new HttpSocket();
 		$url = 'http://www.amazon.com/gp/search-inside/service-data';
 		$query = 'asin='.$asin.'&method=getBookData';
 		$response = $HttpSocket->post($url,$query);
 		if(!$response->isOk()) return false;
-		return json_decode($response->body);		
+		$amazon_json = json_decode($response->body);
+		if($amazon_json !== false){
+			if(property_exists($amazon_json,'title')){
+				$bookinfo['bookname'] = $amazon_json->title;
+			}
+			if(property_exists($amazon_json,'authorNameList')){
+				$as = (array)$amazon_json->authorNameList;
+				$bookinfo['author'] = implode(", ", $as);;
+			}
+			if(property_exists($amazon_json,'largeImageUrls')){
+				$imgs = (array)$amazon_json->largeImageUrls;
+				sort($imgs);
+				$bookinfo['book_image'] = reset($imgs);
+			}
+		}		
+		//return json_decode($response->body);	
+		return $bookinfo;	
 	}
-	private function _get_amazon_bookinfo($asin, &$bookinfo){
+	// 運用amazon得商品頁面, 來得到相關資訊
+	private function _get_amazon_bookinfo($asin){
 		$HttpSocket = new HttpSocket();
 		$url = 'http://www.amazon.com/dp/'.$asin;
 		$query = '';
 		$response = $HttpSocket->post($url,$query);
 		if(!$response->isOk()) return false;	
-		return $this->_parse_amazon_bookinfo($response->body, $bookinfo);	
+		return $this->_parse_amazon_bookinfo($response->body);	
 	}
-	private function _parse_amazon_bookinfo($html, &$bookinfo){
+	private function _parse_amazon_bookinfo($html){
+		$bookinfo = null;
 		$tmphtml = $this->catdata($html, '<h2>Product Details</h2>','</ul>');
 		
 		if($tmphtml < 0) return false;
 		// publisher
 		$tmpp = $this->trimdata($tmphtml,'<b>Publisher:</b>',')');
+
 		if($tmpp !== false){
 			$p_end = strpos($tmpp, '(');
 			$bookinfo['publisher'] = trim(substr($tmpp,0,$p_end-1));
+			var_dump(strtotime(substr($tmpp,$p_end+1)));
 			$bookinfo['date'] = date('Y-m-d',strtotime(substr($tmpp,$p_end+1)));
 		}
+		
+		$tmphtml = $this->catdata($html, '<img id="prodImage"','</a>');
+		var_dump($tmphtml);
+		
+		return $bookinfo;
 	}
 	
 	
@@ -204,6 +234,18 @@ class IsbnfuncComponent extends Component {
 		}
 		else
 			return false;
+	}
+	
+	private function _add_bookinfo($main_info, $add_info){
+		$book_key = array('book_image','publisher','author','bookname','date');
+		if($add_info != null){
+			foreach($book_key as $key=>$pkey){
+			if(($main_info == null || !array_key_exists($pkey,$main_info))
+					&& array_key_exists($pkey,$add_info))
+				$main_info[$pkey] = $add_info[$pkey];
+			}
+		}
+		return $main_info;
 	}
 	
 }

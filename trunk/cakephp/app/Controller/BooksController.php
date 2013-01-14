@@ -292,13 +292,19 @@ class BooksController extends AppController {
     }
 
     public function search_isbn($isbn=null){
+        $htmlbody ="";
         $isbn = $this->Isbnfunc->fixIsbn($isbn);
 
         $amazon_asin = $this->Isbnfunc->get_amazon_asin($isbn);
-        var_dump($amazon_asin);
+        $htmlbody = "ASIN : ".$htmlbody.var_export($amazon_asin, true)."<br>";
+
+
+        //var_dump("ASIN : ".$amazon_asin."<br>");
         $bookinfo = $this->Isbnfunc->get_amazon_bookinfo($amazon_asin);
-        var_dump($bookinfo);
+        $htmlbody = "Amazon : ".$htmlbody.var_export($bookinfo, true)."<br>";
+        //var_dump($bookinfo);
         $bookinfo = $this->Isbnfunc->get_isbndb_bookinfo($isbn);
+        $htmlbody = "IsbnDB : ".$htmlbody.var_export($bookinfo, true)."<br>";
         var_dump($bookinfo);
         //$bookinfo = $this->Isbnfunc->amazon_search($isbn);
         

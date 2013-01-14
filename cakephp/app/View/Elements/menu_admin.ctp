@@ -10,7 +10,7 @@
 	<li><a href="#">書籍基本資料維護</a>
 		<ul>
 			<li><?php echo $this->Html->link('書籍出版商資料',array('controller'=>'books', 'action'=>'publisher_index')); ?></li>
-			<li><?php echo $this->Html->link('書籍分類資料',array('controller'=>'books', 'action'=>'catagory_index')); ?></li>
+			<li><?php echo $this->Html->link('書籍級別資料',array('controller'=>'books', 'action'=>'catagory_index')); ?></li>
 			<li><?php echo $this->Html->link('書籍基本資料',array('controller'=>'books', 'action'=>'book_index')); ?></li>
 			<li><?php echo $this->Html->link('書籍標籤列印',array('controller'=>'prints', 'action'=>'book_list')); ?></li>
 		</ul>

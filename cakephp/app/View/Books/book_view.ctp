@@ -48,7 +48,7 @@
         ISBN <?php echo $this->Form->input('isbn', array('size'=>10)); ?>
         出版商 : <?php echo $this->Form->input('book_publisher'); ?> 
         附屬媒體 <?php echo $this->Form->input('book_attachment', array('size'=>10)); ?></td></tr>
-<tr><td>書籍分類 : <?php echo $this->Form->input('cate_id'); ?>
+<tr><td>閱讀級別 : <?php echo $this->Form->input('cate_id'); ?>
         索書號 : <?php echo $this->Form->input('book_search_code'); ?>
         櫃別 : <?php echo $this->Form->input('book_location'); ?></td></tr>
 <tr><td>備註 : <?php echo $this->Form->input('memo'); ?></td></tr>

@@ -44,6 +44,27 @@ class IsbnfuncComponent extends Component {
 
 		return $bookinfo;
 	}
+	// 整合全部資訊回復一個Book Info
+	public function get_bookinfo($isbn, $book){
+		$amazon_asin = $this->get_amazon_asin($isbn);
+		$amazon_info = $this->get_amazon_bookinfo($amazon_asin);
+		$isbn_info = $this->get_isbndb_bookinfo($isbn);
+		$bookinfo = $this->_add_bookinfo($amazon_info,$isbn_info);
+		//var_dump($bookinfo);
+		if($bookinfo != null){
+			if(array_key_exists('book_image',$bookinfo))
+				$book['Book']['book_image'] = $this->saveImage($isbn, $bookinfo['book_image']);
+			if(array_key_exists('publisher',$bookinfo))
+				$book['Book']['book_publisher'] = $bookinfo['publisher'];
+			if(array_key_exists('author',$bookinfo))
+				$book['Book']['book_author'] = $bookinfo['author'];
+			if(array_key_exists('bookname',$bookinfo))
+				$book['Book']['book_name'] = $bookinfo['bookname'];
+			if(array_key_exists('bookname',$bookinfo))
+				$book['Book']['publish_date'] = $bookinfo['date'];
+		}	
+		return $book;	
+	}
 	
 	/**
 	 * 
@@ -123,7 +144,8 @@ class IsbnfuncComponent extends Component {
 		$url = 'http://www.amazon.com/dp/'.$asin;
 		$query = '';
 		$response = $HttpSocket->post($url,$query);
-		if(!$response->isOk()) return false;	
+		if(!$response->isOk()) return false;
+		//$this->saveFile($response->body);	
 		return $this->_parse_amazon_bookinfo($response->body);	
 	}
 	private function _parse_amazon_bookinfo($html){
@@ -137,13 +159,17 @@ class IsbnfuncComponent extends Component {
 		if($tmpp !== false){
 			$p_end = strpos($tmpp, '(');
 			$bookinfo['publisher'] = trim(substr($tmpp,0,$p_end-1));
-			var_dump(strtotime(substr($tmpp,$p_end+1)));
 			$bookinfo['date'] = date('Y-m-d',strtotime(substr($tmpp,$p_end+1)));
 		}
 		
-		$tmphtml = $this->catdata($html, '<img id="prodImage"','</a>');
-		var_dump($tmphtml);
-		
+		$tmphtml = $this->catdata($html, '<tr id="prodImageContainer">','</tr>');
+		$tmpp = $this->trimdata($tmphtml,'<img onload="','/>');
+		$tmpp = $this->trimdata($tmphtml,'src="','" id');
+		if($tmpp !== false){
+			$bookinfo['book_image'] = $tmpp;
+		}
+
+
 		return $bookinfo;
 	}
 	
@@ -220,6 +246,14 @@ class IsbnfuncComponent extends Component {
 		fclose($f);
 		return 'books/'.$isbn.'.png';
 		
+	}
+	
+	public function saveFile($response){
+		if($response == null) return false;
+		$f = fopen(WWW_ROOT . 'img'.DS.'books' .DS. 'html.txt', 'w');
+		fwrite($f,$response);
+		fclose($f);
+		return true;
 	}
 	function checkDateFormat($date)
 	{

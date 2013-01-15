@@ -251,6 +251,8 @@ class BooksController extends AppController {
         // 找尋圖片
         $book['Book']['isbn'] = $isbn;
         $book['Book']['book_image'] = 'book_empty.png';
+        $book = $this->Isbnfunc->get_bookinfo($isbn,$book);
+        /*
         $amazon_asin = $this->Isbnfunc->get_amazon_asin($isbn);
         //如果存在asin 就可用 amazon
         if($amazon_asin !== false){
@@ -282,6 +284,7 @@ class BooksController extends AppController {
                         $book['Book']['publish_date'] = $bookinfo['date'];
             }
         }
+        */
         $this->request->data = $book;
 
         $cates = $this->Formfunc->convert_options($this->Book_Cate->find('all'), 'Book_Cate', 'id', 'catagory_name');
@@ -295,6 +298,11 @@ class BooksController extends AppController {
         $htmlbody ="";
         $isbn = $this->Isbnfunc->fixIsbn($isbn);
 
+        $book['Book']['isbn'] = $isbn;
+        $book['Book']['book_image'] = 'book_empty.png';
+        $book = $this->Isbnfunc->get_bookinfo($isbn,$book);
+        $htmlbody = "Book : ".$htmlbody.var_export($book, true)."<br>";
+        /*
         $amazon_asin = $this->Isbnfunc->get_amazon_asin($isbn);
         $htmlbody = "ASIN : ".$htmlbody.var_export($amazon_asin, true)."<br>";
 
@@ -305,7 +313,8 @@ class BooksController extends AppController {
         //var_dump($bookinfo);
         $bookinfo = $this->Isbnfunc->get_isbndb_bookinfo($isbn);
         $htmlbody = "IsbnDB : ".$htmlbody.var_export($bookinfo, true)."<br>";
-        var_dump($bookinfo);
+		*/
+        
         //$bookinfo = $this->Isbnfunc->amazon_search($isbn);
         
         //$imgs = (array)$bookinfo->largeImageUrls;

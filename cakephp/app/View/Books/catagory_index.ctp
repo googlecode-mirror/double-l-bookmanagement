@@ -4,6 +4,7 @@
     <tr>
         <th>級別代號</th>
         <th>級別名稱</th>
+        <th>顏色</th>
         <th>有效</th>
         <th>建立時間</th>
         <th></th>
@@ -14,6 +15,9 @@
         <td>
             <?php echo $cate['Book_Cate']['catagory_name']; ?>
         </td>
+        <td>
+            <?php echo $cate['Book_Cate']['catagory_color']; ?>
+        </td>        
         <td>
             <?php if ($cate['Book_Cate']['valid']) { echo 'Y'; } else {echo 'N';}; ?>
         </td>

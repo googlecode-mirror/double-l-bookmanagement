@@ -40,9 +40,13 @@ class LendController extends AppController {
 										$reserve_rec = $this->Lend_Record->find('all', array('conditions' =>array('status' => 'R', 'Lend_Record.person_id' => $this->data['Lend_Record']['person_id'], 'Lend_Record.book_instance_id' => $lend_books['book_instance_id'])));
 										if (!empty($reserve_rec)) {
 											$lend_books['id'] = $reserve_rec[0]['Lend_Record']['id'];
-										}else {
-											$lend_books['id'] = null;
+											$lend_books['person_id'] = $this->data['Lend_Record']['person_id'];
+											$lend_books['status'] = 'L';
+											$lend_books['lend_time'] = date('Y-m-d H:i:s');
+											$lend_books['create_time'] = $lend_books['lend_time'];
+											$ret = $this->Lend_Record->save($lend_books);
 										}
+										$lend_books['id'] = null;
 										$lend_books['person_id'] = $this->data['Lend_Record']['person_id'];
 										$lend_books['status'] = 'C';
 										$lend_books['lend_time'] = date('Y-m-d H:i:s');

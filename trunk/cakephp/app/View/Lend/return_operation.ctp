@@ -93,3 +93,11 @@
 		</table>
 	</tr>
 </table>
+<script language="JavaScript">
+	$().ready( function() {
+			if ($('#Lend_RecordBook').length > 0) {
+				$('#Lend_RecordBook').focus();
+			}
+		}	
+	);
+</script>

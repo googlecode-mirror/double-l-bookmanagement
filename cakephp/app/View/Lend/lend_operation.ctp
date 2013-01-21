@@ -181,3 +181,14 @@
 	</tr>
 </table>
 <?php if (!isset($person_info['Person']['id'])) { echo $this->Form->end(); }?>
+<script language="JavaScript">
+	$().ready( function() {
+			if ($('#Lend_RecordPersonId').length > 0) {
+				$('#Lend_RecordPersonId').focus();
+			}
+			if ($('#book').length > 0) {
+				$('#book').focus();
+			}
+		}	
+	);
+</script>

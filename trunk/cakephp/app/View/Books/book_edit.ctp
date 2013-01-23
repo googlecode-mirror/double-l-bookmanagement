@@ -28,7 +28,7 @@
 <tr><td>作者 : <?php echo $this->Form->input('book_author'); ?> 
         版別 <?php echo $this->Form->input('book_version', array('size'=>5)); ?>
         集叢書:<?php echo $this->Form->input('book_suite', array('size'=>20)); ?></td></tr>
-<tr><td>出版日期 : <?php echo $this->Form->text('publish_date', array('readonly'=>true, 'class' => 'ref_field, jquery_date', 'style'=>'width:120px'));?> 
+<tr><td>出版日期 : <?php echo $this->Form->text('publish_year', array('readonly'=>true, 'class' => 'ref_field', 'style'=>'width:120px'));?> 
         ISBN <?php echo $this->Form->input('isbn', array('size'=>10)); ?>
         出版商 : <?php echo $this->Form->input('book_publisher'); ?> 
         附屬媒體 <?php echo $this->Form->input('book_attachment', array('size'=>10)); ?></td></tr>

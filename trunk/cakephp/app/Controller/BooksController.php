@@ -252,6 +252,9 @@ class BooksController extends AppController {
         $book['Book']['isbn'] = $isbn;
         $book['Book']['book_image'] = 'book_empty.png';
         $book = $this->Isbnfunc->get_bookinfo($isbn,$book);
+        if($book['Book']['publish_date'] !==null || $book['Book']['publish_date'] !==''){
+        	$book['Book']['publish_year'] = date('Y', strtotime($book['Book']['publish_date']));
+        }
         /*
         $amazon_asin = $this->Isbnfunc->get_amazon_asin($isbn);
         //如果存在asin 就可用 amazon

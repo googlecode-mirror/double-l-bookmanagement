@@ -105,6 +105,7 @@ CREATE TABLE IF NOT EXISTS `books` (
   `book_attachment` varchar(100) NOT NULL COMMENT 'B:附屬媒體',
   `book_image` varchar(500) NOT NULL DEFAULT 'book_empty.png' COMMENT '書籍圖片',
   `publish_date` date NOT NULL COMMENT 'B:出版日期, M:創刊日',
+  `publish_year` varchar(4) NOT NULL COMMENT '出版年',
   `order_start_date` date NOT NULL COMMENT 'B: M:訂購開始日期',
   `order_end_date` date NOT NULL COMMENT 'B: M:訂購結束日期',
   `order_start_version` int(11) NOT NULL COMMENT 'B: M:訂購開始期數',

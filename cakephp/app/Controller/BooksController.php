@@ -346,21 +346,77 @@ class BooksController extends AppController {
         return $r;
     }
 
-	public function book_search() {
+	public function book_search($sort_index=0) {
+		$books_sort = 0;
+		$books_sorts = array(0 => 'isbn');
+		$page_size = 20;
+		$page = 1;
+		$filter_str = '';
 		$this->Person->Id = $this->Session->read('user_id');
 		$person_info = $this->Person->read();
 		$filter = array();
 		//if ($person_info['Person_Level']['is_cross'] == 0) {
 		//	$filter = array_merge($filter,array('Book_Instance.location_id' => $this->Session->read('user_location')));
 		//}
-		if ((isset($this->data['Book']['keyword'])) && (trim($this->data['Book']['keyword']) != ''))  {
-			$filter = array_merge($filter,array("book_name like '".$this->data['Book']['keyword']."%'"));
+		if ((isset($this->data['Book']['page'])) && (trim($this->data['Book']['page']) != ''))  {
+			$page = trim($this->data['Book']['page']);
 		}
-		else {
-			$filter = array_merge($filter,array(" 1= 2 "));
+		if ((isset($this->data['Book']['sort'])) && (trim($this->data['Book']['sort']) != ''))  {
+			$books_sort = trim($this->data['Book']['sort']);
 		}
-		$books = $this->Book->find('all', array('conditions' => $filter));
+		if ((isset($this->data['Book']['book_name'])) && (trim($this->data['Book']['book_name']) != ''))  {
+			$filter_str = $filter_str." and book_name like '".mysql_real_escape_string($this->data['Book']['book_name'])."%' ";
+		}
+		if ((isset($this->data['Book']['remark'])) && (trim($this->data['Book']['remark']) != ''))  {
+			$filter_str = $filter_str." and memo like '".mysql_real_escape_string($this->data['Book']['remark'])."%' ";
+		}
+		if ((isset($this->data['Book']['author'])) && (trim($this->data['Book']['author']) != ''))  {
+			$filter_str = $filter_str." and book_author like '".mysql_real_escape_string($this->data['Book']['author'])."%' ";
+		}
+		if ((isset($this->data['Book']['publisher'])) && (trim($this->data['Book']['publisher']) != ''))  {
+			$filter_str = $filter_str." and book_publisher like '".mysql_real_escape_string($this->data['Book']['publisher'])."%' ";
+		}
+		if ((isset($this->data['Book']['search_code'])) && (trim($this->data['Book']['search_code']) != ''))  {
+			$filter_str = $filter_str." and book_search_code like '".mysql_real_escape_string($this->data['Book']['search_code'])."%' ";
+		}
+		if ((isset($this->data['Book']['location'])) && (trim($this->data['Book']['location']) != ''))  {
+			$filter_str = $filter_str." and book_location like '".mysql_real_escape_string($this->data['Book']['location'])."%' ";
+		}
+		if ((isset($this->data['Book']['isbn'])) && (trim($this->data['Book']['isbn']) != ''))  {
+			$filter_str = $filter_str." and isbn like '".mysql_real_escape_string($this->data['Book']['isbn'])."%' ";
+		}
+		if ((isset($this->data['Book']['level'])) && (trim($this->data['Book']['level']) != ''))  {
+			$filter_str = $filter_str." and level_id = '".mysql_real_escape_string($this->data['Book']['level'])."' ";
+		}
+		if ((isset($this->data['Book']['cate'])) && (trim($this->data['Book']['cate']) != ''))  {
+			$filter_str = $filter_str." and cate_id = '".mysql_real_escape_string($this->data['Book']['cate'])."' ";
+		}
+		if (trim($filter_str) == '') {
+			if ($filter_str = '') {  $filter_str = $filter_str." and "; };
+			$filter_str = " and = 1=2 ";
+		}
+		$strsql = "  FROM `book_instances` , `books` , book_catagorys, person_levels
+					WHERE books.id = book_instances.book_id
+					  AND books.cate_id = book_catagorys.id
+					  AND person_levels.id = book_instances.level_id";
+		if (trim($filter_str) != '') {
+			$strsql = $strsql.$filter_str;
+		}
+		$strsql1 = "SELECT count( * ) AS cnt ";
+		$books_cnt = $this->Book->query($strsql1.$strsql.';');
+		$strsql1 = "SELECT books.id, `book_type` , `book_name` , `book_author` , `book_publisher` , `cate_id` , `isbn` , `book_search_code` , `book_location` , `book_attachment` , `book_image` , `publish_date` , `order_start_date` , `order_end_date` , `order_start_version` , `order_end_version` , `memo` , count( * ) AS cnt, books.book_version ";
+		$strsql = $strsql1.$strsql." GROUP BY books.id, `book_type` , `book_name` , `book_author` , `book_publisher` , `cate_id` , `isbn` , `book_search_code` , `book_location` , `book_attachment` , `book_image` , `publish_date` , `order_start_date` , `order_end_date` , `order_start_version` , `order_end_version` , `memo`, books.book_version
+					       LIMIT ".($page-1)*$page_size." , ".$page_size.";";
+		$books = $this->Book->query($strsql);
+		//$books_cnt = $this->Book->find('count', array('conditions' => $filter));
+		//$books = $this->Book->find('all', array('conditions' => $filter, 'limit' => $page_size, 'page' =>$page, 'order' => $books_sorts[$books_sort]));
+		$this->set('page', $page);
 		$this->set('books', $books);
+		$this->set('books_sort', $books_sort);
+		$this->set('books_cnt', $books_cnt[0][0]['cnt']);
+		$this->set('books_page', floor($books_cnt[0][0]['cnt'] / $page_size) + 1);
+		$this->set('levels', $this->Person_Level->find('list', array('fields'=>array('id', 'level_name'))));
+		$this->set('cates', $this->Book_Cate->find('list', array('fields'=>array('id', 'catagory_name'))));
 	} 
 	
     public function book_search_view($id=null){

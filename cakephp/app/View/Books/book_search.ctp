@@ -7,10 +7,12 @@
 		<?php echo $this->Form->create('Book',array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); ?>
 			<table>
 				<tr>
-					<td style="width:100px">書籍分類</td>
+					<td style="width:100px">閱讀等級</td>
 					<td><?php echo $this->Form->select('cate', $cates);?></td>
+					<!--
 					<td style="width:100px">借閱等級</td>
 					<td><?php echo $this->Form->select('level', $levels);?></td>
+					-->
 				</tr>
 				<tr>
 					<td style="width:100px">書籍名稱</td>
@@ -52,7 +54,7 @@
         <th>版本名稱</th>
         <th>索書號</th>
         <th>櫃別</th>
-        <th>數量</th>
+
 	</tr>
 	<?php foreach ($books as $book): ?>
 	<tr>
@@ -62,7 +64,7 @@
         <td><?php echo $book['books']['book_version']; ?></td>		
         <td><?php echo $book['books']['book_search_code']; ?></td>		
         <td><?php echo $book['books']['book_location']; ?></td>		
-		<td><?php echo $book[0]['cnt']; ?></td>
+
  	<td><?php
         echo $this->Html->link('查看', array('action' => 'book_search_view', $book['books']['id']));
 	?></td>            		

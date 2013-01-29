@@ -2,7 +2,7 @@
 class PersonsController extends AppController {
 	public $uses = array('Person_Title', 'Person_Group', 'Person_Level', 'Person', 'System_Location', 'System_Print_Person');
     public $helpers = array('Html', 'Form', 'Session');
-    public $components = array('Session', 'Formfunc');
+    public $components = array('Session', 'Formfunc','Userfunc');
 
     public function title_index() {
         $this->set('titles', $this->Person_Title->find('all', array('order' => 'valid DESC, id')));
@@ -134,10 +134,67 @@ class PersonsController extends AppController {
 		$this->set('person_titles', $this->Person_Title->find('list', array('fields' => array('id', 'title_name'))));
 		$this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('id', 'level_name'))));
 		$this->set('person_groups', $this->Person_Group->find('list', array('fields' => array('id', 'group_name'))));
-		$this->set('system_locations', $this->System_Location->find('list', array('fields' => array('id', 'location_name'))));
+		//$this->set('system_locations', $this->System_Location->find('list', array('fields' => array('id', 'location_name'))));
+		$this->set('system_locations',$this->Userfunc->getLocationOptions());
 		$this->set('person_genders', $this->Formfunc->person_gender());
 		$this->set('isModify',$isModify);
 		$this->set('id', $id);
+	}
+	public function person_upload(){
+		$pss = null;
+		if ($this->request->is('post')) {
+			//var_dump($this->request->data['Person']);
+			$file = $this->request->data['Person']["submittedfile"];
+			if($file['size'] > 0) $pss = $this->_save_person_upload($file);
+		}
+		$this->set('person_titles', $this->Person_Title->find('list', array('fields' => array('id', 'title_name'))));
+		$this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('id', 'level_name'))));
+		$this->set('person_groups', $this->Person_Group->find('list', array('fields' => array('id', 'group_name'))));
+		//$this->set('system_locations', $this->System_Location->find('list', array('fields' => array('id', 'location_name'))));
+		$this->set('system_locations',$this->Userfunc->getLocationOptions());
+		$this->set('person_genders', $this->Formfunc->person_gender());		
+		$this->set('save_persons',$pss);
+	}
+	private function _save_person_upload($file){
+		$pss = null;
+		App::import("Vendor", "phpexcel/PHPExcel/IOFactory");
+
+		$uploadfile = WWW_ROOT . 'img'.DS.'books' .DS. $file["name"];
+		move_uploaded_file($file["tmp_name"],$uploadfile);
+		$excel = PHPExcel_IOFactory::load($uploadfile);
+			//$reader= PHPExcel_IOFactory::createReaderForFile($uploadfile);
+			//$reader->setReadDataOnly(true);
+			//$excel= $reader->load($uploadfile);
+		$sheetdata = $excel->getActiveSheet()->toArray(null,true,true,true);
+			
+		if( ($ds=count($sheetdata)) > 1 ) {
+				for($i=2;$i<=$ds;$i++){
+					$person['Person'] = $this->request->data['Person'];
+					$person['Person']['id'] = $sheetdata[$i]['A'];
+					$person['Person']['name'] = $sheetdata[$i]['B'];
+					$person['Person']['ename'] = $sheetdata[$i]['C'];
+					$person['Person']['password'] = $sheetdata[$i]['D'];
+					$person['Person']['gender'] = $sheetdata[$i]['E'];
+					$person['Person']['phone'] = $sheetdata[$i]['F'];
+					$person['Person']['email'] = $sheetdata[$i]['G'];
+					$person['Person']['create_time'] = date('Y-m-d H:i:s');
+					$p = $this->Person->find('first',array('conditions'=>array('Person.id'=>$person['Person']['id'])));
+					if($p != null){
+						$person['Person']['isSave'] = '卡號已存在';
+					} else {
+						$this->Person->create();
+						if($this->Person->save($person)){
+							$person['Person']['isSave'] = 'OK';
+						} else {
+							$person['Person']['isSave'] = '存檔失敗';
+						}
+					}
+					$pss[$i] = $person;
+
+				}
+			}	
+		unlink($uploadfile);		
+		return $pss;
 	}
 
 	private function _check_new_person($data){

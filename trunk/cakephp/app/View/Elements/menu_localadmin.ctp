@@ -16,6 +16,7 @@
 	<li><a href="#">人員管理</a>
 		<ul>
 			<li><?php echo $this->Html->link('借閱者管理',array('controller'=>'persons', 'action'=>'person_index')); ?></li>	
+			<li><?php echo $this->Html->link('借閱者上傳',array('controller'=>'persons', 'action'=>'person_upload')); ?></li>	
 			<li><?php echo $this->Html->link('借書證核發列印',array('controller'=>'prints', 'action'=>'person_list')); ?></li>
 		</ul>
 	</li>

@@ -354,10 +354,6 @@ class BooksController extends AppController {
 		$filter_str = '';
 		$this->Person->Id = $this->Session->read('user_id');
 		$person_info = $this->Person->read();
-		$filter = array();
-		//if ($person_info['Person_Level']['is_cross'] == 0) {
-		//	$filter = array_merge($filter,array('Book_Instance.location_id' => $this->Session->read('user_location')));
-		//}
 		if ((isset($this->data['Book']['page'])) && (trim($this->data['Book']['page']) != ''))  {
 			$page = trim($this->data['Book']['page']);
 		}
@@ -401,23 +397,21 @@ class BooksController extends AppController {
 		if (trim($filter_str) != '') {
 			$strsql = $strsql.$filter_str;
 		}
-		$strsql1 = "SELECT count( * ) AS cnt ";
-		$books_cnt = $this->Book->query($strsql1.$strsql.';');
+		$strsql1 = "SELECT count( * ) AS cnt from ( select count( * ) ";
+		$strsql_group = " GROUP BY books.id, `book_type` , `book_name` , `book_author` , `book_publisher` , `cate_id` , `isbn` , `book_search_code` , `book_location` , `book_attachment` , `book_image` , `publish_date` , `order_start_date` , `order_end_date` , `order_start_version` , `order_end_version` , `memo`, books.book_version";
+		$books_cnt = $this->Book->query($strsql1.$strsql.$strsql_group.') as x;');
 		$strsql1 = "SELECT books.id,  `book_name` , `book_author` , `book_publisher` , `cate_id` , `isbn` , `book_search_code` , `book_location` , `book_attachment` , `book_image` , `publish_date` , `order_start_date` , `order_end_date` , `order_start_version` , `order_end_version` , `memo` , count( * ) AS cnt, books.book_version ";
-		$strsql = $strsql1.$strsql." GROUP BY books.id, `book_type` , `book_name` , `book_author` , `book_publisher` , `cate_id` , `isbn` , `book_search_code` , `book_location` , `book_attachment` , `book_image` , `publish_date` , `order_start_date` , `order_end_date` , `order_start_version` , `order_end_version` , `memo`, books.book_version
-					       LIMIT ".($page-1)*$page_size." , ".$page_size.";";
+		$strsql = $strsql1.$strsql.$strsql_group." LIMIT ".($page-1)*$page_size." , ".$page_size.";";
 		$books = $this->Book->query($strsql);
-		//$books_cnt = $this->Book->find('count', array('conditions' => $filter));
-		//$books = $this->Book->find('all', array('conditions' => $filter, 'limit' => $page_size, 'page' =>$page, 'order' => $books_sorts[$books_sort]));
-		$cates = $this->Formfunc->convert_options($this->Book_Cate->find('all'), 'Book_Cate', 'id', 'catagory_name');
-		$this->set('cates', $cates);
+		//$cates = $this->Formfunc->convert_options($this->Book_Cate->find('all'), 'Book_Cate', 'id', 'catagory_name');
+		//$this->set('cates', $cates);
 		$this->set('page', $page);
 		$this->set('books', $books);
 		$this->set('books_sort', $books_sort);
 		$this->set('books_cnt', $books_cnt[0][0]['cnt']);
 		$this->set('books_page', floor($books_cnt[0][0]['cnt'] / $page_size) + 1);
 		$this->set('levels', $this->Person_Level->find('list', array('fields'=>array('id', 'level_name'))));
-		//$this->set('cates', $this->Book_Cate->find('list', array('fields'=>array('id', 'catagory_name'))));
+		$this->set('cates', $this->Book_Cate->find('list', array('fields'=>array('id', 'catagory_name'))));
 	} 
 	
     public function book_search_view($id=null){

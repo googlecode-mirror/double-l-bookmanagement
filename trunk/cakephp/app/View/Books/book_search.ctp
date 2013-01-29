@@ -1,6 +1,12 @@
 <div id="pageheader">
 <h1>書籍搜尋</h1>
 </div>
+<script type="text/javascript">
+	function change_page(page_no) {
+		$("#BookPage").val(page_no);
+		$("#BookBookSearchForm").submit();
+	}
+</script>
 <table>
 	<tr>
         <td>
@@ -54,7 +60,6 @@
         <th>版本名稱</th>
         <th>索書號</th>
         <th>櫃別</th>
-
 	</tr>
 	<?php foreach ($books as $book): ?>
 	<tr>
@@ -69,5 +74,24 @@
         echo $this->Html->link('查看', array('action' => 'book_search_view', $book['books']['id']));
 	?></td>            		
 	</tr>
-	 <?php endforeach; ?>
+    <?php endforeach; ?>
+	<tr>
+        <td colspan=6>
+		<?php 
+			$start_page = $page - 3;
+			if ($start_page < 1) {$start_page = 1;}
+			$end_page = $page + 3;
+			if ($end_page > $books_page) {$end_page = $books_page;}
+			for($i = $start_page; $i<=$end_page;$i++) {
+				if ($page <> $i) {
+					echo $this->html->link($i, 'javascript:void(0);', array('onclick'=>'change_page('.$i.');'));
+				}
+				else {
+					echo $i;
+				}
+			}
+			echo '(共 '.$books_page.' 頁，'.$books_cnt.' 筆)';
+		?>
+		</td>
+	</tr>
 </table>

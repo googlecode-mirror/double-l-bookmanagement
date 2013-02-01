@@ -1,6 +1,6 @@
 <?php //中文
 class ReportsController extends AppController {
-	public $uses = array('Lend_Record', 'Book_Instance', 'System_Location');
+	public $uses = array('Lend_Record', 'Book_Instance', 'System_Location', 'Book_Cate');
     public $helpers = array('Html', 'Form', 'Session', 'Paginator');
     public $components = array('Session', 'Formfunc', 'Lendfunc');
 
@@ -54,7 +54,57 @@ class ReportsController extends AppController {
 		//$this->set('locations', $this->System_Location->find('list',array('condiftions'=>array('valid' => 1), 'fields'=>array('id', 'location_name'))));
     	$this->set('locations', $this->System_Location->find('list',$options));
 		$this->set('books', $books);
-    }    
+    }   
+
+	public function book_cate_stats() {
+		$books_sort = 0;
+		$books_sorts = array(0 => 'isbn');
+		$page_size = 20;
+		$page = 1;
+		$filter_str = '';
+		$this->Person->Id = $this->Session->read('user_id');
+		$person_info = $this->Person->read();
+		if ((isset($this->data['Book']['page'])) && (trim($this->data['Book']['page']) != ''))  {
+			$page = trim($this->data['Book']['page']);
+		}
+		if ((isset($this->data['Book']['sort'])) && (trim($this->data['Book']['sort']) != ''))  {
+			$books_sort = trim($this->data['Book']['sort']);
+		}
+		if ((isset($this->data['Book']['cate'])) && (trim($this->data['Book']['cate']) != ''))  {
+			$filter_str = $filter_str." and cate_id = '".mysql_real_escape_string($this->data['Book']['cate'])."' ";
+		}
+		if ((isset($this->data['Book']['start_date'])) && (trim($this->data['Book']['start_date']) != ''))  {
+			$filter_str = $filter_str." and substring(lend_time,1,10) >= '".mysql_real_escape_string($this->data['Book']['start_date'])."' ";
+		}
+		if ((isset($this->data['Book']['end_date'])) && (trim($this->data['Book']['end_date']) != ''))  {
+			$filter_str = $filter_str." and lend_time <= '".mysql_real_escape_string($this->data['Book']['end_date'])."' ";
+		}
+		if (trim($filter_str) == '') {
+			if ($filter_str = '') {  $filter_str = $filter_str." and "; };
+			$filter_str = " and  1=2 ";
+		}
+		$strsql = " FROM `lend_records`, books, system_locations 
+				   WHERE status <> 'L' 
+					 and status<>'R' 
+					 and status <> 'S' 
+					 and books.id = lend_records.book_id 
+					 and location_id = system_locations.id ";
+		if (trim($filter_str) != '') {
+			$strsql = $strsql.$filter_str;
+		}
+		$strsql1 = "SELECT count( * ) AS cnt from ( select count( * ) ";
+		$strsql_group = " GROUP BY books.id, `book_type` , `book_name` , `book_author` , `book_publisher` , `cate_id` , `isbn` , `book_search_code` , `book_location` , `book_attachment` , `book_image` , `publish_date` , `order_start_date` , `order_end_date` , `order_start_version` , `order_end_version` , `memo`, books.book_version, location_id, location_name ";
+		$books_cnt = $this->Lend_Record->query($strsql1.$strsql.$strsql_group.') as x;');
+		$strsql1 = "SELECT books.id,  `book_name` , `book_author` , `book_publisher` , `cate_id` , `isbn` , `book_search_code` , `book_location` , `book_attachment` , `book_image` , `publish_date` , `order_start_date` , `order_end_date` , `order_start_version` , `order_end_version` , `memo` , count( * ) AS cnt, books.book_version, location_id, location_name  ";
+		$strsql = $strsql1.$strsql.$strsql_group." LIMIT ".($page-1)*$page_size." , ".$page_size.";";
+		$books = $this->Lend_Record->query($strsql);
+		$this->set('page', $page);
+		$this->set('books', $books);
+		$this->set('books_sort', $books_sort);
+		$this->set('books_cnt', $books_cnt[0][0]['cnt']);
+		$this->set('books_page', floor($books_cnt[0][0]['cnt'] / $page_size) + 1);
+		$this->set('cates', $this->Book_Cate->find('list', array('fields'=>array('id', 'catagory_name'))));
+	} 	
 
 }
 ?>

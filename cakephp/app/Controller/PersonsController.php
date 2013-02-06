@@ -1,7 +1,7 @@
 <?php
 class PersonsController extends AppController {
 	public $uses = array('Person_Title', 'Person_Group', 'Person_Level', 'Person', 'System_Location', 'System_Print_Person');
-    public $helpers = array('Html', 'Form', 'Session');
+    public $helpers = array('Html', 'Form', 'Session', 'PhpExcel','Xls');
     public $components = array('Session', 'Formfunc','Userfunc');
 
     public function title_index() {
@@ -236,6 +236,71 @@ class PersonsController extends AppController {
 		}	
 	}
 	
+	public function person_export(){
+		$persons = $this->Person->find('all', array('order' => 'Person.valid DESC, Person.id'));
+        $f = $this->_build_excel($persons);
+        $this->viewClass = 'Media';
+        // Download app/outside_webroot_dir/example.zip
+        $params = array(
+            'id'        => $f['file'],
+            'name'      => 'person',
+            'download'  => true,
+            'extension' => 'xls',
+            'path'      => $f['path']
+        );
+        $this->set($params);	
+        //unlink($f['path'].$f['file']);
+    }
+    private function _build_excel($persons){
+    	App::import("Vendor", "phpexcel/PHPExcel");
+		App::import("Vendor", "phpexcel/PHPExcel/Writer/Excel5");
+		$person_titles = $this->Person_Title->find('list', array('fields' => array('id', 'title_name')));
+		$person_levels = $this->Person_Level->find('list', array('fields' => array('id', 'level_name')));
+		$person_groups = $this->Person_Group->find('list', array('fields' => array('id', 'group_name')));
+		$system_locations = $this->System_Location->find('list', array('fields' => array('id', 'location_name')));
+		$person_genders = $this->Formfunc->person_gender();
+		$person_valid = $this->Formfunc->person_valid();
+
+
+
+
+		$r['path'] = WWW_ROOT . 'img'.DS.'books' .DS;
+		$r['file'] = 'tmp_'. time();
+    	$file =  $r['path'].$r['file'];
+    	$excel = new PHPExcel();
+    	$excel->setActiveSheetIndex(0);
+    	//
+    	$excel->getActiveSheet()->setTitle('Simple');
+    	$excel->getActiveSheet()->setCellValueByColumnAndRow(0, 1, '借卡代號');
+    	$excel->getActiveSheet()->setCellValueByColumnAndRow(1, 1, '姓名');
+    	$excel->getActiveSheet()->setCellValueByColumnAndRow(2, 1, '性別');
+    	$excel->getActiveSheet()->setCellValueByColumnAndRow(3, 1, '群組');
+    	$excel->getActiveSheet()->setCellValueByColumnAndRow(4, 1, '職稱');
+    	$excel->getActiveSheet()->setCellValueByColumnAndRow(5, 1, '借閱等級');
+    	$excel->getActiveSheet()->setCellValueByColumnAndRow(6, 1, '聯絡電話');
+    	$excel->getActiveSheet()->setCellValueByColumnAndRow(7, 1, '發卡日期');
+    	$excel->getActiveSheet()->setCellValueByColumnAndRow(8, 1, '有效');
+    	$excel->getActiveSheet()->setCellValueByColumnAndRow(9, 1, '建立時間');
+    	$i = 1;
+    	foreach($persons as $person){
+    		$i++;
+    		$excel->getActiveSheet()->setCellValueByColumnAndRow(0, $i, $person['Person']['id']);
+    		$excel->getActiveSheet()->setCellValueByColumnAndRow(1, $i, $person['Person']['name']);
+    		$excel->getActiveSheet()->setCellValueByColumnAndRow(2, $i, $person_genders[$person['Person']['gender']]);
+    		$excel->getActiveSheet()->setCellValueByColumnAndRow(3, $i, $person_groups[$person['Person']['group_id']]);
+    		$excel->getActiveSheet()->setCellValueByColumnAndRow(4, $i, $person_levels[$person['Person']['level_id']]);
+    		$excel->getActiveSheet()->setCellValueByColumnAndRow(5, $i, $person_titles[$person['Person']['title_id']]);
+    		$excel->getActiveSheet()->setCellValueByColumnAndRow(6, $i, $person['Person']['phone']);
+    		$excel->getActiveSheet()->setCellValueByColumnAndRow(7, $i, $person['Person']['card_create_date']);
+    		$excel->getActiveSheet()->setCellValueByColumnAndRow(8, $i, $person_valid[$person['Person']['valid']]);
+    		$excel->getActiveSheet()->setCellValueByColumnAndRow(9, $i, $person['Person']['create_time']);
+    	}
+    	$objWriter = new PHPExcel_Writer_Excel5($excel);
+		$objWriter->save($file);
+
+		return $r;
+    }
+
 	public function print_person_barcode() {
 		$persons = array();
 		$filter = array();

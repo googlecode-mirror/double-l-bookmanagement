@@ -25,5 +25,9 @@
 		public function person_gender() {
 			return array(0=>"女",1=>"男");
 		}
+		
+		public function person_valid(){
+			return array(1=>"生效",0=>"未生效",-1=>"停權");
+		}
 	}
 ?>

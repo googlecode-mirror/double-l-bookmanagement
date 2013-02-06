@@ -19,7 +19,13 @@
 	}
 </script>
 <h1>借閱者基本資料</h1>
-<p></p>
+<p>        	<?php
+			echo $this->Html->link(
+    		$this->Html->image("excel.jpg", array("alt" => "export")),
+    		"psrsons/person_export",
+    		array('escape' => false)
+			);
+        	?></p>
 <table>
     <tr>
         <th>借卡代號</th>

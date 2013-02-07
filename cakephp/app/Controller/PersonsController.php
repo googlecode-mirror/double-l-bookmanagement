@@ -1,7 +1,7 @@
 <?php
 class PersonsController extends AppController {
 	public $uses = array('Person_Title', 'Person_Group', 'Person_Level', 'Person', 'System_Location', 'System_Print_Person');
-    public $helpers = array('Html', 'Form', 'Session', 'PhpExcel','Xls');
+    public $helpers = array('Html', 'Form', 'Session');
     public $components = array('Session', 'Formfunc','Userfunc');
 
     public function title_index() {
@@ -264,8 +264,8 @@ class PersonsController extends AppController {
 
 
 
-		$r['path'] = WWW_ROOT . 'img'.DS.'books' .DS;
-		$r['file'] = 'tmp_'. time();
+		$r['path'] = TMP.'tests'.DS;
+		$r['file'] = 'tmp_persons_'. $this->Session->read('user_id');
     	$file =  $r['path'].$r['file'];
     	$excel = new PHPExcel();
     	$excel->setActiveSheetIndex(0);

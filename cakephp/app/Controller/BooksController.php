@@ -557,6 +557,63 @@ class BooksController extends AppController {
 		$this->set('intX', $intX);
 		$this->set('intY', $intY);
 	}
+	
+	public function book_export(){
+		$books = $this->Book->find('all',array(
+        						'conditions' => array('Book.book_type' => 'B')));
+		$f = $this->_build_excel($books);
+		$this->viewClass = 'Media';
+		// Download app/outside_webroot_dir/example.zip
+		$params = array(
+				'id'        => $f['file'],
+				'name'      => 'books',
+				'download'  => true,
+				'extension' => 'xls',
+				'path'      => $f['path']
+		);
+		$this->set($params);
+		//unlink($f['path'].$f['file']);
+		
+	}
+	private function _build_excel($books){
+		App::import("Vendor", "phpexcel/PHPExcel");
+		App::import("Vendor", "phpexcel/PHPExcel/Writer/Excel5");
+		
+		
+		 
+		
+		$r['path'] = TMP.'tests'.DS;
+		$r['file'] = 'tmp_books_'. $this->Session->read('user_id');
+		$file =  $r['path'].$r['file'];
+		$excel = new PHPExcel();
+		$excel->setActiveSheetIndex(0);
+		//
+		$excel->getActiveSheet()->setTitle('Books');
+    	$excel->getActiveSheet()->setCellValueByColumnAndRow(0, 1, '書籍名稱');
+		    	$excel->getActiveSheet()->setCellValueByColumnAndRow(1, 1, '作者');
+		    	$excel->getActiveSheet()->setCellValueByColumnAndRow(2, 1, 'ISBN');
+		    	$excel->getActiveSheet()->setCellValueByColumnAndRow(3, 1, '閱讀級別');
+		    	$excel->getActiveSheet()->setCellValueByColumnAndRow(4, 1, '索書號');
+		    	$excel->getActiveSheet()->setCellValueByColumnAndRow(5, 1, '櫃別');
+		    	$excel->getActiveSheet()->setCellValueByColumnAndRow(6, 1, '數量');
+		    	$i = 1;
+		foreach($books as $book){
+		$i++;
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(0, $i, $book['Book']['book_name']);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(1, $i, $book['Book']['book_author']);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(2, $i, $book['Book']['isbn']);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(3, $i, $book["Book_Cate"]["catagory_name"]);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(4, $i, $book['Book']['book_search_code']);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(5, $i, $book['Book']['book_location']);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(6, $i, sizeof($book["Book_Instances"]));
+
+		}
+		$objWriter = new PHPExcel_Writer_Excel5($excel);
+		$objWriter->save($file);
+		
+		return $r;
+				
+	}
 
 }
 ?>

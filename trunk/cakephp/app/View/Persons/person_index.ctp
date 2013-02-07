@@ -22,7 +22,7 @@
 <p>        	<?php
 			echo $this->Html->link(
     		$this->Html->image("excel.jpg", array("alt" => "export")),
-    		"psrsons/person_export",
+    		"person_export",
     		array('escape' => false)
 			);
         	?></p>

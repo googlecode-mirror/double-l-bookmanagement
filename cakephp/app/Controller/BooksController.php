@@ -601,7 +601,7 @@ class BooksController extends AppController {
 		$i++;
 		$excel->getActiveSheet()->setCellValueByColumnAndRow(0, $i, $book['Book']['book_name']);
 		$excel->getActiveSheet()->setCellValueByColumnAndRow(1, $i, $book['Book']['book_author']);
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(2, $i, $book['Book']['isbn']);
+		$excel->getActiveSheet()->setCellValueExplicitByColumnAndRow(2, $i,$book['Book']['isbn'],PHPExcel_Cell_DataType::TYPE_STRING);
 		$excel->getActiveSheet()->setCellValueByColumnAndRow(3, $i, $book["Book_Cate"]["catagory_name"]);
 		$excel->getActiveSheet()->setCellValueByColumnAndRow(4, $i, $book['Book']['book_search_code']);
 		$excel->getActiveSheet()->setCellValueByColumnAndRow(5, $i, $book['Book']['book_location']);

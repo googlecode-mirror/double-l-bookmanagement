@@ -290,7 +290,7 @@ class PersonsController extends AppController {
     		$excel->getActiveSheet()->setCellValueByColumnAndRow(3, $i, $person_groups[$person['Person']['group_id']]);
     		$excel->getActiveSheet()->setCellValueByColumnAndRow(4, $i, $person_levels[$person['Person']['level_id']]);
     		$excel->getActiveSheet()->setCellValueByColumnAndRow(5, $i, $person_titles[$person['Person']['title_id']]);
-    		$excel->getActiveSheet()->setCellValueByColumnAndRow(6, $i, $person['Person']['phone']);
+    		$excel->getActiveSheet()->setCellValueExplicitByColumnAndRow(6, $i, $person['Person']['phone'],PHPExcel_Cell_DataType::TYPE_STRING);
     		$excel->getActiveSheet()->setCellValueByColumnAndRow(7, $i, $person['Person']['card_create_date']);
     		$excel->getActiveSheet()->setCellValueByColumnAndRow(8, $i, $person_valid[$person['Person']['valid']]);
     		$excel->getActiveSheet()->setCellValueByColumnAndRow(9, $i, $person['Person']['create_time']);

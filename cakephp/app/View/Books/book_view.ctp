@@ -41,19 +41,19 @@
 <div id="book_zone">
 <div id="book_info" style="float:left; clear:left;">
 <table>
-<tr><td>書籍名稱 : <?php echo $this->Form->input('book_name'); ?>
-        副標題 : <?php echo $this->Form->input('book_title', array('size'=>50)); ?></td></tr>
-<tr><td>作者 : <?php echo $this->Form->input('book_author'); ?> 
-        版別 <?php echo $this->Form->input('book_version', array('size'=>5)); ?>
+<tr><td>書籍名稱 : <?php echo $this->Form->input('book_name', array('size'=>80)); ?></td></tr>
+<tr><td>副標題 : <?php echo $this->Form->input('book_title', array('size'=>80)); ?></td></tr>
+<tr><td>ISBN <?php echo $this->Form->input('isbn', array('size'=>15)); ?>
+		版別 <?php echo $this->Form->input('book_version', array('size'=>5)); ?>
         集叢書:<?php echo $this->Form->input('book_suite', array('size'=>20)); ?></td></tr>
-<tr><td>出版日期 : <?php echo $this->Form->text('publish_year', array('readonly'=>true,'style'=>'width:120px'));?> 
-        ISBN <?php echo $this->Form->input('isbn', array('size'=>10)); ?>
-        出版商 : <?php echo $this->Form->input('book_publisher'); ?> 
-        附屬媒體 <?php echo $this->Form->input('book_attachment', array('size'=>10)); ?></td></tr>
+<tr><td>出版商 : <?php echo $this->Form->input('book_publisher', array('size'=>50)); ?>
+		出版日期 : <?php echo $this->Form->text('publish_year', array('readonly'=>true,'style'=>'width:120px'));?></td></tr>
+<tr><td>作者 : <?php echo $this->Form->input('book_author', array('size'=>40)); ?> 
+        附屬媒體 <?php echo $this->Form->input('book_attachment', array('size'=>30)); ?></td></tr>
 <tr><td>閱讀級別 : <?php echo $this->Form->input('cate_id'); ?>
         索書號 : <?php echo $this->Form->input('book_search_code'); ?>
         櫃別 : <?php echo $this->Form->input('book_location'); ?></td></tr>
-<tr><td>備註 : <?php echo $this->Form->input('memo'); ?></td></tr>
+<tr><td>備註 : <?php echo $this->Form->input('memo', array('cols'=>80)); ?></td></tr>
 </table>
 </div>
 <div id="book_image" style="float:left; clear:right;">

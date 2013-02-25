@@ -470,7 +470,7 @@ class BooksController extends AppController {
 			if ($filter_str = '') {  $filter_str = $filter_str." and "; };
 			$filter_str = " and  1=1 ";
 		}
-		$strsql = " FROM `books` LEFT JOIN (`book_instance` , `book_catagorys`)
+		$strsql = " FROM `books` LEFT JOIN (`book_instances` , `book_catagorys`)
 					ON (books.id=book_instances.book_id AND books.cate_id=book_catagorys.id)
 					WHERE 1=1 ";
 		if (trim($filter_str) != '') {

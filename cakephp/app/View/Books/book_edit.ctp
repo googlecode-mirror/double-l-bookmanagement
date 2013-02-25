@@ -28,10 +28,10 @@
 <tr><td>作者 : <?php echo $this->Form->input('book_author'); ?> 
         版別 <?php echo $this->Form->input('book_version', array('size'=>5)); ?>
         集叢書:<?php echo $this->Form->input('book_suite', array('size'=>20)); ?></td></tr>
-<tr><td>出版日期 : <?php echo $this->Form->text('publish_year', array( 'class' => 'ref_field', 'style'=>'width:120px'));?> 
-        ISBN <?php echo $this->Form->input('isbn', array('size'=>10)); ?>
-        出版商 : <?php echo $this->Form->input('book_publisher'); ?> 
+<tr><td>ISBN <?php echo $this->Form->input('isbn', array('size'=>12)); ?>
         附屬媒體 <?php echo $this->Form->input('book_attachment', array('size'=>10)); ?></td></tr>
+<tr><td>出版日期 : <?php echo $this->Form->text('publish_year', array( 'class' => 'ref_field', 'style'=>'width:120px'));?> 
+        出版商 : <?php echo $this->Form->input('book_publisher'); ?> 
 <tr><td>閱讀級別 : <?php echo $this->Form->input('cate_id', array('div' => false, 'label' => false)); ?>
         索書號 : <?php echo $this->Form->input('book_search_code', array('div' => false, 'label' => false)); ?>
         櫃別 : <?php echo $this->Form->input('book_location', array('div' => false, 'label' => false)); ?></td></tr>

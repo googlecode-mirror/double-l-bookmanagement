@@ -28,6 +28,7 @@
 <?php 
     if($this->Session->read('user_role') !== 'user') {
         echo $this->Html->link('修改', array('action' => 'book_edit', $book['id'])); 
+		echo '&nbsp;';
         echo $this->Html->link('新增一筆', array('action' => 'book_edit')); 
     }
 ?>

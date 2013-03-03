@@ -65,7 +65,23 @@ class IsbnfuncComponent extends Component {
 		}	
 		return $book;	
 	}
-	
+	// 
+	/**
+	 * 整合抓取 BookImage , 如果抓取不到則傳回 null
+	 * @param unknown $isbn
+	 * @return string $image_url, 完整的 image路徑
+	 */
+	public function get_bookimage($isbn){
+		$image_url = null;
+		$amazon_asin = $this->get_amazon_asin($isbn);
+		$bookinfo = $this->get_amazon_bookinfo($amazon_asin);	
+
+		if($bookinfo != null){
+			if(array_key_exists('book_image',$bookinfo))
+				$image_url = $this->saveImage($isbn, $bookinfo['book_image']);
+		}	
+		return $image_url;
+	}
 	/**
 	 * 
 	 * @param string $isbn  10碼或13碼
@@ -228,6 +244,25 @@ class IsbnfuncComponent extends Component {
 		return $r;
 	
 	}
+	public function checkIsbn($isbn=null){
+		$result = null;
+		$result['isIsbn'] = false;
+		$result['errorMsg'] = "";
+		$result['isbn'] = null; 
+		if( $isbn==null || $isbn == ''){
+			$result['errorMsg'] = 'ISBN 不能為空.';
+			$result['isIsbn'] = false;
+		}
+		$isbn = str_replace(array("-"," "), "", $isbn);
+		if(strlen($isbn) == 13 || strlen($isbn) ==10){
+			$result['isbn'] = $isbn;
+			$result['isIsbn'] = true;
+		} else {
+			$result['errorMsg'] = 'ISBN 格式錯誤, 須為10碼或13碼數字.';
+			$result['isIsbn'] = false;
+		}
+		return $result;
+	}
 	// 去除非數字的字元
 	public function fixIsbn($isbn=null){
 		if($isbn==null) return null;
@@ -269,7 +304,13 @@ class IsbnfuncComponent extends Component {
 		else
 			return false;
 	}
-	
+	/**
+	 * 將兩個不同來源的book_info, 組合成一個 $book_info. 
+	 * 如果 main_info 已經存在該資料, 則用 add_info來取代
+	 * @param mix $main_info
+	 * @param mix $add_info
+	 * @return mixed. $book_info
+	 */
 	private function _add_bookinfo($main_info, $add_info){
 		$book_key = array('book_image','publisher','author','bookname','date');
 		if($add_info != null){

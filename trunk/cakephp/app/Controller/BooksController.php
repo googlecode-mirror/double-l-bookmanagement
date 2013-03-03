@@ -39,17 +39,44 @@ class BooksController extends AppController {
     	} else {
 			$ret = $this->Book->save($this->request->data);
     		if ($ret) {
-  				$this->Session->setFlash('儲存成功.');
+  				$this->Session->setFlash('書籍儲存完成.');
                 $this->redirect(array('action' => 'book_view',$ret['Book']['id']));
 				//$this->Book->id = $ret['Book']['id'];
 				//$this->request->data = $this->Book->read(); 
     		}else {
-				$this->Session->setFlash('儲存失敗.');
+				$this->Session->setFlash('書籍儲存失敗.');
 			}
     	}
         $this->set('book_status', $this->Formfunc->book_status());
     }
     
+    public function book_add_image($id=null){
+    	if($id==null) {
+    		$this->redirect(array('action' => 'book_index'));
+    	}
+    	$this->Book->id = $id;
+    	$book = $this->Book->read();
+    	if($book == null){
+    		$this->redirect(array('action' => 'book_index'));
+    	}
+    	$isbn = $this->Isbnfunc->checkIsbn($book['Book']['isbn']);
+    	if($isbn['isIsbn']){
+    		$image_url = $this->Isbnfunc->get_bookimage($isbn['isbn']);
+    		if($image_url !== null){
+    			$book['Book']['book_image'] = $image_url;
+    			$this->Book->save($book);
+    		}
+    	}
+    	$this->redirect(array('action' => 'book_edit',$book['Book']['id']));
+
+    }
+    
+    public function book_upload($id){
+    	$url = 'http://localhost'.$this->request->base.'/'.'Books'.'/'.'book_add_image'.'/'.$id;
+    	var_dump($url);
+    	$this->Bookfunc->curl_post_async($url);
+    	
+    }
     public function journal_edit($id = null){
     	$this->Book->id = $id;
     	$cates = $this->Formfunc->convert_options($this->Book_Cate->find('all'), 'Book_Cate', 'id', 'catagory_name');
@@ -119,6 +146,21 @@ class BooksController extends AppController {
         //$this->set('system_locations', $this->System_Location->find('list',array('fields' => array('System_Location.id', 'System_Location.location_name'))));
         $this->set('system_locations', $this->Userfunc->getLocationOptions());
     }
+    public function Book_Info_upload(){
+    	$ds = null;
+    	if ($this->request->is('post')) {
+    		//var_dump($this->request->data);
+    		//var_dump($this->request->data['Book_Instance']);
+    		$file = $this->request->data['Upload']["file"];
+    		//var_dump($file);
+    		if($file['size'] > 0) $ds = $this->_save_bookinfo_upload($file,$this->request->data['Book_Info']);
+    		$this->Session->setFlash('書籍上傳完成.');
+    	}
+    
+    	
+    	$this->set('save_datas',$ds);
+    	 
+    }
     
     public function Book_Instance_upload(){
     	$ds = null;
@@ -128,13 +170,15 @@ class BooksController extends AppController {
     		$file = $this->request->data['Upload']["file"];
     		//var_dump($file);
     		if($file['size'] > 0) $ds = $this->_save_book_upload($file,$this->request->data['Book_Instance']);
+    		$this->Session->setFlash('書籍上傳完成.');
     	}
-    	 
     	$this->set('book_status', $this->Formfunc->book_status());
     	$this->set('is_lends',$this->Formfunc->is_lends());
     	$this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('Person_Level.id', 'Person_Level.level_name'))));
-    	$this->set('system_locations', $this->Userfunc->getLocationOptions());
-    	$this->set('save_datas',$ds);
+    	$this->set('system_locations', $this->Userfunc->getLocationOptions());    	 
+     	$this->set('save_datas',$ds);
+     	
+     	
     	
     }
     private function _save_book_upload($file,$pdata){
@@ -153,6 +197,7 @@ class BooksController extends AppController {
     			$data['Book_Instance']['isbn'] = $sheetdata[$i]['A'];
     			$data['Book_Instance']['purchase_price'] = $sheetdata[$i]['B'];
     			$data['Book_Instance']['purchase_date'] = $sheetdata[$i]['C'];
+    			
     			$isbn = $sheetdata[$i]['A'];
     			if( $isbn == ''){
     				$data['Book_Instance']['isSave']= 'ISBN 不能為空.';
@@ -165,6 +210,16 @@ class BooksController extends AppController {
     				$ds[$i] = $data;
     				continue;
     			}
+    			if($data['Book_Instance']['purchase_price'] == null || $data['Book_Instance']['purchase_price'] ==""){
+    				$data['Book_Instance']['isSave']='購買金額不能為空';
+    				$ds[$i] = $data;
+    				continue;
+    			}
+    			if($data['Book_Instance']['purchase_date'] == null || trim($data['Book_Instance']['purchase_date']) == ""){
+    				$data['Book_Instance']['isSave']='購買日期不能為空';
+    				$ds[$i] = $data;
+    				continue;
+    			}    			
     			$book = $this->Book->find('first', array('conditions'=> array('Book.isbn'=> $isbn)));
     			if($book == null){
     				$data['Book_Instance']['isSave']='書籍不存在';
@@ -197,6 +252,62 @@ class BooksController extends AppController {
     	unlink($uploadfile);
     	return $ds;
     }
+    
+    private function _save_bookinfo_upload($file){
+    	//initial result set;
+    	$ds = null;
+    	App::import("Vendor", "phpexcel/PHPExcel/IOFactory");
+    	 
+    	$uploadfile = WWW_ROOT . 'img'.DS.'books' .DS. $file["name"];
+    	move_uploaded_file($file["tmp_name"],$uploadfile);
+    	$excel = PHPExcel_IOFactory::load($uploadfile);
+    	$sheetdata = $excel->getActiveSheet()->toArray(null,true,true,true);
+    	if( ($ss=count($sheetdata)) > 1 ) {
+    		for($i=2;$i<=$ss;$i++){
+    
+    			$data['Book']['line'] = $i;
+    			$data['Book']['isbn'] = $sheetdata[$i]['A'];
+    			$data['Book']['book_name'] = $sheetdata[$i]['B'];
+    			$data['Book']['book_author'] = $sheetdata[$i]['C'];
+    			$data['Book']['book_publisher'] = $sheetdata[$i]['D'];
+    			$data['Book']['cate_id'] = $sheetdata[$i]['E'];
+    			$data['Book']['book_suite'] = $sheetdata[$i]['F'];
+    			$data['Book']['publish_year'] = $sheetdata[$i]['G'];
+
+    			$isbn = $this->Isbnfunc->checkIsbn($data['Book']['isbn']);
+    			if($isbn['isIsbn'] == false){
+    				$data['Book']['isSave']= $isbn['errorMsg'];
+    				$ds[$i] = $data;
+    				continue;
+    			}
+    			
+    			$book = $this->Book->find('first', array('conditions'=> array('Book.isbn'=> $isbn['isbn'])));
+    			if($book != null){
+    				$data['Book']['isSave']='書籍已存在';
+    				$ds[$i] = $data;
+    				continue;
+    			}
+    	
+    			$data['Book']['book_type'] = 'B';
+    			$data['Book']['isbn'] = $isbn['isbn'];
+    			
+
+    
+    			 
+    			$this->Book->create();
+    			if($this->Book->save($data)){
+    				$data['Book']['isSave'] = 'OK';
+    			} else {
+    				$data['Book']['isSave'] = '存檔失敗';
+    			}
+    
+    			$ds[$i] = $data;
+    			 
+    		}
+    	}
+    	unlink($uploadfile);
+    	return $ds;
+    }    
     
     //public function Book_Instance_edit($book_id=null, $id=null){
     public function journal_instance_edit($book_id=null, $id=null){
@@ -334,39 +445,7 @@ class BooksController extends AppController {
         if($book['Book']['publish_date'] !==null || $book['Book']['publish_date'] !==''){
         	$book['Book']['publish_year'] = date('Y', strtotime($book['Book']['publish_date']));
         }
-        /*
-        $amazon_asin = $this->Isbnfunc->get_amazon_asin($isbn);
-        //如果存在asin 就可用 amazon
-        if($amazon_asin !== false){
-            $bookinfo = $this->Isbnfunc->get_amazon_bookinfo($amazon_asin);
-            if($bookinfo != null){
-                    if(array_key_exists('book_image',$bookinfo))
-                        $book['Book']['book_image'] = $this->Isbnfunc->saveImage($isbn, $bookinfo['book_image']);
-                    if(array_key_exists('publisher',$bookinfo))
-                        $book['Book']['book_publisher'] = $bookinfo['publisher'];
-                    if(array_key_exists('author',$bookinfo))
-                        $book['Book']['book_author'] = $bookinfo['author'];
-                    if(array_key_exists('bookname',$bookinfo))
-                        $book['Book']['book_name'] = $bookinfo['bookname'];
-                    if(array_key_exists('bookname',$bookinfo))
-                        $book['Book']['publish_date'] = $bookinfo['date'];
-            }
-        } else { //否則使用 isbndb 找尋
-            $bookinfo = $this->Isbnfunc->isbndb_search($isbn);
-            if($bookinfo != null){
-                    if(array_key_exists('book_image',$book_info))
-                        $book['Book']['book_image'] = $this->Isbnfunc->saveImage($isbn, $bookinfo['book_image']);
-                    if(array_key_exists('publisher',$book_info))
-                        $book['Book']['book_publisher'] = $bookinfo['publisher'];
-                    if(array_key_exists('author',$book_info))
-                        $book['Book']['book_author'] = $bookinfo['author'];
-                    if(array_key_exists('bookname',$book_info))
-                        $book['Book']['book_name'] = $bookinfo['bookname'];
-                    if(array_key_exists('bookname',$book_info))
-                        $book['Book']['publish_date'] = $bookinfo['date'];
-            }
-        }
-        */
+
         $this->request->data = $book;
 
         $cates = $this->Formfunc->convert_options($this->Book_Cate->find('all'), 'Book_Cate', 'id', 'catagory_name');
@@ -375,7 +454,22 @@ class BooksController extends AppController {
         $this->render('book_edit');
 
     }
-
+	/**
+	 *  傳入 $isbn, 產生相對應的 image url;
+	 * @param string $isbn
+	 * @return string $image_url , image 的url
+	 */
+    public function search_book_image($isbn=null){
+    	$image_url = '';
+    	$isbno = $this->Isbnfunc->checkIsbn($isbn);
+    	if($isbno['isIsbn']== false) {
+    		
+    	} else {
+    		$image_url = $this->Isbnfunc->get_bookimage($isbno['isbn']);
+    	}
+    	return $image_url;
+    }
+    
     public function search_isbn($isbn=null){
         $htmlbody ="";
         $isbn = $this->Isbnfunc->fixIsbn($isbn);

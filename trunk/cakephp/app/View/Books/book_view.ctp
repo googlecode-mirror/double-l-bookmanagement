@@ -51,6 +51,8 @@
 <tr><td>作者 : <?php echo $this->Form->input('book_author', array('size'=>40)); ?> 
         附屬媒體 <?php echo $this->Form->input('book_attachment', array('size'=>30)); ?></td></tr>
 <tr><td>閱讀級別 : <?php echo $this->Form->input('cate_id'); ?></td></tr>
+<tr><td>親子共讀 : <?php echo $this->Form->checkbox('book_ad', array('hiddenField' => false)); ?></td></tr>
+
 </table>
 </div>
 <div id="book_image" style="float:left; clear:right;">

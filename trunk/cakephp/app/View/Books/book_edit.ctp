@@ -38,10 +38,7 @@
         出版日期 : <?php echo $this->Form->text('publish_year', array( 'class' => 'ref_field', 'style'=>'width:120px'));?>  </td></tr>
 <tr><td>作者 : <?php echo $this->Form->input('book_author', array('size'=>40)); ?>
         附屬媒體 <?php echo $this->Form->input('book_attachment', array('size'=>10)); ?> </td></tr>
-<tr><td>閱讀級別 : <?php echo $this->Form->input('cate_id', array('div' => false, 'label' => false)); ?>
-        索書號 : <?php echo $this->Form->input('book_search_code', array('div' => false, 'label' => false)); ?>
-        櫃別 : <?php echo $this->Form->input('book_location', array('div' => false, 'label' => false)); ?></td></tr>
-<tr><td>備註 : <?php echo $this->Form->input('memo', array('div' => false, 'label' => false)); ?></td></tr>
+<tr><td>閱讀級別 : <?php echo $this->Form->input('cate_id', array('div' => false, 'label' => false)); ?></td></tr>
 </table>
 </div>
 <div id="book_image" style="float:left; clear:right;">

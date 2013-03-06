@@ -34,14 +34,14 @@
             <?php 
 				$delbtn = '生效';
 				if ($user['User']['valid']) {
-					echo $this->Html->link('修改', array('action' => 'admin_edit', $user['User']['id']));
+					echo $this->Html->link('修改', array('action' => 'admin_edit', $user['User']['id']), array('class' => 'button'));
 					$delbtn = '失效';
 					echo '&nbsp';
 				}
 				echo $this->Form->postLink(
 				$delbtn,
 				array('action' => 'admin_delete', $user['User']['id']),
-				array('confirm' => '確認變更?'));
+				array('class'=> 'button', 'confirm' => '確認變更?'));
             ?>
         </td>
     </tr>

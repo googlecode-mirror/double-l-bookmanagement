@@ -21,26 +21,20 @@
 					-->
 				</tr>
 				<tr>
-					<td style="width:100px">書籍名稱</td>
-					<td><?php echo $this->Form->input('book_name');?></td>
-					<td style="width:100px">備註</td>
-					<td><?php echo $this->Form->input('remark');?></td>
+					<td style="width:100px" >書籍名稱</td>
+					<td colspan=3><?php echo $this->Form->input('book_name', array('size'=>80));?></td>
 				</tr>
 				<tr>
 					<td style="width:100px">ISBN</td>
-					<td><?php echo $this->Form->input('isbn');?></td>
-					<td style="width:100px">索書號</td>
-					<td><?php echo $this->Form->input('search_code');?></td>
+					<td><?php echo $this->Form->input('isbn', array('size'=>20));?></td>
+					<td style="width:100px"></td>
+					<td></td>
 				</tr>
 				<tr>
 					<td style="width:100px">出版社</td>
 					<td><?php echo $this->Form->input('publisher');?></td>
 					<td style="width:100px">作者</td>
 					<td><?php echo $this->Form->input('author');?></td>
-				</tr>
-				<tr>
-					<td style="width:100px">櫃位</td>
-					<td><?php echo $this->Form->input('location');?></td>
 				</tr>
 				<tr>
 					<td colspan=4>
@@ -53,30 +47,28 @@
 		<?php echo $this->Form->end(); ?>
 		</td>
 	</tr>
+</table>
+<table>	
 	<tr>
         <th>書籍名稱</th>
         <th>作者</th>
         <th>ISBN</th>
-        <th>版本名稱</th>
-        <th>索書號</th>
-        <th>櫃別</th>
+        <th></th>
 	</tr>
 	<?php foreach ($books as $book): ?>
 	<tr>
         <td><?php echo $book['books']['book_name']; ?></td>
         <td><?php echo $book['books']['book_author']; ?></td>		
         <td><?php echo $book['books']['isbn']; ?></td>		
-        <td><?php echo $book['books']['book_version']; ?></td>		
-        <td><?php echo $book['books']['book_search_code']; ?></td>		
-        <td><?php echo $book['books']['book_location']; ?></td>		
+			
 
  	<td><?php
-        echo $this->Html->link('查看', array('action' => 'book_search_view', $book['books']['id']));
+        echo $this->Html->link('查看', array('action' => 'book_search_view', $book['books']['id']), array('class' => 'button'));
 	?></td>            		
 	</tr>
     <?php endforeach; ?>
 	<tr>
-        <td colspan=6>
+        <td colspan=4>
 		<?php 
 			$start_page = $page - 3;
 			if ($start_page < 1) {$start_page = 1;}

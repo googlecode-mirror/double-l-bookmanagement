@@ -38,7 +38,7 @@
 		<th>發卡日期</th>
 		<th>有效</th>
         <th>建立時間</th>
-        <th><?php echo $this->Html->link('新增借閱者', array('action' => 'person_edit')); ?></th>
+        <th><?php echo $this->Html->link('新增借閱者', array('action' => 'person_edit'), array('class' => 'button')); ?></th>
     </tr>
     <?php foreach ($persons as $person): ?>
     <tr>
@@ -60,16 +60,16 @@
             <?php 
 				$delbtn = '生效';
 				if ($person['Person']['valid']) {
-					echo $this->Html->link('修改', array('action' => 'person_edit', $person['Person']['id']));
+					echo $this->Html->link('修改', array('action' => 'person_edit', $person['Person']['id']), array('class' => 'button'));
 					$delbtn = '失效';
 					echo '&nbsp';
 				}
 				echo $this->Form->postLink(
-				$delbtn,
-				array('action' => 'person_delete', $person['Person']['id']),
-				array('confirm' => '確認變更?'));
-					echo '&nbsp;';
-                    echo $this->Html->link('列印',  'javascript:void(0)',array('onclick'=>"add_print_list('".$person['Person']['id']."')")); 
+					$delbtn,
+					array('action' => 'person_delete', $person['Person']['id']),
+					array('confirm' => '確認變更?','class' => 'button'));
+				echo '&nbsp;';
+                echo $this->Html->link('列印',  'javascript:void(0)',array('class' => 'button','onclick'=>"add_print_list('".$person['Person']['id']."')")); 
             ?>
         </td>
     </tr>

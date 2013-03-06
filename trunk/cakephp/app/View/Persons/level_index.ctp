@@ -1,5 +1,4 @@
 <h1>借閱者等級權限資料</h1>
-<p><?php echo $this->Html->link('新增群組名稱', array('action' => 'level_edit')); ?></p>
 <table>
     <tr>
         <th>等級權限號</th>
@@ -8,7 +7,7 @@
 		<th>借閱數量</th>
         <th>有效</th>
         <th>建立時間</th>
-        <th></th>
+        <th><?php echo $this->Html->link('新增群組名稱', array('action' => 'level_edit'), array('class' => 'button')); ?></th>
     </tr>
     <?php foreach ($levels as $level): ?>
     <tr>
@@ -32,14 +31,14 @@
             <?php 
 				$delbtn = '生效';
 				if ($level['Person_Level']['valid']) {
-					echo $this->Html->link('修改', array('action' => 'level_edit', $level['Person_Level']['id']));
+					echo $this->Html->link('修改', array('action' => 'level_edit', $level['Person_Level']['id']), array('class' => 'button'));
 					$delbtn = '失效';
 					echo '&nbsp';
 				}
 				echo $this->Form->postLink(
 				$delbtn,
 				array('action' => 'level_delete', $level['Person_Level']['id']),
-				array('confirm' => '確認變更?'));
+				array('class'=>'button','confirm' => '確認變更?'));
             ?>
         </td>
     </tr>

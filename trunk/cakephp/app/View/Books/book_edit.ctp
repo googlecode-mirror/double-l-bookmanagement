@@ -13,7 +13,7 @@
 <div class="pagemenu_div">
 <?php 
     if($book['id'] !== null){
-        echo $this->Html->link('更新圖片', array('action' => 'book_add_image', $book['id'])); 
+        echo $this->Html->link('更新圖片', array('action' => 'book_add_image', $book['id']), array('class' => 'button')); 
     }
 ?>
 </div>
@@ -57,7 +57,7 @@
         <th>購買時間</th>
         <th>可以外借</th>
         <th>
-            <?php echo $this->Html->link('新增書本', array('action' => 'book_instance_edit', $book['id'])); ?>
+            <?php echo $this->Html->link('新增書本', array('action' => 'book_instance_edit', $book['id']), array('class' => 'button')); ?>
         </th>
     </tr>
     <?php foreach ($book_instances as $book_instance): ?>
@@ -68,7 +68,7 @@
         <td><?php echo $book_instance['level_id']; ?></td>
         <td><?php echo $book_instance['purchase_date']; ?></td>
         <td><?php echo $book_instance['is_lend']; ?></td>
-        <td><?php echo $this->Html->link('修改', array('action' => 'book_instance_edit', $book['id'], $book_instance['id'])); ?></td>
+        <td><?php echo $this->Html->link('修改', array('action' => 'book_instance_edit', $book['id'], $book_instance['id']), array('class' => 'button')); ?></td>
     </tr>
     <?php endforeach; ?>
 </table>

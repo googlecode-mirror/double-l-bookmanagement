@@ -27,9 +27,9 @@
 <div class="pagemenu_div">
 <?php 
     if($this->Session->read('user_role') !== 'user') {
-        echo $this->Html->link('修改', array('action' => 'book_edit', $book['id'])); 
+        echo $this->Html->link('修改', array('action' => 'book_edit', $book['id']), array('class' => 'button')); 
 		echo '&nbsp;';
-        echo $this->Html->link('新增一筆', array('action' => 'book_edit')); 
+        echo $this->Html->link('新增一筆', array('action' => 'book_edit'), array('class' => 'button')); 
     }
 ?>
 </div>
@@ -73,7 +73,7 @@
         <th>
             <?php
                 if($this->Session->read('user_role') !== 'user') {
-                    echo $this->Html->link('新增書本', array('action' => 'book_instance_edit', $book['id'])); 
+                    echo $this->Html->link('新增書本', array('action' => 'book_instance_edit', $book['id']), array('class' => 'button')); 
                 }
             ?>
         </th>
@@ -90,9 +90,9 @@
         <td><?php echo $locations[$book_instance['location_id']]; ?></td>
         <td><?php 
                 if($this->Session->read('user_role') !== 'user') {
-                    echo $this->Html->link('修改', array('action' => 'book_instance_edit', $book['id'], $book_instance['id']));
+                    echo $this->Html->link('修改', array('action' => 'book_instance_edit', $book['id'], $book_instance['id']), array('class' => 'button'));
 					echo '&nbsp;';
-                    echo $this->Html->link('列印',  'javascript:void(0)',array('onclick'=>"add_print_list('".$book_instance['id']."')")); 
+                    echo $this->Html->link('列印',  'javascript:void(0)',array('class'=>'button','onclick'=>"add_print_list('".$book_instance['id']."')")); 
                 }
         ?></td>
     </tr>

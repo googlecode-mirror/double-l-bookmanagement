@@ -1,12 +1,11 @@
 <h1>人員職務名稱資料</h1>
-<p><?php echo $this->Html->link('新增職務名稱', array('action' => 'title_edit')); ?></p>
 <table>
     <tr>
         <th>職務號</th>
         <th>職務名稱</th>
         <th>有效</th>
         <th>建立時間</th>
-        <th></th>
+        <th><?php echo $this->Html->link('新增職務名稱', array('action' => 'title_edit'), array('class' => 'button')); ?></th>
     </tr>
     <?php foreach ($titles as $title): ?>
     <tr>
@@ -24,14 +23,14 @@
             <?php 
 				$delbtn = '生效';
 				if ($title['Person_Title']['valid']) {
-					echo $this->Html->link('修改', array('action' => 'title_edit', $title['Person_Title']['id']));
+					echo $this->Html->link('修改', array('action' => 'title_edit', $title['Person_Title']['id']), array('class' => 'button'));
 					$delbtn = '失效';
 					echo '&nbsp';
 				}
 				echo $this->Form->postLink(
 				$delbtn,
 				array('action' => 'title_delete', $title['Person_Title']['id']),
-				array('confirm' => '確認變更?'));
+				array('class'=>'button','confirm' => '確認變更?'));
             ?>
         </td>
     </tr>

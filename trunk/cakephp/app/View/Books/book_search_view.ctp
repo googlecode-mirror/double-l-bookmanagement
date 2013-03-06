@@ -63,7 +63,7 @@
 					($book["Book_Instance"]['book_status'] == 1)&&
 					(($book["Book_Instance"]['location_id'] == $userinfo['Person']['location_id']) || ($userinfo['Person_Level']['is_cross_lend'] == 'Y') || ($this->Session->read('user_role') !== 'user'))
 				){
-                    echo $this->html->link('預約', 'javascript:void(0)', array('onclick' => "reserve_book('".$book["Book_Instance"]['id']."');")); 
+                    echo $this->html->link('預約', 'javascript:void(0)', array('class'=>'button','onclick' => "reserve_book('".$book["Book_Instance"]['id']."');")); 
                 }
         ?></td>
     </tr>

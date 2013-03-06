@@ -29,7 +29,7 @@
         <th>櫃別</th>
         <th>數量</th>
         <th>
-            <?php echo $this->Html->link('新增書籍', array('action' => 'book_edit')); ?>
+            <?php echo $this->Html->link('新增書籍', array('action' => 'book_edit'), array('class' => 'button')); ?>
         </th>	
 	</tr>
 	<?php foreach ($books as $book): ?>
@@ -42,7 +42,7 @@
         <td><?php echo $book['Book']['book_location']; ?></td>		
 		<td><?php echo sizeof($book["Book_Instances"]); ?></td>
 		<td>
-			<?php echo $this->Html->link('查看', array('action' => 'book_view', $book['Book']['id']));?>
+			<?php echo $this->Html->link('查看', array('action' => 'book_view', $book['Book']['id']), array('class' => 'button'));?>
 		</td>            		
 	</tr>
 	 <?php endforeach; ?>

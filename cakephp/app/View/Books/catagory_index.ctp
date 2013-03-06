@@ -1,5 +1,4 @@
 <h1>書籍級別資料</h1>
-<p><?php echo $this->Html->link('新增書籍級別', array('action' => 'catagory_edit')); ?></p>
 <table>
     <tr>
         <th>級別代號</th>
@@ -7,7 +6,7 @@
         <th>顏色</th>
         <th>有效</th>
         <th>建立時間</th>
-        <th></th>
+        <th><?php echo $this->Html->link('新增書籍級別', array('action' => 'catagory_edit'), array('class' => 'button')); ?></th>
     </tr>
     <?php foreach ($cates as $cate): ?>
     <tr>
@@ -28,14 +27,14 @@
             <?php 
 				$delbtn = '生效';
 				if ($cate['Book_Cate']['valid']) {
-					echo $this->Html->link('修改', array('action' => 'catagory_edit', $cate['Book_Cate']['id']));
+					echo $this->Html->link('修改', array('action' => 'catagory_edit', $cate['Book_Cate']['id']), array('class' => 'button'));
 					$delbtn = '失效';
 					echo '&nbsp';
 				}
 				echo $this->Form->postLink(
 				$delbtn,
 				array('action' => 'catagory_delete', $cate['Book_Cate']['id']),
-				array('confirm' => '確認變更?'));
+				array('class'=>'button','confirm' => '確認變更?'));
             ?>
         </td>
     </tr>

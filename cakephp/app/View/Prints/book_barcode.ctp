@@ -55,7 +55,7 @@
 				<?php $col++; ?>
 			<?php endwhile; ?>
 		</tr>
-		<?php while($total_div < 27) : ?>
+		<?php while($total_div < 24) : ?>
 		<tr style="background-color:#FFF;padding:0px; margin:0px">
 			<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'book_barcode')); ?></td>
 			<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'book_barcode')); ?></td>

@@ -3,10 +3,10 @@ class Book extends AppModel {
 	public $useDbConfig = 'default';
 	public $useTable = 'books';
 	public $validate = array(
-			'lexile_level' => array(
-					'rule'    => array('between', 1, 1000),
-					'message' => 'Lexile級別必須介於1~1000之間'
-			)	
+		'lexile_level' => array(
+				array('rule'=> 'numeric','message' => 'Lexile級別必須是數字'),
+				array('rule'=> array('between', 1, 1000),'message' => 'Lexile級別必須介於1~1000之間')
+		)	
 	);
 	public $hasMany = array(
 		'Book_Instances' => array(

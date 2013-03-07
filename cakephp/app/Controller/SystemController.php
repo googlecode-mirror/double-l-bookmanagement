@@ -44,6 +44,7 @@ class SystemController extends AppController {
 		if($isTakeStock !== null){
 		if($isTakeStock == 1 ) Cache::write($this->Session->read("user_location").'_take_stock', true);
 		if($isTakeStock == 0 ) Cache::write($this->Session->read("user_location").'_take_stock', false);
+			$this->Session->setFlash('盤點作業變更.');
 		}
 		$this->set('isTakeStock',Cache::read($this->Session->read("user_location").'_take_stock'));
 	}

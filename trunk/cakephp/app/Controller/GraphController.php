@@ -56,9 +56,12 @@ class GraphController extends AppController {
 		if (($result !== false)&& (!empty($result))) {
 			$strText = $result[0]['Book_Instance']['id'];
 			$strBrench = $result[0]['System_Location']['location_name'];
-			$strTitle = substr($result[0]['Book']['book_name'],0,34);
-			if (strlen($result[0]['Book']['book_name']) > 34) {
-				$strTitle = $strTitle."\n".substr($result[0]['Book']['book_name'],34,34);
+			$strTitle = substr($result[0]['Book']['book_name'],0,30);
+			if (strlen($result[0]['Book']['book_name']) > 30) {
+				$strTitle = $strTitle."\n".substr($result[0]['Book']['book_name'],30,30);
+			}
+			if (strlen($result[0]['Book']['book_name']) > 60) {
+				$strTitle = $strTitle."\n".substr($result[0]['Book']['book_name'],60,30);
 			}
 			$strColor = $this->hex2rgb($result[0]['Book']['Book_Cate']['catagory_color']);
 		}	

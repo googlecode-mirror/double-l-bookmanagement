@@ -22,7 +22,7 @@
 	//$im2 = imagecreate($code_generated->lastX,$code_generated->lastY+ 20);
 	$background = imagecolorallocate($im2, 255, 255, 255);
 	if ($strText != 'Error') {
-		imagecopyresized($im2, $im_bg, 0, 0, 0, 0, $img_width, ($img_width/$bg_width) * $bg_height, $bg_width, $bg_height);
+		//imagecopyresized($im2, $im_bg, 0, 0, 0, 0, $img_width, ($img_width/$bg_width) * $bg_height, $bg_width, $bg_height);
 		imagecopyresized($im2, $im, 0+($img_width -10 -$code_generated->lastX)/2, 68, 0, 0, $code_generated->lastX, $code_generated->lastY, $code_generated->lastX, $code_generated->lastY);
 		$imagebox = calculateTextBox("分校：".$strSchool,APP.'Vendor'.DS.'fonts'.DS.'fireflysung.ttf',10,0);
 		$im = imagecreate($img_width -10,$imagebox["height"] + 2);

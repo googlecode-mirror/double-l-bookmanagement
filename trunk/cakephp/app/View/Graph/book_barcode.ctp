@@ -3,11 +3,11 @@
 	$thickness = 30;
 	$color_black = new FColor(0,0,0);
 	$color_white = new FColor(255,255,255);
-	$resolution = 1;
-	$font_size = 2;
+	$resolution = 2;
+	$font_size = 4;
 	$checksum = 0;
 	$img_width = 250;
-	$img_height = 110;
+	$img_height = 133;
 	header("Content-type: image/png");
 	$code_generated = new code39($thickness,$color_black,$color_white, $resolution, $strText, $font_size, $checksum);
 	$drawing = new FDrawing(1024,1024,'',$color_white);
@@ -20,18 +20,18 @@
 	//$im2 = imagecreate($code_generated->lastX,$code_generated->lastY+ 20);
 	$background = imagecolorallocate($im2, 255, 255, 255);
 	if ($strText != 'Error') {
-		imagecopyresized($im2, $im, 0+($img_width -10 -$code_generated->lastX)/2, 20, 0, 0, $code_generated->lastX, $code_generated->lastY, $code_generated->lastX, $code_generated->lastY);
-		$strBrench = '哥大英文'.$strBrench;
-		$imagebox = calculateTextBox($strBrench,APP.'Vendor'.DS.'fonts'.DS.'fireflysung.ttf',10,0);
+		imagecopyresized($im2, $im, 4+($img_width -10 -$code_generated->lastX)/2, 25, 0, 0, $code_generated->lastX, $code_generated->lastY, $code_generated->lastX, $code_generated->lastY);
+		$strBrench = '哥大英語'.$strBrench;
+		$imagebox = calculateTextBox($strBrench,APP.'Vendor'.DS.'fonts'.DS.'mingliu.ttc',12,0);
 		$im = imagecreate($img_width -10,$imagebox["height"] + 5);
 		imagefill($im, 0,0, imagecolorallocate($im,$strColor['r'],$strColor['g'],$strColor['b'])); 
-		imagettftext($im, 10, 0, 2+($img_width -10 -$imagebox["width"])/2, 13,  imagecolorallocate ($im,0,0,0), APP.'Vendor'.DS.'fonts'.DS.'fireflysung.ttf', $strBrench);
-		imagecopyresized($im2, $im, 0, 0, 0, 0,$img_width -10,$imagebox["height"] + 5, $img_width -10,$imagebox["height"] + 5);
-		$imagebox = calculateTextBox($strTitle,APP.'Vendor'.DS.'fonts'.DS.'fireflysung.ttf',8,0);
-		$im = imagecreate($img_width -10,$imagebox["height"] + 5);
+		imagettftext($im, 12, 0, 2+($img_width -10 -$imagebox["width"])/2, 16,  imagecolorallocate ($im,0,0,0), APP.'Vendor'.DS.'fonts'.DS.'mingliu.ttc', $strBrench);
+		imagecopyresized($im2, $im, 4, 0, 0, 0,$img_width -10,$imagebox["height"] + 5, $img_width -10,$imagebox["height"] + 5);
+		$imagebox = calculateTextBox($strTitle,APP.'Vendor'.DS.'fonts'.DS.'mingliu.ttc',12,0);
+		$im = imagecreate($img_width -6,$imagebox["height"] + 5);
 		imagefill($im, 0,0, imagecolorallocate($im,$strColor['r'],$strColor['g'],$strColor['b'])); 
-		imagettftext($im, 8, 0, 2+($img_width -10 -$imagebox["width"])/2, 13,  imagecolorallocate ($im,0,0,0), APP.'Vendor'.DS.'fonts'.DS.'fireflysung.ttf', $strTitle);
-		imagecopyresized($im2, $im, 0, 20 + $code_generated->lastY, 0, 0,$img_width -10,$imagebox["height"] + 5, $img_width -10,$imagebox["height"] + 5);
+		imagettftext($im, 12, 0, 2+($img_width -10 -$imagebox["width"])/2, 13,  imagecolorallocate ($im,0,0,0), APP.'Vendor'.DS.'fonts'.DS.'mingliu.ttc', $strTitle);
+		imagecopyresized($im2, $im, 4, 30 + $code_generated->lastY, 0, 0,$img_width -10,$imagebox["height"] + 5, $img_width -6,$imagebox["height"] + 5);
 		//imagestring($im2, 1, 5, $code_generated->lastY,  "哥大", $text_color);
 	}
 	$drawing->set_im($im2);

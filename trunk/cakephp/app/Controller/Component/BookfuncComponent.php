@@ -2,7 +2,11 @@
 App::uses('Component', 'Controller');
 class BookfuncComponent extends Component {
 
-	public function create_book_instance_id($location_id,$book_id){
+	/*
+	 * 20130307 修改為 分校代碼+兩碼級別編號+四碼流水序號+”-”+書量(本數)
+	 * 級別部分 : 100 = 01, 200=02 , 1000 = 10
+	 */
+	public function create_book_instance_id($location_id,$book_id, $cat_id){
 		$bookInstanceModel = 'Book_Instance';
 		$conditions = array(
 				$bookInstanceModel . '.' . 'location_id' => $location_id,
@@ -11,7 +15,7 @@ class BookfuncComponent extends Component {
 		$count = ClassRegistry::init($bookInstanceModel)->find('count',
 				array('conditions' => $conditions)
 			);
-		$id = sprintf('%1$s%2$05d%3$02d', $location_id,$book_id,$count+1);
+		$id = sprintf('%1$s%2$02d%3$04d-%4$02d', $location_id,$cat_id/100,$book_id,$count+1);
 		return $id;	
 	}
 	

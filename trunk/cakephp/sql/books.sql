@@ -31,9 +31,9 @@ USE `library`;
 
 DROP TABLE IF EXISTS `book_catagorys`;
 CREATE TABLE IF NOT EXISTS `book_catagorys` (
-  `id` varchar(10) NOT NULL COMMENT '分類號',
+  `id` int(11) NOT NULL COMMENT '分類號',
   `catagory_name` varchar(20) NOT NULL COMMENT '分類名稱',
-  `catagory_color` varchar(10) NOT NULL COMMENT '分類顏色',
+  `catagory_color` varchar(10) DEFAULT NULL,
   `valid` tinyint(1) NOT NULL DEFAULT '1',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -93,25 +93,27 @@ CREATE TABLE IF NOT EXISTS `books` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '書籍編號',
   `book_type` varchar(5) NOT NULL COMMENT '書籍類型 (B:書, M:期刊)',
   `book_name` varchar(200) NOT NULL COMMENT 'B:書籍名稱, M:期刊名稱',
-  `book_title` varchar(500) NOT NULL COMMENT 'B:書籍副標題, M:期刊名稱',
+  `book_title` varchar(500) NOT NULL,
   `book_author` varchar(100) NOT NULL COMMENT 'B:作者 M:',
   `book_publisher` varchar(100) NOT NULL COMMENT '出版商',
-  `cate_id` varchar(10) NOT NULL COMMENT '書籍分類',
+  `cate_id` int(11) NOT NULL COMMENT '書籍分類',
   `isbn` varchar(20) NOT NULL COMMENT 'B:ISBN, M:ISSN',
   `book_version` varchar(20) NOT NULL COMMENT 'B:版別, M:刊期',
-  `book_suite` varchar(10) NOT NULL COMMENT 'B:集叢書, M:刊期',
+  `book_suite` varchar(50) NOT NULL,
   `book_search_code` varchar(100) NOT NULL COMMENT 'B:索書號 M:',
   `book_location` varchar(100) NOT NULL COMMENT 'B:櫃別 M:',
   `book_attachment` varchar(100) NOT NULL COMMENT 'B:附屬媒體',
-  `book_image` varchar(500) NOT NULL DEFAULT 'book_empty.png' COMMENT '書籍圖片',
+  `book_image` varchar(500) NOT NULL,
   `publish_date` date NOT NULL COMMENT 'B:出版日期, M:創刊日',
-  `publish_year` varchar(4) NOT NULL COMMENT '出版年',
   `order_start_date` date NOT NULL COMMENT 'B: M:訂購開始日期',
   `order_end_date` date NOT NULL COMMENT 'B: M:訂購結束日期',
   `order_start_version` int(11) NOT NULL COMMENT 'B: M:訂購開始期數',
   `order_end_version` int(11) NOT NULL COMMENT 'B: M:訂購結束期數',
   `memo` text NOT NULL COMMENT '備註',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '登記日期',
+  `publish_year` varchar(4) NOT NULL,
+  `book_ad` int(11) NOT NULL COMMENT '親子共讀(AD)',
+  `lexile_level` int(11) NOT NULL COMMENT 'Lexile 級數',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='書籍資料';
 

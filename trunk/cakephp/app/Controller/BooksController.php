@@ -41,8 +41,6 @@ class BooksController extends AppController {
     		if ($ret) {
   				$this->Session->setFlash('書籍儲存完成.');
                 $this->redirect(array('action' => 'book_view',$ret['Book']['id']));
-				//$this->Book->id = $ret['Book']['id'];
-				//$this->request->data = $this->Book->read(); 
     		}else {
 				$this->Session->setFlash('書籍儲存失敗.');
 			}
@@ -121,7 +119,9 @@ class BooksController extends AppController {
     				//$this->request->data['Book_Instance']['id'] = $this->Systeminc->get_id("BOOK_B");
                     $this->request->data['Book_Instance']['id'] = $this->Bookfunc->create_Book_Instance_id(
                                                                             $this->request->data['Book_Instance']['location_id'],
-                                                                            $this->request->data['Book_Instance']['book_id']);
+                                                                            $this->request->data['Book_Instance']['book_id'],
+                    														$book['Book']['cate_id']
+                    												);
     			}	
                 
     			if ($this->Book_Instance->save($this->request->data)) {

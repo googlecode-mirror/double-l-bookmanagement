@@ -45,13 +45,13 @@
 <tr><td>副標題 : <?php echo $this->Form->input('book_title', array('size'=>80)); ?></td></tr>
 <tr><td>ISBN <?php echo $this->Form->input('isbn', array('size'=>15)); ?>
 		版別 <?php echo $this->Form->input('book_version', array('size'=>5)); ?>
-        集叢書:<?php echo $this->Form->input('book_suite', array('size'=>20)); ?></td></tr>
+        集叢書:<?php echo $this->Form->input('book_suite', array('size'=>30)); ?></td></tr>
 <tr><td>出版商 : <?php echo $this->Form->input('book_publisher', array('size'=>50)); ?>
 		出版日期 : <?php echo $this->Form->text('publish_year', array('readonly'=>true,'style'=>'width:120px'));?></td></tr>
 <tr><td>作者 : <?php echo $this->Form->input('book_author', array('size'=>40)); ?> 
         附屬媒體 <?php echo $this->Form->input('book_attachment', array('size'=>30)); ?></td></tr>
-<tr><td>閱讀級別 : <?php echo $this->Form->input('cate_id'); ?></td></tr>
-<tr><td>親子共讀 : <?php echo $this->Form->checkbox('book_ad', array('hiddenField' => false)); ?></td></tr>
+<tr><td>閱讀級別 : <?php echo $this->Form->input('lexile_level', array('readonly'=>true,'style'=>'width:50px')); ?></td></tr>
+<tr><td>親子共讀  <?php echo $this->Form->checkbox('book_ad', array('hiddenField' => false)); ?></td></tr>
 
 </table>
 </div>

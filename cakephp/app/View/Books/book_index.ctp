@@ -37,7 +37,7 @@
         <td><?php echo $book['Book']['book_name']; ?></td>
         <td><?php echo $book['Book']['book_author']; ?></td>		
         <td><?php echo $book['Book']['isbn']; ?></td>		
-        <td><?php echo $book["Book_Cate"]["catagory_name"]; ?></td>		
+        <td><?php echo $book["Book"]["lexile_level"]; ?></td>		
         <td><?php echo $book['Book']['book_search_code']; ?></td>		
         <td><?php echo $book['Book']['book_location']; ?></td>		
 		<td><?php echo sizeof($book["Book_Instances"]); ?></td>

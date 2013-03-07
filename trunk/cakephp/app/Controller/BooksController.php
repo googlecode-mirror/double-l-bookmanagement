@@ -366,10 +366,10 @@ class BooksController extends AppController {
 			$this->request->data = $this->Book_Cate->read();
 		} else {
 			if ($this->Book_Cate->save($this->request->data)) {
-				$this->Session->setFlash('儲存成功.');
+				$this->Session->setFlash('書籍級別資料儲存成功.');
 				$this->redirect(array('action' => 'catagory_index'));
 			} else {
-				$this->Session->setFlash('儲存失敗.');
+				$this->Session->setFlash('書籍級別資料儲存失敗.');
 			}
 		}
 	}

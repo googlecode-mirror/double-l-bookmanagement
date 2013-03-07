@@ -146,6 +146,7 @@ class PersonsController extends AppController {
 			//var_dump($this->request->data['Person']);
 			$file = $this->request->data['Person']["submittedfile"];
 			if($file['size'] > 0) $pss = $this->_save_person_upload($file);
+			$this->Session->setFlash('上傳作業結束.');
 		}
 		$this->set('person_titles', $this->Person_Title->find('list', array('fields' => array('id', 'title_name'))));
 		$this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('id', 'level_name'))));

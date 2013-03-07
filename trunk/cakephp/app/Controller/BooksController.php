@@ -385,7 +385,7 @@ class BooksController extends AppController {
 			$this->Session->setFlash('書籍分類狀態已變更.');
 			$this->redirect(array('action' => 'catagory_index'));
 		} else {
-			$this->Session->setFlash('作業失敗.');
+			$this->Session->setFlash('書籍分類狀態變更失敗.');
 		}	
 	}
 

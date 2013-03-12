@@ -121,5 +121,71 @@ class GraphController extends AppController {
 		//return implode(",", $rgb); // returns the rgb values separated by commas
 		return $rgb; // returns an array with the rgb values
 	}
+	
+	public function book_barcode21( $id=0) {
+		define('IN_CB',true);
+		App::import("Vendor", "barcodegen/BarCode");
+		App::import("Vendor", "barcodegen/FColor");
+		App::import("Vendor", "barcodegen/FDrawing");
+		App::import("Vendor", "barcodegen/code39");
+		define('IMG_FORMAT_PNG',	1);
+		define('IMG_FORMAT_JPEG',	2);
+		define('IMG_FORMAT_WBMP',	4);
+		define('IMG_FORMAT_GIF',	8);
+
+		$strText = 'Error';
+		$strTitle = '';
+		$strBrench = '';
+		$strColor = array('r'=>255,'g'=>255,'b'=>255);
+		$result = $this->Book_Instance->find('all', array('conditions' => array('Book_Instance.id' => $id),'recursive' => 2));
+		if (($result !== false)&& (!empty($result))) {
+			$strText = $result[0]['Book_Instance']['id'];
+			$strBrench = $result[0]['System_Location']['location_name'];
+			$strTitle = substr($result[0]['Book']['book_name'],0,30);
+			if (strlen($result[0]['Book']['book_name']) > 30) {
+				$strTitle = $strTitle."\n".substr($result[0]['Book']['book_name'],30,30);
+			}
+			if (strlen($result[0]['Book']['book_name']) > 60) {
+				$strTitle = $strTitle."\n".substr($result[0]['Book']['book_name'],60,30);
+			}
+			$strColor = $this->hex2rgb($result[0]['Book']['Book_Cate']['catagory_color']);
+		}	
+		$this->set('strText', $strText);
+		$this->set('strTitle', $strTitle);
+		$this->set('strColor', $strColor);
+		$this->set('strBrench', $strBrench);
+	}
+
+	public function book_barcode27( $id=0) {
+		define('IN_CB',true);
+		App::import("Vendor", "barcodegen/BarCode");
+		App::import("Vendor", "barcodegen/FColor");
+		App::import("Vendor", "barcodegen/FDrawing");
+		App::import("Vendor", "barcodegen/code39");
+		define('IMG_FORMAT_PNG',	1);
+		define('IMG_FORMAT_JPEG',	2);
+		define('IMG_FORMAT_WBMP',	4);
+		define('IMG_FORMAT_GIF',	8);
+
+		$strText = 'Error';
+		$strTitle = '';
+		$strBrench = '';
+		$strColor = array('r'=>255,'g'=>255,'b'=>255);
+		$result = $this->Book_Instance->find('all', array('conditions' => array('Book_Instance.id' => $id),'recursive' => 2));
+		if (($result !== false)&& (!empty($result))) {
+			$strText = $result[0]['Book_Instance']['id'];
+			$strBrench = $result[0]['System_Location']['location_name'];
+			$strTitle = substr($result[0]['Book']['book_name'],0,34);
+			if (strlen($result[0]['Book']['book_name']) > 34) {
+				$strTitle = $strTitle."\n".substr($result[0]['Book']['book_name'],34,34);
+			}
+			$strColor = $this->hex2rgb($result[0]['Book']['Book_Cate']['catagory_color']);
+		}	
+		$this->set('strText', $strText);
+		$this->set('strTitle', $strTitle);
+		$this->set('strColor', $strColor);
+		$this->set('strBrench', $strBrench);
+	}
+
 }
 ?>

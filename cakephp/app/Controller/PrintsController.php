@@ -43,6 +43,20 @@ class PrintsController extends AppController {
 		
 	}
 	
+	public function book_list21(){
+		$this->System_Print_Book->recursive = 2 ;
+
+		$options['conditions'] = array(
+				'System_Print_Book.print_owner' => $this->Session->read('user_id'),
+				'System_Print_Book.print_type' => 'B'
+			);
+		
+		$items = $this->System_Print_Book->find('all', $options);
+		$this->set('items',$items);
+		$this->_initBarcodeXY();
+		
+	}
+
 	public function book_remove(){
 		if($this->request->is('post') && $this->request->data['remove'] !==null){
 
@@ -71,6 +85,25 @@ class PrintsController extends AppController {
 		$this->set('intY', $intY);
 	}
 	
+	public function book_barcode21() {
+		if(!$this->request->is('post') || empty($this->data)){
+			$this->redirect(array('action' => 'book_list21'));
+		}
+		$books = array();
+		$filter = array();
+		$intX = 1;
+		$intY = 1;
+		if (!empty($this->data)) {
+			$intX = $this->data['Print']['start_x'];
+			$intY = $this->data['Print']['start_y'];
+			$books = $this->System_Print_Book->find('all',array('conditions'=>array('print_type'=>'B', 'print_owner' =>$this->Session->read('user_id'))));
+		}
+			
+		$this->set('books', $books);
+		$this->set('intX', $intX);
+		$this->set('intY', $intY);
+	}
+
 	public function person_list(){
 		$this->System_Print_Person->recursive = 2 ;
 	
@@ -83,6 +116,7 @@ class PrintsController extends AppController {
 		$this->set('items',$items);
 		$this->_initBarcodeXY();
 	}	
+	
 	public function person_remove(){
 		if($this->request->is('post') && $this->request->data['remove'] !==null){
 	

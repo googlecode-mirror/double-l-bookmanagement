@@ -4,7 +4,7 @@
 	$thickness = 30;
 	$color_black = new FColor(0,0,0);
 	$color_white = new FColor(255,255,255);
-	$resolution = 2;
+	$resolution = 1;
 	$font_size = 4;
 	$checksum = 0;
 	$img_width = 250;

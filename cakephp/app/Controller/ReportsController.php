@@ -43,7 +43,29 @@ class ReportsController extends AppController {
 				if ($this->Session->read('user_role') === 'localadmin') {
 					$location_id = $this->Session->read('user_location');
 				}
-				$books = $this->Book_Instance->find('all',array('conditions' => array('book_status in (1,4)','location_id' => $location_id)));
+				$option['joins'] = array(
+					array('table' => 'system_take_stocks',
+						'alias' => 'System_Take_Stock',
+						'type' => 'LEFT',
+						'conditions' => array(
+							'System_Take_Stock.book_instance_id = Book_Instance.id',
+							'System_Take_Stock.version'=> Cache::read($location_id.'_take_stock_version') 
+						)
+					)	
+				);
+				$option['conditions'] = array(
+					'Book_Instance.book_status in (1,4)',
+					'Book_Instance.location_id' => $location_id
+				);
+				$option['fields'] = array(
+						'System_Take_Stock.*',
+						'Book_Instance.*',
+						'Book.*',
+						'System_Location.*',
+						'Book_Status.*'
+					);
+				//$books = $this->Book_Instance->find('all',array('conditions' => array('book_status in (1,4)','location_id' => $location_id)));
+				$books = $this->Book_Instance->find('all',$option);
 			}
 		}
 		$options = array(

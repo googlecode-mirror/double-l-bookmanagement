@@ -2,7 +2,7 @@
 class SystemController extends AppController {
 	public $uses = array('System_Location', 'Person');
     public $helpers = array('Html', 'Form', 'Session');
-    public $components = array('Session', 'Formfunc', 'Userfunc');
+    public $components = array('Session', 'Formfunc', 'Userfunc','TakeStockFunc');
 
     public function location_index() {
         $this->set('titles', $this->System_Location->find('all', array('order' => 'valid DESC, id')));
@@ -51,7 +51,10 @@ class SystemController extends AppController {
 	
 	public function take_stock_index($location = null){
 		if($location !== null){
-			$isTake = Cache::read($location.'_take_stock');
+			$isTake = Cache::read($location.'_take_stock');	
+			if($isTake){
+				Cache::write($location.'_take_stock_version',$location . time());
+			}
 			Cache::write($location.'_take_stock',!$isTake);
 		}
 		if($this->Session->read('user_role') !== 'admin'){
@@ -67,6 +70,30 @@ class SystemController extends AppController {
 			$item['System_Location']['isTakeStock'] = Cache::read($item['System_Location']['id'].'_take_stock');
 		}
 		$this->set('items',$locations);
+	}
+	public function take_stock_operation($location = null){
+		if($location == null){
+			$this->Session->setFlash('請選擇盤點分校');
+			$this->redirect(array('action' => 'take_stock_index'));
+		}
+		$isTake = Cache::read($location.'_take_stock');
+		if(!$isTake){
+			$this->Session->setFlash('該分校尚未進入盤點');
+			$this->redirect(array('action' => 'take_stock_index'));			
+		}
+		if ($this->request->is('post')) {
+			$book_instance_id = $this->request->data['System_Take_Stock']['book'];
+			$version = Cache::read($location.'_take_stock_version');
+			$result = $this->TakeStockFunc->add_take_stock_operation($location,$version,$book_instance_id);
+			if($result['isOk']){
+				$this->Session->setFlash($book_instance_id . '已經盤點完畢');
+				
+			} else {
+				$this->Session->setFlash($result['message']);
+			}
+			$this->request->data['System_Take_Stock']['book'] ='';
+		}
+		
 	}
 }
 ?>

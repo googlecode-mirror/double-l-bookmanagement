@@ -18,8 +18,10 @@
 		
 		?></td>
 		<td><?php 
-			if($item['System_Location']['isTakeStock']){
-				echo $this->Html->link('結束盤點', '/system/take_stock_index/'.$item['System_Location']['id'], array('class' => 'button'));
+			if($item['System_Location']['isTakeStock']){				
+				echo $this->Html->link('結束盤點', '/system/take_stock_index/'.$item['System_Location']['id'], array('class' => 'button red'));
+				echo " ";
+				echo $this->Html->link('盤點書本', '/system/take_stock_operation/'.$item['System_Location']['id'], array('class' => 'button blue	'));
 			}else{
 				echo $this->Html->link('開始盤點', '/system/take_stock_index/'.$item['System_Location']['id'], array('class' => 'button'));
 			}

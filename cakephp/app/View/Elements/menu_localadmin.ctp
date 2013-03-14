@@ -1,4 +1,4 @@
-<ul id="menu">
+	<ul id="menu">
 	<li><a href="#">借閱與歸還</a>
 		<ul>
 		<li><?php echo $this->Html->link('借書作業',array('controller'=>'lend', 'action'=>'lend_operation')); ?></li>		
@@ -10,6 +10,7 @@
 	<li><a href="#">書籍基本資料維護</a>
 		<ul>
 			<li><?php echo $this->Html->link('書籍基本資料',array('controller'=>'books', 'action'=>'book_index')); ?></li>
+			<li><?php echo $this->Html->link('書籍入庫',array('controller'=>'books', 'action'=>'book_instance_receive')); ?></li>	
 			<li><?php echo $this->Html->link('書籍上傳',array('controller'=>'books', 'action'=>'book_instance_upload')); ?></li>	
 			<li><?php echo $this->Html->link('書籍基本資料上傳',array('controller'=>'books', 'action'=>'book_info_upload')); ?></li>	
 			<li><?php echo $this->Html->link('書籍標籤列印',array('controller'=>'prints', 'action'=>'book_list')); ?></li>

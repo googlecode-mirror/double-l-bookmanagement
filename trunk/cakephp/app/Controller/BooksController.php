@@ -149,11 +149,10 @@ class BooksController extends AppController {
     public function Book_Info_upload(){
     	$ds = null;
     	if ($this->request->is('post')) {
-    		//var_dump($this->request->data);
-    		//var_dump($this->request->data['Book_Instance']);
     		$file = $this->request->data['Upload']["file"];
     		//var_dump($file);
-    		if($file['size'] > 0) $ds = $this->_save_bookinfo_upload($file,$this->request->data['Book_Info']);
+    		//if($file['size'] > 0) $ds = $this->_save_bookinfo_upload($file,$this->request->data['Book_Info']);
+    		if($file['size'] > 0) $ds = $this->Bookfunc->save_book_upload($file);
     		$this->Session->setFlash('書籍上傳完成.');
     	}
     
@@ -252,7 +251,7 @@ class BooksController extends AppController {
     	unlink($uploadfile);
     	return $ds;
     }
-    
+ /*   改由 Bookfunc 來完成, 不寫在Controller
     private function _save_bookinfo_upload($file){
     	//initial result set;
     	$ds = null;
@@ -308,7 +307,7 @@ class BooksController extends AppController {
     	unlink($uploadfile);
     	return $ds;
     }    
-    
+*/    
     //public function Book_Instance_edit($book_id=null, $id=null){
     public function journal_instance_edit($book_id=null, $id=null){
         $error_msg = '';

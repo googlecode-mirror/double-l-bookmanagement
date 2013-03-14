@@ -1,6 +1,7 @@
 <?php
 App::uses('Component', 'Controller');
 class BookfuncComponent extends Component {
+	public $components = array('Isbnfunc');
 
 	/*
 	 * 20130307 修改為 分校代碼+兩碼級別編號+四碼流水序號+”-”+書量(本數)
@@ -21,13 +22,6 @@ class BookfuncComponent extends Component {
 	}
 	
 	public function curl_post_async($url){
-		/*
-		foreach ($params as $key => &$val) {
-			if (is_array($val)) $val = implode(',', $val);
-			$post_params[] = $key.'='.urlencode($val);
-		}
-		$post_string = implode('&', $post_params);
-		*/
 		$parts=parse_url($url);
 	
 		$fp = fsockopen($parts['host'],
@@ -78,6 +72,65 @@ class BookfuncComponent extends Component {
 		$result['message'] = $book_instance_id . "入庫成功";
 		return $result;
 	}
+	
+	/*
+	 * 書本整批上傳
+	 * $file = file path
+	 */
+	public function save_book_upload($file){
+		$bookModel = ClassRegistry::init('Book');
+		$ds = null;
+		App::import("Vendor", "phpexcel/PHPExcel/IOFactory");
+		
+		$uploadfile = WWW_ROOT . 'img'.DS.'books' .DS. $file["name"];
+		move_uploaded_file($file["tmp_name"],$uploadfile);
+		$excel = PHPExcel_IOFactory::load($uploadfile);
+		$sheetdata = $excel->getActiveSheet()->toArray(null,true,true,true);
+		if( ($ss=count($sheetdata)) > 1 ) {
+			for($i=2;$i<=$ss;$i++){
+		
+				$data['Book']['line'] = $i;
+				$data['Book']['isbn'] = $sheetdata[$i]['A'];
+				$data['Book']['book_name'] = $sheetdata[$i]['B'];
+				$data['Book']['book_author'] = $sheetdata[$i]['C'];
+				$data['Book']['book_publisher'] = $sheetdata[$i]['D'];
+				$data['Book']['book_ad'] = $sheetdata[$i]['E'];
+				$data['Book']['lexile_level'] = $sheetdata[$i]['F'];
+				$data['Book']['book_suite'] = $sheetdata[$i]['G'];
+				$data['Book']['publish_year'] = $sheetdata[$i]['H'];
+		
+				$isbn = $this->Isbnfunc->checkIsbn($data['Book']['isbn']);
+				if($isbn['isIsbn'] == false){
+					$data['Book']['isSave']= $isbn['errorMsg'];
+					$ds[$i] = $data;
+					continue;
+				}
+				 
+				$book = $bookModel->find('first', array('conditions'=> array('Book.isbn'=> $isbn['isbn'])));
+				if($book != null){
+					$data['Book']['isSave']='書籍已存在';
+					$ds[$i] = $data;
+					continue;
+				}
+				 
+				$data['Book']['book_type'] = 'B';
+				$data['Book']['isbn'] = $isbn['isbn'];		
+		
+		
+				$bookModel->create();
+				if($bookModel->save($data)){
+					$data['Book']['isSave'] = 'OK';
+				} else {
+					$data['Book']['isSave'] = '存檔失敗';
+				}
+		
+				$ds[$i] = $data;
+		
+			}
+		}
+		unlink($uploadfile);
+		return $ds;
+	}		
 	
 }
 ?>

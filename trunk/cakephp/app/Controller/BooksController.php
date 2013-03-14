@@ -708,6 +708,16 @@ class BooksController extends AppController {
 		return $r;
 				
 	}
+	
+	public function book_instance_receive(){
+		$location_id = $this->Session->read('user_location');
+		if($this->request->is('post')){
+			$book_instance_id = $this->request->data['Book']['book'];
+			$result = $this->Bookfunc->receive_book_instnace($book_instance_id);
+			$this->Session->setFlash($result['message']);
+			$this->request->data['Book']['book'] = '';
+		}
+	}
 
 }
 ?>

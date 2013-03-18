@@ -4,7 +4,8 @@
     });
 </script>
 <div id="pageheader">
-<h1>書籍資料上傳</h1>
+<h1>書籍資料上傳  <?php echo $this->Html->link('範例檔', '../files/Books_Upload.xls',  array('class' => 'button')); ?></h1> 
+
 </div>
 
 <?php echo $this->Form->create('Book_Info',array('enctype' => 'multipart/form-data', 

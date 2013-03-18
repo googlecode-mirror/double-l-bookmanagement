@@ -8,7 +8,7 @@ class BookfuncComponent extends Component {
 	 * 級別部分 : 100 = 01, 200=02 , 1000 = 10
 	 * 20130313 改回 分校+五馬書籍號碼+"-"+書量(本數)
 	 */
-	public function create_book_instance_id($location_id,$book_id, $cat_id){
+	public function create_book_instance_id($location_id,$book_id, $cat_id=null){
 		$bookInstanceModel = 'Book_Instance';
 		$conditions = array(
 				$bookInstanceModel . '.' . 'location_id' => $location_id,

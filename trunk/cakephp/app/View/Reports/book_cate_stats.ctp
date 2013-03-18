@@ -1,5 +1,5 @@
 <div id="pageheader">
-<h1>書籍搜尋</h1>
+<h1>書籍級別借閱統計</h1>
 </div>
 <script type="text/javascript">
     $(function() {

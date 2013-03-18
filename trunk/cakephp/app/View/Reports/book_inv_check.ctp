@@ -51,7 +51,7 @@
 						<td><?php echo $book['System_Location']['location_name']; ?></td>
 						<td><?php echo $book['Book_Status']['status_name']; ?></td>
 						<td><?php 
-							if($book['System_Take_Stock'] == null){
+							if($book['System_Take_Stock']['id'] == null){
 								echo '';
 							} else {
 								echo '已盤點';

@@ -37,12 +37,21 @@ class ReportsController extends AppController {
     public function book_inv_check(){
 		$books = array();
 		$location_id = '';
-		if (!empty($this->data)) {
-			$location_id = $this->data['Book_Instance']['location_id'];
-			if ($this->Session->read('user_role') !== 'user') {
-				if ($this->Session->read('user_role') === 'localadmin') {
-					$location_id = $this->Session->read('user_location');
-				}
+		if (!empty($this->data) && $this->Session->read('user_role') !== 'user') {
+			// 判斷 $locatio_id, 如果是 localadmin, 直接設定為指定 $location_id
+			if ($this->Session->read('user_role') === 'localadmin') {
+				$location_id = $this->Session->read('user_location');
+			} else {
+				$location_id = $this->data['Book_Instance']['location_id'];
+			}			
+			//$location_id = $this->data['Book_Instance']['location_id'];
+			//if ($this->Session->read('user_role') !== 'user') {
+			//	if ($this->Session->read('user_role') === 'localadmin') {
+			//		$location_id = $this->Session->read('user_location');
+			//	}
+			
+			// 只有當盤點時,才會產生report
+			if(Cache::read($location_id.'_take_stock')){
 				$option['joins'] = array(
 					array('table' => 'system_take_stocks',
 						'alias' => 'System_Take_Stock',

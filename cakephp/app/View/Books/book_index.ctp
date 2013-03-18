@@ -25,11 +25,9 @@
         <th>作者</th>
         <th>ISBN</th>
         <th>閱讀級別</th>
-        <th>索書號</th>
-        <th>櫃別</th>
         <th>數量</th>
-        <th>
-            <?php echo $this->Html->link('新增書籍', array('action' => 'book_edit'), array('class' => 'button')); ?>
+        <th width="50px">
+            <?php echo $this->Html->link('新增', array('action' => 'book_edit'), array('class' => 'button blue')); ?>
         </th>	
 	</tr>
 	<?php foreach ($books as $book): ?>
@@ -38,10 +36,8 @@
         <td><?php echo $book['Book']['book_author']; ?></td>		
         <td><?php echo $book['Book']['isbn']; ?></td>		
         <td><?php echo $book["Book"]["lexile_level"]; ?></td>		
-        <td><?php echo $book['Book']['book_search_code']; ?></td>		
-        <td><?php echo $book['Book']['book_location']; ?></td>		
 		<td><?php echo sizeof($book["Book_Instances"]); ?></td>
-		<td>
+		<td width="50px">
 			<?php echo $this->Html->link('查看', array('action' => 'book_view', $book['Book']['id']), array('class' => 'button'));?>
 		</td>            		
 	</tr>

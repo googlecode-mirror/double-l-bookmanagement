@@ -23,7 +23,11 @@ class Book extends AppModel {
 
 	public function beforeSave($options = array()){
 		//var_dump($this->Data);
-		$this->data['Book']['cate_id'] = (floor($this->data['Book']['lexile_level']/100)+1)*100;
+		if($this->data['Book']['lexile_level'] > 900) {
+			$this->data['Book']['cate_id'] = 1000;
+		} else {
+			$this->data['Book']['cate_id'] = (floor($this->data['Book']['lexile_level']/100)+1)*100;
+		}
 		return true;
 	}
 }

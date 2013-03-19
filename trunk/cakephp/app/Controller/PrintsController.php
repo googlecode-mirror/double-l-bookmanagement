@@ -154,7 +154,7 @@ class PrintsController extends AppController {
 		$intX = 1;
 		$intY = 1;
 		$this->set('intXs', array(1=>1,2=>2,3=>3));
-		$this->set('intYs', array(1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9));
+		$this->set('intYs', array(1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8));
 		$this->set('intX', $intX);
 		$this->set('intY', $intY);		
 	}

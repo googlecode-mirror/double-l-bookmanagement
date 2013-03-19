@@ -3,9 +3,12 @@
         $(".jquery_date" ).datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
     });
 </script>
-<div id="pageheader">
-<h1>書籍上傳  <?php echo $this->Html->link('範例檔', '../files/Book_Instances_Upload.xls',  array('class' => 'button')); ?></h1>
-</div>
+<div class="pageheader_div"><h1 id="pageheader">書籍上傳</h1> </div> 
+<div class="pagemenu_div"><?php 
+	echo $this->Html->link('範例檔', '../files/Book_Instances_Upload.xls',  array('class' => 'button')); 
+	echo '&nbsp;';
+  	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+?></div>
 
 <?php echo $this->Form->create('Book_Instance',array('enctype' => 'multipart/form-data', 
 													 'div'=>false, 

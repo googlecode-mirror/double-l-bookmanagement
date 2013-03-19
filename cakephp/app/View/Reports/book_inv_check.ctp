@@ -7,8 +7,12 @@
 		 document.body.innerHTML = originalContents;
 	}
 </script>
-<h1>書籍盤點清冊</h1>
-<?php echo $this->html->link('列印清冊',"javascript:printDiv('print_div');");?>
+<div class="pageheader_div"><h1 id="pageheader">書籍盤點清冊</h1></div>
+<div class="pagemenu_div"><?php 
+  	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+  	echo '&nbsp;';
+  	echo $this->Html->link('列印清冊', "javascript:printDiv('print_div');", array('class' => 'button')); 
+?></div>
 <?php  if($this->Session->read('user_role') !== 'user')  { echo $this->Form->create('Book_Instance', array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); }?>
 	<table>
 		<tr>

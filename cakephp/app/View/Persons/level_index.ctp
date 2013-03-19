@@ -1,4 +1,8 @@
-<h1>借閱者等級權限資料</h1>
+<div class="pageheader_div"><h1 id="pageheader">借閱者等級權限資料</h1></div>
+<div class="pagemenu_div"><?php 
+  	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+  	echo '&nbsp;';
+?></div>  
 <table>
     <tr>
         <th>等級權限號</th>

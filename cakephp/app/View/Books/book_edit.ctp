@@ -2,6 +2,8 @@
     $book = $this->request->data["Book"];
     $book_instances = $this->request->data["Book_Instances"];
     if($book_instances == null ) {$book_instances=array();}
+    if($book['id'] !== null) $page_title = '修改書籍基本資料';
+    else $page_title = '新增書籍基本資料';
  ?>
 
  <script>
@@ -9,12 +11,15 @@
         $(".jquery_date" ).datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
     });
 </script>
-<div class="pageheader_div"><h1 id="pageheader">修改書籍基本資料</h1></div>
+<div class="pageheader_div"><h1 id="pageheader"><?php echo $page_title; ?></h1></div>
 <div class="pagemenu_div">
 <?php 
     if($book['id'] !== null){
         echo $this->Html->link('更新圖片', array('action' => 'book_add_image', $book['id']), array('class' => 'button')); 
+        echo '&nbsp;';
+
     }
+    echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
 ?>
 </div>
 <?php

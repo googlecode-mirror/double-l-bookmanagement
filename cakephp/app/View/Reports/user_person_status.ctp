@@ -18,7 +18,10 @@
 		//return false;
 	}
 </script>
-<h1>學員借閱資料統計</h1>
+<div class="pageheader_div"><h1 id="pageheader">學員借閱資料統計</h1></div>
+<div class="pagemenu_div"><?php 
+	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+?></div>
 <?php  if($this->Session->read('user_role') !== 'user')  { echo $this->Form->create('Lend_Record', array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); }?>
 <table>
 	<tr>

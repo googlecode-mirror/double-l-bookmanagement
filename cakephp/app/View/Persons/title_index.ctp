@@ -1,4 +1,8 @@
-<h1>人員職務名稱資料</h1>
+<div class="pageheader_div"><h1 id="pageheader">人員職務名稱資料</h1></div>
+<div class="pagemenu_div"><?php 
+  	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+  	echo '&nbsp;';
+?></div>
 <table>
     <tr>
         <th>職務號</th>

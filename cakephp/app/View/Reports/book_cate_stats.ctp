@@ -1,6 +1,7 @@
-<div id="pageheader">
-<h1>書籍級別借閱統計</h1>
-</div>
+<div class="pageheader_div"><h1 id="pageheader">書籍級別借閱統計</h1></div>
+<div class="pagemenu_div"><?php 
+	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+?></div>
 <script type="text/javascript">
     $(function() {
         $(".jquery_date" ).datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});

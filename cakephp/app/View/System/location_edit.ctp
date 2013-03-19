@@ -1,4 +1,7 @@
-<h1>維護地點名稱</h1>
+<div class="pageheader_div"><h1 id="pageheader">維護地點名稱</h1></div>
+<div class="pagemenu_div"><?php 
+  	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+?></div>
 <?php echo $this->Form->create('System_Location', array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); ?>
 	<table>
 		<tr>

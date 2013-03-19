@@ -1,4 +1,9 @@
-<h1>書籍級別資料</h1>
+<div class="pageheader_div"><h1 id="pageheader">書籍級別資料</h1></div>
+<div class="pagemenu_div">
+<?php 
+	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+?>
+</div>
 <table>
     <tr>
         <th>級別代號</th>
@@ -6,7 +11,7 @@
         <th>顏色</th>
         <th>有效</th>
         <th>建立時間</th>
-        <th><?php echo $this->Html->link('新增書籍級別', array('action' => 'catagory_edit'), array('class' => 'button')); ?></th>
+        <th><?php echo $this->Html->link('新增級別', array('action' => 'catagory_edit'), array('class' => 'button')); ?></th>
     </tr>
     <?php foreach ($cates as $cate): ?>
     <tr>

@@ -18,14 +18,18 @@
 		return false;
 	}
 </script>
-<h1>借閱者基本資料</h1>
-<p>        	<?php
-			echo $this->Html->link(
-    		$this->Html->image("excel.jpg", array("alt" => "export")),
+<div class="pageheader_div"><h1 id="pageheader">借閱者基本資料</h1></div>
+<div class="pagemenu_div"><?php 
+  	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+  	echo '&nbsp;';
+?></div>  	
+<div class="pagemenu_div"><?php   	
+ 	echo $this->Html->link(
+ 			$this->Html->image("excel.jpg", array("alt" => "export")),
     		"person_export",
     		array('escape' => false)
-			);
-        	?></p>
+		); 	
+?></div>
 <table>
     <tr>
         <th>借卡代號</th>

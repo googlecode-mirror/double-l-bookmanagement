@@ -1,4 +1,8 @@
-<h1>系統地點名稱資料</h1>
+<div class="pageheader_div"><h1 id="pageheader">系統地點名稱資料</h1></div>
+<div class="pagemenu_div"><?php 
+  	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+?></div>
+
 <table>
     <tr>
         <th>地點代號</th>

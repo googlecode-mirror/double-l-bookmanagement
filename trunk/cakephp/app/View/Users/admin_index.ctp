@@ -1,7 +1,7 @@
-<div id="pageheader">
-<h1>管理者列表</h1>
-</div>
-<p><?php echo $this->Html->link('新增管理者', array('action' => 'admin_edit')); ?></p>
+<div class="pageheader_div"><h1 id="pageheader">管理者列表</h1></div>
+<div class="pagemenu_div"><?php     
+  echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+?></div>
 <table>
     <tr>
         <th>登入名稱</th>
@@ -10,7 +10,7 @@
         <th>角色</th>
         <th>有效</th>
         <th>建立時間</th>
-        <th></th>
+        <th><?php echo $this->Html->link('新增管理者', array('action' => 'admin_edit'), array('class' => 'button')); ?></th>
     </tr>
     <?php foreach ($users as $user): ?>
     <tr>

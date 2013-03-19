@@ -30,7 +30,10 @@
         echo $this->Html->link('修改', array('action' => 'book_edit', $book['id']), array('class' => 'button')); 
 		echo '&nbsp;';
         echo $this->Html->link('新增一筆', array('action' => 'book_edit'), array('class' => 'button')); 
+        echo '&nbsp;';
+
     }
+    echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
 ?>
 </div>
 <?php

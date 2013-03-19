@@ -82,7 +82,11 @@
 		else {	return true;}
 	}
 </script>
-<h1>書籍借閱作業</h1>
+<div class="pageheader_div"><h1 id="pageheader">書籍借閱作業</h1></div>
+<div class="pagemenu_div"><?php 
+  	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+  	echo '&nbsp;';
+?></div>
 <?php if (!isset($person_info['Person']['id'])) { echo $this->Form->create('Lend_Record', array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); }?>
 <table>
 	<tr>

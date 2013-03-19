@@ -1,7 +1,7 @@
-<div id="pageheader">
-<h1>管理者修改</h1>
-</div>
-
+<div class="pageheader_div"><h1 id="pageheader">管理者修改</h1></div>
+<div class="pagemenu_div"><?php 
+  	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+?></div>
 <?php
     echo $this->Form->create('User');
     echo $this->Form->input('id', array('type'=> 'hidden'));

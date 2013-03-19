@@ -1,14 +1,17 @@
 <div>
-<div id="pageheader"><h1>書籍資料列表</h1></div>
-<div class="pagemenu_div">
-<?php 
+<div class="pageheader_div"><h1 id="pageheader">書籍資料列表</h1></div>
+<div class="pagemenu_div"><?php echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); ?></div>
+<div class="pagemenu_div"><?php 
+    
     if($this->Session->read('user_role') !== 'user') {
     echo $this->Form->create('Book',array('action'=>'isbn_add', 'clear'=>'right','div'=>false, 'inputDefaults' => array('label' => false,'div' => false)));
     echo 'ISBN:';
     echo $this->Form->input('isbn', array('size'=>10));
     echo $this->Form->button('新增');
     echo $this->Form->end();
+    echo '&nbsp;';
     }
+    
 ?>
 </div>
 <p>         <?php

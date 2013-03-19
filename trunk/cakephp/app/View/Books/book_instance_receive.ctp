@@ -11,7 +11,11 @@
 		else {	return true;}
 	}
 </script>
-<h1>書籍入庫作業</h1>	
+<div class="pageheader_div"><h1 id="pageheader">書籍入庫作業</h1></div>	
+<div class="pagemenu_div"><?php 
+  	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+?></div>
+
 <?php echo $this->Form->create('Book', array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); ?>
 書籍條碼:	<?php echo $this->Form->input('book', array('label' => false,'div' => false,'onkeypress' =>'add_book(this, event);')); ?>
 <?php echo $this->Form->end(); ?>

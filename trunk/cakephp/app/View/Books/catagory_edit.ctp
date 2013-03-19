@@ -1,4 +1,7 @@
-<h1>修改書籍級別</h1>
+<div class="pageheader_div"><h1 id="pageheader">修改書籍級別</h1></div>
+<div class="pagemenu_div"><?php 
+	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+?></div>
 <?php
     echo $this->Form->create('Book_Cate');
 	if ($this->request->data["Book_Cate"]["id"] == null) {

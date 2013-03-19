@@ -21,7 +21,11 @@
 		return false;
 	}
 </script>
-<h1>借閱者本資料處理</h1>
+<div class="pageheader_div"><h1 id="pageheader">借閱者本資料處理</h1></div>
+<div class="pagemenu_div"><?php 
+  	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+  	echo '&nbsp;';
+?></div>  	
 	<?php echo $this->Form->create('Person', array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); ?>
 	<table>
 		<tr>

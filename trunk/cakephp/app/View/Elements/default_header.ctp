@@ -40,6 +40,16 @@
 			$(this).children('ul').css('display', 'none');
 		});
 		
+		$('#menu>li>ul>li').hover(function(){
+			$(this).css('backgroundColor', '#06c').siblings().css('backgroundColor', '');
+
+		}, function(){
+			$(this).css('backgroundColor', '').siblings().css('backgroundColor', '');
+			// 同時隱藏子選單(如果有的話)
+			// 也可以把整句拆成上面的寫法
+			//$(this).children('ul').css('display', 'none');
+		});
+
 		// 取消超連結的虛線框
 		$('a').focus(function(){
 			this.blur();

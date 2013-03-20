@@ -32,7 +32,7 @@ class UsersController extends AppController {
 				$this->Session->write("user_role", $this->Auth->user('role'));
 				$this->Session->write("user_location", $this->Auth->user('location_id'));
 				$this->Session->write('isLogin', true);
-				$this->redirect($this->Auth->redirect());
+				$this->redirect("/");
 			} else {
 				$this->Session->setFlash(__('錯誤的帳號或密碼,請再輸入一次'));
 			}

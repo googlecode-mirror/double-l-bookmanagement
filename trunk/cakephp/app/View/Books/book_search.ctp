@@ -1,5 +1,5 @@
 
-<div class="pageheader_div"><h1 id="pageheader">書籍搜尋</h1></div>
+<div class="pageheader_div"><h1 id="pageheader">在庫搜尋</h1></div>
 <div class="pagemenu_div"><?php 
   	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
   	echo '&nbsp;';

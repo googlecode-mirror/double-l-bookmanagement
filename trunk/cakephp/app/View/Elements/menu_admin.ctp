@@ -3,7 +3,7 @@
 		<ul>
 		<li ><?php echo $this->Html->link('借書作業',array('controller'=>'lend', 'action'=>'lend_operation')); ?></li>		
 		<li ><?php echo $this->Html->link('還書作業',array('controller'=>'lend', 'action'=>'return_operation')); ?></li>	
-		<li ><?php echo $this->Html->link('書籍查詢',array('controller'=>'books', 'action'=>'book_search')); ?></li>
+		<li ><?php echo $this->Html->link('在庫查詢',array('controller'=>'books', 'action'=>'book_search')); ?></li>
 		<li ><?php echo $this->Html->link('學員借閱資料',array('controller'=>'reports', 'action'=>'user_person_status')); ?></li>	
 		</ul>
 	</li>

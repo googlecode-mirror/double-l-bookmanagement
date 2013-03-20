@@ -235,7 +235,8 @@ class BooksController extends AppController {
     			$data['Book_Instance']['create_time'] = date('Y-m-d H:i:s');
     			$data['Book_Instance']['id'] = $this->Bookfunc->create_Book_Instance_id(
     					$data['Book_Instance']['location_id'],
-    					$data['Book_Instance']['book_id']);
+    					$data['Book_Instance']['book_id'],
+    					$book['Book']['cate_id']);
     			
     			$this->Book_Instance->create();
     			if($this->Book_Instance->save($data)){

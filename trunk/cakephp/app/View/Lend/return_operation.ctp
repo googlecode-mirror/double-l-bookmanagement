@@ -15,6 +15,7 @@
 <div class="pagemenu_div"><?php 
   	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
   	echo '&nbsp;';
+  	echo $this->Html->link('書籍借閱作業', array('controller'=>'lend', 'action'=>'lend_operation'), array('class' => 'button')); 
 ?></div>
 
 <table>

@@ -165,3 +165,15 @@ td h1 {
 .button.large { font-size: 125%; padding: 7px 12px; }
 .button.large:hover { background-position: 0 -35px; }
 .button.large:active { padding: 8px 12px 6px; background-position: 0 top; }
+
+.suboff { 
+	background-color: #DFE8F0; 
+	border-bottom:1px solid #FFFFFF; 
+	color:#666666; 
+	cursor: pointer; 
+	font-family: Arial,Helvetica,sans-serif; 
+	font-size: 16px; 
+	padding-bottom: 3px; 
+	padding-left: 66px; 
+	padding-top: 3px;
+}

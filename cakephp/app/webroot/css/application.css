@@ -55,7 +55,7 @@ div.pagement_div form{
     float:left;
     display:block;
     width:150px;
-    background:#ccc;
+    background:#778899;
     position:relative;
     z-index:500;
     margin:0 1px;
@@ -70,15 +70,19 @@ div.pagement_div form{
     text-decoration:none;
     color:#fff;
     text-align:center;
+	font-family: Arial,Helvetica,sans-serif; 
+	font-size: 16px;     
 }
 
 #menu li a:hover {
     color:#fff;
+   
 }
  
 /* you can make a different style for default selected value */
 #menu a.selected {
     color:#f00;
+  
 }
  
 /* submenu, it's hidden by default */
@@ -102,11 +106,12 @@ div.pagement_div form{
     display:block; 
     height:15px;
     padding: 8px 5px;
-    color:#666;
+    color:#FFF;
+    
 }
  
 #menu ul a:hover {
-    text-decoration:underline; 
+    /*text-decoration:underline; */
 }
 
 .notice_msg {

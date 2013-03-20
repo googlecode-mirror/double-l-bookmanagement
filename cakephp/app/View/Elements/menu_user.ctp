@@ -1,8 +1,8 @@
 <ul id="menu">
-	<li class='suboff'><a href="#">借閱與查詢</a>
+	<li ><a href="#">借閱與查詢</a>
 		<ul>
-		<li class='suboff'><?php echo $this->Html->link('借閱者狀況',array('controller'=>'lend', 'action'=>'user_status')); ?></li>	
-		<li class='suboff'><?php echo $this->Html->link('個人借閱資料',array('controller'=>'reports', 'action'=>'user_person_status')); ?></li>	
+		<li ><?php echo $this->Html->link('借閱者狀況',array('controller'=>'lend', 'action'=>'user_status')); ?></li>	
+		<li ><?php echo $this->Html->link('個人借閱資料',array('controller'=>'reports', 'action'=>'user_person_status')); ?></li>	
 		</ul>
 	</li>
 </ul>

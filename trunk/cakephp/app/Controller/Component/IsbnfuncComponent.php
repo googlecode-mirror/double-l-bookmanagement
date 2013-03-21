@@ -79,6 +79,7 @@ class IsbnfuncComponent extends Component {
 		if($bookinfo != null){
 			if(array_key_exists('book_image',$bookinfo))
 				$image_url = $this->saveImage($isbn, $bookinfo['book_image']);
+			if($image_url == false) $image_url = null;
 		}	
 		return $image_url;
 	}
@@ -272,22 +273,32 @@ class IsbnfuncComponent extends Component {
 		return $isbn;
 	}
 
-	public function saveImage($isbn=null, $url=null){
-		if($isbn== null || $url == null || $url=='') return $this->DEFAULT_BOOK_IMAGE;
+	public function saveImage($isbn=null, $url=null){		
+		if($isbn== null || $url == null || $url=='') return false;		
 		$http = new HttpSocket();
+		try{
 		$f = fopen(WWW_ROOT . 'img'.DS.'books' .DS. $isbn.'.png', 'w');
 		$http->setContentResource($f);
 		$http->get($url);
 		fclose($f);
+		}catch(Exception $e){
+			return false;
+		}
+		
 		return 'books/'.$isbn.'.png';
 		
 	}
 	
 	public function saveFile($response){
 		if($response == null) return false;
-		$f = fopen(WWW_ROOT . 'img'.DS.'books' .DS. 'html.txt', 'w');
+		try{
+		$f = fopen(WWW_ROOT . 'img'.DS.'books' .DS. 'html.txt', 'w'); 
 		fwrite($f,$response);
 		fclose($f);
+		} catch (Exception $e){
+			return false;
+		} 
+		
 		return true;
 	}
 	function checkDateFormat($date)

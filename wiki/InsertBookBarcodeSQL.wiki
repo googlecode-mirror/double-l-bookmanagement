@@ -1,0 +1,27 @@
+Insert Into system_prints (id,print_type, print_owner, print_id)
+select concat('B_admin_',id),'B','A001', id from book_instances
+where location_id = 'A';
+
+Insert Into system_prints (id,print_type, print_owner, print_id)
+select concat('B_admin_',id),'B','B001', id from book_instances
+where location_id = 'B';
+
+Insert Into system_prints (id,print_type, print_owner, print_id)
+select concat('B_admin_',id),'B','C001', id from book_instances
+where location_id = 'C';
+
+Insert Into system_prints (id,print_type, print_owner, print_id)
+select concat('B_admin_',id),'B','D001', id from book_instances
+where location_id = 'D';
+
+Insert Into system_prints (id,print_type, print_owner, print_id)
+select concat('B_admin_',id),'B','E001', id from book_instances
+where location_id = 'E';
+
+Insert Into system_prints (id,print_type, print_owner, print_id)
+select concat('B_admin_',id),'B','F001', id from book_instances
+where location_id = 'F';
+
+Insert Into system_prints (id,print_type, print_owner, print_id)
+select concat('B_admin_',id),'B','G001', id from book_instances
+where location_id = 'G';

@@ -15,7 +15,7 @@
 			<li ><?php echo $this->Html->link('書籍上傳',array('controller'=>'books', 'action'=>'book_instance_upload')); ?></li>	
 			<li ><?php echo $this->Html->link('書籍入庫',array('controller'=>'books', 'action'=>'book_instance_receive')); ?></li>	
 			<li ><?php echo $this->Html->link('書籍標籤列印',array('controller'=>'prints', 'action'=>'book_list')); ?></li>
-			<li ><?php echo $this->Html->link('級數別書籍借閱統計',array('controller'=>'reports', 'action'=>'book_cate_stats')); ?></li>	
+			<li ><?php echo $this->Html->link('書籍級別借閱統計',array('controller'=>'reports', 'action'=>'book_cate_stats')); ?></li>	
 		</ul>
 	</li>
 	<li ><a href="#">人員管理</a>

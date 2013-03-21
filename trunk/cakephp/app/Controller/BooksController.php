@@ -27,6 +27,8 @@ class BooksController extends AppController {
         $this->set('cates', $cates);
         $this->set('book_status', $this->Formfunc->book_status());
 		$this->set('locations', $this->System_Location->find('list', array('fields' => array('id', 'location_name'))));
+		$this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('Person_Level.id', 'Person_Level.level_name'))));
+		 
     }
 
     public function book_edit($id = null){
@@ -597,6 +599,8 @@ class BooksController extends AppController {
         $this->set('cates', $this->Book_Cate->find('list', array('fields' => array('id', 'catagory_name'))));
         $this->set('book_status', $this->Formfunc->book_status());
 		$this->set('locations', $this->System_Location->find('list', array('fields' => array('id', 'location_name'))));
+		$this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('Person_Level.id', 'Person_Level.level_name'))));
+		
     }
 	
     private function catdata($html, $start_s, $end_s){

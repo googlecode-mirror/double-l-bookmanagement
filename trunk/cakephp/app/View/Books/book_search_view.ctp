@@ -53,7 +53,7 @@
         <td><?php echo $book["Book"]['isbn']; ?></td>
         <td><?php echo $book["Book_Instance"]['purchase_price']; ?></td>
         <td><?php echo $book_status[$book["Book_Instance"]['book_status']]; ?></td>
-        <td><?php echo $book["Book_Instance"]['level_id']; ?></td>
+        <td><?php echo $person_levels[$book["Book_Instance"]['level_id']]; ?></td>
         <td><?php echo $book["Book_Instance"]['purchase_date']; ?></td>
         <td><?php echo $book["Book_Instance"]['s_return_date']; ?></td>
         <td><?php echo $book["Book_Instance"]['is_lend']; ?></td>

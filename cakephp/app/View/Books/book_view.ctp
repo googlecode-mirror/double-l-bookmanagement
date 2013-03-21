@@ -1,4 +1,5 @@
  <?php 
+
     $book = $this->request->data["Book"];
     $book_instances = $this->request->data["Book_Instances"];
     if($book_instances == null ) {$book_instances=array();}
@@ -86,7 +87,7 @@
         <td><?php echo $book_instance['id']; ?></td>
         <td><?php echo $book_instance['purchase_price']; ?></td>
         <td><?php echo $book_status[$book_instance['book_status']]; ?></td>
-        <td><?php echo $book_instance['level_id']; ?></td>
+        <td><?php echo $person_levels[$book_instance['level_id']]; ?></td>
         <td><?php echo $book_instance['purchase_date']; ?></td>
         <td><?php echo $book_instance['s_return_date']; ?></td>
         <td><?php echo $book_instance['is_lend']; ?></td>

@@ -54,7 +54,7 @@ div.pagement_div form{
 #menu li {
     float:left;
     display:block;
-    width:150px;
+    width:180px;
     background:#778899;
     position:relative;
     z-index:500;
@@ -65,7 +65,7 @@ div.pagement_div form{
 #menu li a {
     display:block;
     padding:8px 5px 0 5px;
-    font-weight:700; 
+    font-weight:700; 	
     height:23px;
     text-decoration:none;
     color:#fff;
@@ -96,7 +96,7 @@ div.pagement_div form{
 }
  
 #menu ul li {
-    width:150px;
+    width:180px;
     float:left;
     border-top:1px solid #fff;
 }

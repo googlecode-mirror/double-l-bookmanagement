@@ -65,6 +65,9 @@ class BooksController extends AppController {
     		if($image_url !== null){
     			$book['Book']['book_image'] = $image_url;
     			$this->Book->save($book);
+    			$this->Session->setFlash('書籍圖片更新成功');
+    		} else {
+    			$this->Session->setFlash('書籍圖片無法取得');
     		}
     	}
     	$this->redirect(array('action' => 'book_edit',$book['Book']['id']));

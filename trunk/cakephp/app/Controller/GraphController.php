@@ -56,6 +56,7 @@ class GraphController extends AppController {
 		if (($result !== false)&& (!empty($result))) {
 			$strText = $result[0]['Book_Instance']['id'];
 			$strBrench = $result[0]['System_Location']['location_name'];
+			$strTitle = substr($result[0]['Book']['book_name'],0,90);
 			$strTitle = substr($result[0]['Book']['book_name'],0,30);
 			if (strlen($result[0]['Book']['book_name']) > 30) {
 				$strTitle = $strTitle."\n".substr($result[0]['Book']['book_name'],30,30);
@@ -133,6 +134,8 @@ class GraphController extends AppController {
 		define('IMG_FORMAT_WBMP',	4);
 		define('IMG_FORMAT_GIF',	8);
 
+		$title_width = 30;
+		$title_line = 3;
 		$strText = 'Error';
 		$strTitle = '';
 		$strBrench = '';
@@ -141,13 +144,35 @@ class GraphController extends AppController {
 		if (($result !== false)&& (!empty($result))) {
 			$strText = $result[0]['Book_Instance']['id'];
 			$strBrench = $result[0]['System_Location']['location_name'];
-			$strTitle = substr($result[0]['Book']['book_name'],0,30);
-			if (strlen($result[0]['Book']['book_name']) > 30) {
-				$strTitle = $strTitle."\n".substr($result[0]['Book']['book_name'],30,30);
+			$arr = explode(' ', trim($result[0]['Book']['book_name']));
+			$strTitle = '';
+			$strTemp = '';
+			foreach ( $arr as $word ){
+				$teststring = $strTemp.' '.$word;
+				if (strlen($teststring) >= $title_width) {
+					$strTitle = $strTitle.$strTemp;
+					while (strlen($strTitle) % $title_width <> 0) {
+						$strTitle = $strTitle." ";
+					}
+					$strTitle = $strTitle."\n";
+					$strTemp = $word;
+				}
+				else {
+					$strTemp = $teststring;
+				}
 			}
-			if (strlen($result[0]['Book']['book_name']) > 60) {
-				$strTitle = $strTitle."\n".substr($result[0]['Book']['book_name'],60,30);
+			$strTitle = trim($strTitle.$strTemp);
+			while (strlen($strTitle)< $title_width * $title_line) {
+				if (strlen($strTitle) % $title_width == 0) {
+					$strTitle = $strTitle."\n"." ";
+				}
+				else {
+					$strTitle = $strTitle." ";
+				}
 			}
+			//var_Dump($strTitle);
+			$strTitle = substr($strTitle, 0, $title_width * $title_line);
+			//var_Dump($strTitle);
 			$strColor = $this->hex2rgb($result[0]['Book']['Book_Cate']['catagory_color']);
 		}	
 		$this->set('strText', $strText);

@@ -1,5 +1,6 @@
 <?php
 	$use_font = APP.'Vendor'.DS.'fonts'.DS.'mingliu.ttc';
+	$use_font1 = APP.'Vendor'.DS.'fonts'.DS.'arial.ttf';
 	$img_type = 1; //PNG
 	$thickness = 30;
 	$color_black = new FColor(0,0,0);
@@ -28,17 +29,18 @@
 		imagefill($im, 0,0, imagecolorallocate($im,$strColor['r'],$strColor['g'],$strColor['b'])); 
 		imagettftext($im, 12, 0, 2+($img_width -10 -$imagebox["width"])/2, 16,  imagecolorallocate ($im,0,0,0), $use_font, $strBrench);
 		imagecopyresized($im2, $im, 4, 0, 0, 0,$img_width -10,$imagebox["height"] + 5, $img_width -10,$imagebox["height"] + 5);
-		$imagebox = calculateTextBox($strTitle,$use_font,12,0);
+		$imagebox = calculateTextBox(str_replace(' ','1',$strTitle),$use_font,12,0);
+		//var_Dump($strTitle);
+		//var_Dump($imagebox["height"]);
 		$im = imagecreate($img_width -6,$imagebox["height"] + 5);
 		imagefill($im, 0,0, imagecolorallocate($im,$strColor['r'],$strColor['g'],$strColor['b'])); 
 		imagettftext($im, 12, 0, 2+($img_width -10 -$imagebox["width"])/2, 13,  imagecolorallocate ($im,0,0,0), $use_font, $strTitle);
+		//var_Dump($strTitle);
 		imagecopyresized($im2, $im, 4, 30 + $code_generated->lastY, 0, 0,$img_width -10,$imagebox["height"] + 5, $img_width -6,$imagebox["height"] + 5);
 		//imagestring($im2, 1, 5, $code_generated->lastY,  "哥大", $text_color);
 	}
 	$drawing->set_im($im2);
 	$drawing->finish($img_type);
-	
-	
 	
 	function calculateTextBox($text,$fontFile,$fontSize,$fontAngle) {
 		/************

@@ -174,11 +174,13 @@ class GraphController extends AppController {
 			$strTitle = substr($strTitle, 0, $title_width * $title_line);
 			//var_Dump($strTitle);
 			$strColor = $this->hex2rgb($result[0]['Book']['Book_Cate']['catagory_color']);
+			$ad = $result[0]['Book']['book_ad'];
 		}	
 		$this->set('strText', $strText);
 		$this->set('strTitle', $strTitle);
 		$this->set('strColor', $strColor);
 		$this->set('strBrench', $strBrench);
+		$this->set('ad', $ad);
 	}
 
 	public function book_barcode27( $id=0) {

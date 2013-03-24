@@ -18,7 +18,7 @@ class BookfuncComponent extends Component {
                 $count = ClassRegistry::init($bookInstanceModel)->find('count',
                                 array('conditions' => $conditions)
                         );
-                $id = sprintf('%1$s%2$02d%3$04d-%4$02d', $location_id,$cat_id/100,$book_id,$count+1);
+                $id = sprintf('%1$s%2$02d%3$05d-%4$02d', $location_id,$cat_id/100,$book_id,$count+1);
                 return $id;    
         }
 	

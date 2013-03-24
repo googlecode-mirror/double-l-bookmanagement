@@ -27,6 +27,7 @@ class LendController extends AppController {
 		$person_info = array();
 		if (!empty($this->data)) {
 			if (isset($this->data['Lend_Record']['person_id'])) {
+				$this->data['Lend_Record']['person_id'] = strtoupper($this->data['Lend_Record']['person_id']);
 				$this->Person->id = $this->data['Lend_Record']['person_id'];
 				$person_info = $this->Person->read();
 				if ($person_info !== false) {
@@ -37,6 +38,7 @@ class LendController extends AppController {
 									$book_status = $this->Book_Instance->find('all', array('conditions'=>array('book_status in (1,6)')));
 									if (!empty($book_status)) {
 										$lend_books = $this->data[$key];
+										$lend_books['book_instance_id'] = strtoupper($lend_books['book_instance_id']);
 										$reserve_rec = $this->Lend_Record->find('all', array('conditions' =>array('status' => 'R', 'Lend_Record.person_id' => $this->data['Lend_Record']['person_id'], 'Lend_Record.book_instance_id' => $lend_books['book_instance_id'])));
 										if (!empty($reserve_rec)) {
 											$lend_books['id'] = $reserve_rec[0]['Lend_Record']['id'];
@@ -71,7 +73,10 @@ class LendController extends AppController {
 						$lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $person_info['Person']['id'], 'return_time' => null, 'status in ("C", "E")') ));
 						$over_lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $person_info['Person']['id'], 'return_time' => null, 'book_instance.s_return_date < current_timestamp', 'status in ("C", "E")') ));
 					}
+				}else{
+					$this->Session->setFlash('借書卡號不存在.');
 				}
+				
 			}
 		}
 		$this->set('person_info', $person_info);

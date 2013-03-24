@@ -47,9 +47,9 @@
 <table>
 <tr><td>書籍名稱 : <?php echo $this->Form->input('book_name', array('size'=>80)); ?></td></tr>
 <tr><td>副標題 : <?php echo $this->Form->input('book_title', array('size'=>80)); ?></td></tr>
-<tr><td>ISBN <?php echo $this->Form->input('isbn', array('size'=>15)); ?>
-		版別 <?php echo $this->Form->input('book_version', array('size'=>5)); ?>
-        集叢書:<?php echo $this->Form->input('book_suite', array('size'=>30)); ?></td></tr>
+<tr><td>ISBN  : <?php echo $this->Form->input('isbn', array('size'=>15)); ?>
+		版別  : <?php echo $this->Form->input('book_version', array('size'=>5)); ?>
+        集叢書:<?php echo $this->Form->input('book_suite', array('size'=>40)); ?></td></tr>
 <tr><td>出版商 : <?php echo $this->Form->input('book_publisher', array('size'=>50)); ?>
 		出版日期 : <?php echo $this->Form->text('publish_year', array('readonly'=>true,'style'=>'width:120px'));?></td></tr>
 <tr><td>作者 : <?php echo $this->Form->input('book_author', array('size'=>40)); ?> 

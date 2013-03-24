@@ -3,12 +3,26 @@ App::uses('HttpSocket', 'Network/Http');
 class BooksController extends AppController {
 	public $uses = array('Book_Cate', 'Book', 'Book_Instance','Book_Publisher','Person_Level','System_Inc','System_Location', 'System_Print_Book');
     public $helpers = array('Html', 'Form', 'Session');
-    public $components = array('Session', 'Formfunc','Systeminc','Bookfunc','Userfunc','Isbnfunc');
+    public $components = array('Session', 'Formfunc','Systeminc','Bookfunc','Userfunc','Isbnfunc','BookSearch');
 
     public function book_index(){
+    	// init search parameter
+    	$books_sort = 0;
+    	$books_sorts = array(0 => 'isbn');
+    	$page_size = 20;
+    	$page = 1;
+    	
+    	/*
     	$this->set('books', $this->Book->find('all',array(
         						'conditions' => array('Book.book_type' => 'B'))
-    	));  	 
+    	));
+    	*/
+    	$book_query = $this->request->data['Book'];
+    	$this->set('books', $this->BookSearch->search($book_query)); 	 
+    	$this->set('page', $page);
+    	$this->set('books_sort', $books_sort);    	 
+    	$this->set('cates', $this->Book_Cate->find('list', array('fields'=>array('id', 'catagory_name'))));
+    	 
     }    
     
     public function journal_index(){
@@ -525,6 +539,20 @@ class BooksController extends AppController {
     }
 
 	public function book_search($sort_index=0) {
+		// init search parameter
+		$books_sort = 0;
+		$books_sorts = array(0 => 'isbn');
+		$page_size = 20;
+		$page = 1;
+		 
+		$book_query = $this->request->data['Book'];
+		$this->set('books', $this->BookSearch->search($book_query));
+		$this->set('page', $page);
+		$this->set('books_sort', $books_sort);
+		$this->set('cates', $this->Book_Cate->find('list', array('fields'=>array('id', 'catagory_name'))));
+		
+		
+		/*
 		$books_sort = 0;
 		$books_sorts = array(0 => 'isbn');
 		$page_size = 20;
@@ -590,6 +618,7 @@ class BooksController extends AppController {
 		$this->set('books_page', floor($books_cnt[0][0]['cnt'] / $page_size) + 1);
 		$this->set('levels', $this->Person_Level->find('list', array('fields'=>array('id', 'level_name'))));
 		$this->set('cates', $this->Book_Cate->find('list', array('fields'=>array('id', 'catagory_name'))));
+		*/
 	} 
 	
     public function book_search_view($id=null){

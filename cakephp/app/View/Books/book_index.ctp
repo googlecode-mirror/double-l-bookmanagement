@@ -18,14 +18,16 @@
     
 ?>
 </div>
-<p>         <?php
+<div class="pagemenu_div">
+    <p><?php
             echo $this->Html->link(
             $this->Html->image("excel.jpg", array("alt" => "export")),
             "book_export",
             array('escape' => false)
             );
-            ?></p>
+    ?></p>
 </div>
+<?php echo $this->element('book_search_zone'); ?>
 <table>
 	<tr>
         <th>書籍名稱</th>

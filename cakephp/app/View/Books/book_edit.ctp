@@ -20,10 +20,14 @@
 
     }
     echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+
 ?>
 </div>
 <?php
-    echo $this->Form->create('Book',array('action'=>'book_edit','div'=>false, 'inputDefaults' => array('label' => false,'div' => false)));
+    echo $this->Form->create('Book',array('action'=>'book_edit',
+                                            'enctype' => 'multipart/form-data', 
+                                            'div'=>false, 
+                                            'inputDefaults' => array('label' => false,'div' => false)));
 	echo $this->Form->input('id', array('type'=> 'hidden'));
     echo $this->Form->input('book_type', array('type'=> 'hidden', 'value'=>'B'));
     echo $this->Form->input('book_image', array('type'=> 'hidden', 'value'=>$book['book_image']));
@@ -42,17 +46,18 @@
 <tr><td>出版商 : <?php echo $this->Form->input('book_publisher', array('size'=>50)); ?>
         出版日期 : <?php echo $this->Form->text('publish_year', array( 'class' => 'ref_field', 'style'=>'width:120px'));?>  </td></tr>
 <tr><td>作者 : <?php echo $this->Form->input('book_author', array('size'=>40)); ?>
-        附屬媒體 <?php echo $this->Form->input('book_attachment', array('size'=>10)); ?> </td></tr>
+        附屬媒體 : <?php echo $this->Form->input('book_attachment', array('size'=>10)); ?> </td></tr>
 <tr><td>閱讀級別 : <?php echo $this->Form->input('lexile_level'); ?></td></tr>
 <tr><td>親子共讀 : <?php echo $this->Form->checkbox('book_ad', array('hiddenField' => false)); ?></td></tr>
-
+<tr><td>圖片上傳 : <?php echo $this->Form->input('Upload.file', array('between' => '','type' => 'file'));?></td></tr>
+<tr><td><?php echo $this->Form->end('儲存',array('label' => false,'div' => false)); ?></td></tr>
 </table>
 </div>
 <div id="book_image" style="float:left; clear:right;">
 <?php echo $this->Html->image( $book['book_image'], array('height'=>'300px','width'=>'190px'));?>
 </div>
 </div>
-<?php echo $this->Form->end('儲存'); ?>
+
 <table>
     <tr>
         <th>書籍編號</th>

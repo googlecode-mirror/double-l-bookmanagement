@@ -12,11 +12,7 @@ class BooksController extends AppController {
     	$page_size = 20;
     	$page = 1;
     	
-    	/*
-    	$this->set('books', $this->Book->find('all',array(
-        						'conditions' => array('Book.book_type' => 'B'))
-    	));
-    	*/
+
     	$book_query = $this->request->data['Book'];
     	$this->set('books', $this->BookSearch->search($book_query)); 	 
     	$this->set('page', $page);
@@ -53,6 +49,15 @@ class BooksController extends AppController {
     	if($this->request->is('get')){
     		$this->request->data = $this->Book->read(); 
     	} else {
+    		//如果有書籍檔案上傳
+    		
+    		$file = $this->request->data['Upload']["file"];
+    		if($file['size'] > 0){
+    			$isbn = $this->request->data['Book']['isbn'];
+    			$image_url = $this->Bookfunc->upload_book_image($file,$isbn);
+    			$this->request->data['Book']['book_image']=$image_url;
+    		}
+    		
 			$ret = $this->Book->save($this->request->data);
     		if ($ret) {
   				$this->Session->setFlash('書籍儲存完成.');
@@ -131,19 +136,18 @@ class BooksController extends AppController {
 						$this->request->data['Book_Instance']['is_lend'] = 'N';
                         $this->set('is_modify',true);
 					}
-    		}
-    		else{
-    			
+    		}else{
+    			// 如果新增, 產生 Book_instance.id
                 if($this->request->data['Book_Instance']['id'] == '')  {
-    				//$this->request->data['Book_Instance']['id'] = $this->Systeminc->get_id("BOOK_B");
-                    $this->request->data['Book_Instance']['id'] = $this->Bookfunc->create_Book_Instance_id(
+                     $this->request->data['Book_Instance']['id'] = $this->Bookfunc->create_Book_Instance_id(
                                                                             $this->request->data['Book_Instance']['location_id'],
                                                                             $this->request->data['Book_Instance']['book_id'],
                     														$book['Book']['cate_id']
                     												);
     			}	
-                
     			if ($this->Book_Instance->save($this->request->data)) {
+    				
+    				
     				$this->Session->setFlash('儲存成功.');
                     $this->redirect(array('action' => 'book_view',$book_id));
 

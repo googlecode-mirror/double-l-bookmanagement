@@ -133,6 +133,18 @@ class BookfuncComponent extends Component {
 		unlink($uploadfile);
 		return $ds;
 	}		
-	
+	/*
+	 * 更新書籍圖片
+	* $file = 從網頁傳送過來的圖片
+	* $isbn : isbn 碼
+	* return $image_url or false
+	*/	
+	public function upload_book_image($file, $isbn){
+		if($isbn==null || trim($isbn)=='') $isbn = time();
+		$uploadfile = WWW_ROOT . 'img'.DS.'books' .DS. $isbn.'.png';
+		move_uploaded_file($file["tmp_name"],$uploadfile);	
+		
+		return 'books/'.$isbn.'.png';
+	}
 }
 ?>

@@ -25,8 +25,7 @@
 	}
 </script>
 <div class="pageheader_div"><h1 id="pageheader">書籍基本資料</h1></div>
-<div class="pagemenu_div">
-<?php 
+<div class="pagemenu_div"><?php 
     if($this->Session->read('user_role') !== 'user') {
         echo $this->Html->link('修改', array('action' => 'book_edit', $book['id']), array('class' => 'button')); 
 		echo '&nbsp;';
@@ -35,35 +34,32 @@
 
     }
     echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
-?>
-</div>
+?></div>
+
 <?php
     echo $this->Form->create('Book',array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false,'readonly'=>true)));
-	echo $this->Form->input('id', array('type'=> 'hidden'));
+    echo $this->Form->input('id', array('type'=> 'hidden'));
     echo $this->Form->input('book_type', array('type'=> 'hidden', 'value'=>'B'));
-?>
-<div id="book_zone">
-<div id="book_info" style="float:left; clear:left;">
-<table>
-<tr><td>書籍名稱 : <?php echo $this->Form->input('book_name', array('size'=>80)); ?></td></tr>
-<tr><td>副標題 : <?php echo $this->Form->input('book_title', array('size'=>80)); ?></td></tr>
-<tr><td>ISBN  : <?php echo $this->Form->input('isbn', array('size'=>15)); ?>
-		版別  : <?php echo $this->Form->input('book_version', array('size'=>5)); ?>
-        集叢書:<?php echo $this->Form->input('book_suite', array('size'=>40)); ?></td></tr>
-<tr><td>出版商 : <?php echo $this->Form->input('book_publisher', array('size'=>50)); ?>
-		出版日期 : <?php echo $this->Form->text('publish_year', array('readonly'=>true,'style'=>'width:120px'));?></td></tr>
-<tr><td>作者 : <?php echo $this->Form->input('book_author', array('size'=>40)); ?> 
-        附屬媒體 <?php echo $this->Form->input('book_attachment', array('size'=>30)); ?></td></tr>
-<tr><td>閱讀級別 : <?php echo $this->Form->input('lexile_level', array('readonly'=>true,'style'=>'width:50px')); ?></td></tr>
-<tr><td>親子共讀  <?php echo $this->Form->checkbox('book_ad', array('hiddenField' => false)); ?></td></tr>
+?>   
+    <table><tr> 
+        <td><table>
+            <tr><td>書籍名稱 : <?php echo $this->Form->input('book_name', array('size'=>70)); ?></td></tr>
+            <tr><td>副標題 : <?php echo $this->Form->input('book_title', array('size'=>70)); ?></td></tr>
+            <tr><td>ISBN  : <?php echo $this->Form->input('isbn', array('size'=>15)); ?>
+            		版別  : <?php echo $this->Form->input('book_version', array('size'=>5)); ?>
+                    集叢書:<?php echo $this->Form->input('book_suite', array('size'=>40)); ?></td></tr>
+            <tr><td>出版商 : <?php echo $this->Form->input('book_publisher', array('size'=>50)); ?>
+            		出版日期 : <?php echo $this->Form->text('publish_year', array('readonly'=>true,'style'=>'width:120px'));?></td></tr>
+            <tr><td>作者 : <?php echo $this->Form->input('book_author', array('size'=>40)); ?> 
+                    附屬媒體 <?php echo $this->Form->input('book_attachment', array('size'=>30)); ?></td></tr>
+            <tr><td>閱讀級別 : <?php echo $this->Form->input('lexile_level', array('readonly'=>true,'style'=>'width:50px')); ?></td></tr>
+            <tr><td>親子共讀  <?php echo $this->Form->checkbox('book_ad', array('hiddenField' => false)); ?></td></tr>
+        </td></table>
+        <td><?php echo $this->Html->image( $book['book_image'], array('height'=>'300px','width'=>'200px'));?></td>
+    </tr></table>
+<?php echo $this->Form->end(); ?>    
 
-</table>
-</div>
-<div id="book_image" style="float:left; clear:right;">
-<?php echo $this->Html->image( $book['book_image'], array('height'=>'300px','width'=>'200px'));?>
-</div>
-</div>
-<?php echo $this->Form->end(); ?>
+
 <table>
     <tr>
         <th>書籍編號</th>
@@ -102,3 +98,4 @@
     </tr>
     <?php endforeach; ?>
 </table>
+

@@ -59,9 +59,10 @@
 
 </head>
 <body>
-	<div id="container">
-		<div id="header" sytle="clear:left; float:left; background: #6494CD;">
-			
+	<div id="container" style="">
+
+		<div id="header" sytle="clear:left; float:left; background: #6494CD; ">
+		<div style="width:1366px;">	
 			<div style="float:left; height:25px; margin-top: -1px; margin-left: -3px;">
 				<?php echo $this->Html->image('bg-logo.png', array('height'=>'71px'));?>
 			</div>
@@ -71,7 +72,7 @@
 						echo $this->element('menu_'.$this->Session->read('user_role'));
 				?>
 			</div>			
-			<div id="account">
+			<div id="account" style="float:left; clean:right;">
 			<?php
 				if($this->Session->read('isLogin')){
 					echo '<li>';
@@ -88,5 +89,5 @@
 				}
 			?>
 			</div>				
-			
-		</div>
+		</div>	
+		</div>	

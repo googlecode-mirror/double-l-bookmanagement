@@ -7,8 +7,11 @@
 		 document.body.innerHTML = originalContents;
 	}
 </script>
-<?php echo $this->Html->link('回上一頁',array('controller'=>'prints','action'=>'person_barcode'));?>&nbsp;
-<?php echo $this->Html->link('列印標簽',"javascript:printDiv('print_div');");?>
+<div class="pagemenu_div" style="float:left; clear:right;">
+<?php echo $this->Html->link('回上一頁',array('controller'=>'prints','action'=>'person_barcode'), array('class' => 'button'));?>&nbsp;
+<?php echo $this->Html->link('列印標簽',"javascript:printDiv('print_div');", array('class' => 'button'));?>
+</div>
+<div style="height:1px;float:left; clear:left; "></div>
 <div id='print_div' align="center" cellspacing=0 cellpadding=0 style="width:828px;">
 	<?php $total_div = 0; ?>
 	<table style="padding:0px; margin:0px">

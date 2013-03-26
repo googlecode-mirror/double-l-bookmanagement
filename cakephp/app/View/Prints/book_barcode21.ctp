@@ -7,9 +7,13 @@
 		document.body.innerHTML = originalContents;
 	}
 </script>
-<?php echo $this->Html->link('回上一頁',"javascript:history.back();");?>&nbsp;
-<?php echo $this->Html->link('列印標簽',"javascript:printDiv('print_div');");?>
-<div id='print_div' style="width:210mm;">
+
+<div class="pagemenu_div" style="float:left; clear:right;">
+<?php echo $this->Html->link('回上一頁',"javascript:history.back();", array('class' => 'button'));?>&nbsp;
+<?php echo $this->Html->link('列印標簽',"javascript:printDiv('print_div');", array('class' => 'button'));?>
+</div>
+<div style="height:1px;float:left; clear:left; "></div>
+<div id='print_div' style="width:210mm;float:left; clear:left; ">
 	<STYLE TYPE="text/css">
 	.barcode { width:70mm; height: 42mm; float:left; }
 	.barcode_tt { width:70mm; height: 42mm; float:left; clear:right; }

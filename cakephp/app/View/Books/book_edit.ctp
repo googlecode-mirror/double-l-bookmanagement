@@ -35,28 +35,24 @@
     $book_instances = $this->request->data["Book_Instances"];
 	if($book_instances == null ) {$book_instances=array();}
 ?>
-<div id="book_zone">
-<div id="book_info" style="float:left; clear:left;">
-<table>
-<tr><td>書籍名稱 : <?php echo $this->Form->input('book_name', array('size'=>80)); ?></td></tr>
-<tr><td>副標題 : <?php echo $this->Form->input('book_title', array('size'=>80)); ?></td></tr>
-<tr><td>ISBN :  <?php echo $this->Form->input('isbn', array('size'=>15)); ?>
-        版別  : <?php echo $this->Form->input('book_version', array('size'=>5)); ?>
-        集叢書:<?php echo $this->Form->input('book_suite', array('size'=>40)); ?></td></tr>
-<tr><td>出版商 : <?php echo $this->Form->input('book_publisher', array('size'=>50)); ?>
-        出版日期 : <?php echo $this->Form->text('publish_year', array( 'class' => 'ref_field', 'style'=>'width:120px'));?>  </td></tr>
-<tr><td>作者 : <?php echo $this->Form->input('book_author', array('size'=>40)); ?>
-        附屬媒體 : <?php echo $this->Form->input('book_attachment', array('size'=>10)); ?> </td></tr>
-<tr><td>閱讀級別 : <?php echo $this->Form->input('lexile_level'); ?></td></tr>
-<tr><td>親子共讀 : <?php echo $this->Form->checkbox('book_ad', array('hiddenField' => false)); ?></td></tr>
-<tr><td>圖片上傳 : <?php echo $this->Form->input('Upload.file', array('between' => '','type' => 'file'));?></td></tr>
-<tr><td><?php echo $this->Form->end('儲存',array('label' => false,'div' => false)); ?></td></tr>
-</table>
-</div>
-<div id="book_image" style="float:left; clear:right;">
-<?php echo $this->Html->image( $book['book_image'], array('height'=>'300px','width'=>'190px'));?>
-</div>
-</div>
+ <table><tr> 
+    <td><table>
+    <tr><td>書籍名稱 : <?php echo $this->Form->input('book_name', array('size'=>70)); ?></td></tr>
+    <tr><td>副標題 : <?php echo $this->Form->input('book_title', array('size'=>70)); ?></td></tr>
+    <tr><td>ISBN :  <?php echo $this->Form->input('isbn', array('size'=>15)); ?>
+            版別  : <?php echo $this->Form->input('book_version', array('size'=>5)); ?>
+            集叢書:<?php echo $this->Form->input('book_suite', array('size'=>40)); ?></td></tr>
+    <tr><td>出版商 : <?php echo $this->Form->input('book_publisher', array('size'=>50)); ?>
+            出版日期 : <?php echo $this->Form->text('publish_year', array( 'class' => 'ref_field', 'style'=>'width:120px'));?>  </td></tr>
+    <tr><td>作者 : <?php echo $this->Form->input('book_author', array('size'=>40)); ?>
+            附屬媒體 : <?php echo $this->Form->input('book_attachment', array('size'=>10)); ?> </td></tr>
+    <tr><td>閱讀級別 : <?php echo $this->Form->input('lexile_level'); ?></td></tr>
+    <tr><td>親子共讀 : <?php echo $this->Form->checkbox('book_ad', array('hiddenField' => false)); ?></td></tr>
+    <tr><td>圖片上傳 : <?php echo $this->Form->input('Upload.file', array('between' => '','type' => 'file'));?></td></tr>
+    <tr><td><?php echo $this->Form->end('儲存',array('label' => false,'div' => false)); ?></td></tr>
+    </td></table>
+    <td><?php echo $this->Html->image( $book['book_image'], array('height'=>'300px','width'=>'190px'));?></td>
+</tr></table>
 
 <table>
     <tr>

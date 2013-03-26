@@ -5,7 +5,7 @@ class Book extends AppModel {
 	public $validate = array(
 		'lexile_level' => array(
 				array('rule'=> 'numeric','message' => 'Lexile級別必須是數字'),
-				array('rule'=> array('between', 1, 1000),'message' => 'Lexile級別必須介於1~1000之間')
+				array('rule'=> array('between', 0, 1000),'message' => 'Lexile級別必須介於0~1000之間')
 		)	
 	);
 	public $hasMany = array(

@@ -467,6 +467,7 @@ class BooksController extends AppController {
             $this->redirect(array('action' => 'book_edit',$book['Book']['id']));
         }
         // 找尋圖片
+        $book['Book']['lexile_level']=0;
         $book['Book']['isbn'] = $isbn;
         $book['Book']['book_image'] = 'book_empty.png';
         $book = $this->Isbnfunc->get_bookinfo($isbn,$book);

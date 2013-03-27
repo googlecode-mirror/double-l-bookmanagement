@@ -54,7 +54,7 @@ div.pagement_div form{
 #menu li {
     float:left;
     display:block;
-    width:180px;
+    width:165px;
     background:#778899;
     position:relative;
     z-index:500;
@@ -96,7 +96,7 @@ div.pagement_div form{
 }
  
 #menu ul li {
-    width:180px;
+    width:165px;
     float:left;
     border-top:1px solid #fff;
 }
@@ -167,6 +167,9 @@ td h1 {
 .button.small { font-size: 75%; padding: 3px 7px; }
 .button.small:hover { background-position: 0 -50px; }
 .button.small:active { padding: 4px 7px 2px; background-position: 0 top; }
+.button.normal { font-size: 100%; padding: 5px 10px; }
+.button.normal:hover { background-position: 0 -48px; }
+.button.normal:active { padding: 6px 10px 4px; background-position: 0 top; }
 .button.large { font-size: 125%; padding: 7px 12px; }
 .button.large:hover { background-position: 0 -35px; }
 .button.large:active { padding: 8px 12px 6px; background-position: 0 top; }

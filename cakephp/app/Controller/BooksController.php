@@ -7,18 +7,19 @@ class BooksController extends AppController {
 
     public function book_index(){
     	// init search parameter
-    	$books_sort = 0;
-    	$books_sorts = array(0 => 'isbn');
-    	$page_size = 20;
-    	$page = 1;
-    	
-
-    	$book_query = $this->request->data['Book'];
-    	$this->set('books', $this->BookSearch->search($book_query)); 	 
-    	$this->set('page', $page);
-    	$this->set('books_sort', $books_sort);    	 
-    	$this->set('cates', $this->Book_Cate->find('list', array('fields'=>array('id', 'catagory_name'))));
-    	 
+ 		$books_sort = 0;
+		$books_sorts = array(0 => 'isbn');
+		
+		
+		$book_query = $this->request->data['Book'];
+		$result = $this->BookSearch->search($book_query);
+		$this->set('books', $result['books']);
+		$this->set('page', $result['page']);
+		$this->set('page_size',$result['page_size']);
+		$this->set('count', $result['count']);
+		$this->set('books_sort', $books_sort);
+		$this->set('cates', $this->Book_Cate->find('list', array('fields'=>array('id', 'catagory_name'))));
+	    	    	 
     }    
     
     public function journal_index(){
@@ -552,12 +553,14 @@ class BooksController extends AppController {
 		// init search parameter
 		$books_sort = 0;
 		$books_sorts = array(0 => 'isbn');
-		$page_size = 20;
-		$page = 1;
-		 
+		
+		
 		$book_query = $this->request->data['Book'];
-		$this->set('books', $this->BookSearch->search($book_query));
-		$this->set('page', $page);
+		$result = $this->BookSearch->search($book_query);
+		$this->set('books', $result['books']);
+		$this->set('page', $result['page']);
+		$this->set('page_size',$result['page_size']);
+		$this->set('count', $result['count']);
 		$this->set('books_sort', $books_sort);
 		$this->set('cates', $this->Book_Cate->find('list', array('fields'=>array('id', 'catagory_name'))));
 		
@@ -640,7 +643,7 @@ class BooksController extends AppController {
 		$this->Book->id = $id;	
 		$this->set('book',$this->Book->read());
 		$this->set('userinfo', $personinfo);
-		$this->set('books', $this->Book_Instance->find('all', array('conditions' => array('book_id' => $id))));
+		$this->set('books', $this->Book_Instance->find('all', array('conditions' => array('book_id' => $id, 'location_id'=>$this->Session->read('user_location')))));
         $this->set('cates', $this->Book_Cate->find('list', array('fields' => array('id', 'catagory_name'))));
         $this->set('book_status', $this->Formfunc->book_status());
 		$this->set('locations', $this->System_Location->find('list', array('fields' => array('id', 'location_name'))));

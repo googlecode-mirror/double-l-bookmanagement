@@ -17,26 +17,45 @@ class BookSearchComponent extends Component {
 	);
 	public function search($query){
 		//var_dump($query);
+		$page_size = 10;
+		$page = $query['page'];
 		$books = array();
-		if($query==null) return $books;
-		$conditions = null;
-		foreach ($this->search_para as $para_key=>$para_type){
-			if (!isset($query[$para_key]) || trim($query[$para_key] == ''))  {
-				continue;
+		$count = 0;
+
+		if($query!==null){ 
+			// 產生 conditions
+			$conditions = null;
+			foreach ($this->search_para as $para_key=>$para_type){
+				if (!isset($query[$para_key]) || trim($query[$para_key] == ''))  {
+					continue;
+				}
+				switch($para_type)	{
+					case 1:
+						$conditions['Book.'.$para_key] = $query[$para_key];
+						break;
+					case 2:
+						$conditions['Book.'.$para_key.' Like'] = '%'.$query[$para_key].'%';
+						break;
+				}	
 			}
-			switch($para_type)	{
-				case 1:
-					$conditions['Book.'.$para_key] = $query[$para_key];
-					break;
-				case 2:
-					$conditions['Book.'.$para_key.' Like'] = '%'.$query[$para_key].'%';
-					break;
-			}	
+			// 抓取資料
+			if($conditions !== null){
+				$bookModel = ClassRegistry::init('Book');
+				$count = $bookModel->find('count',array('conditions' => $conditions));
+				$books = $bookModel->find('all',
+							array(
+									'conditions' => $conditions,
+									'page'=> $page,
+									'limit'=> $page_size
+							)
+						);
+			}
 		}
-		if($conditions == null) return $books;
-		
-		$books = ClassRegistry::init('Book')->find('all',array('conditions' => $conditions));
-		return $books;
+		$result['books'] = $books;
+		$result['page'] = $page;
+		$result['count'] = $count;
+		$result['page_size'] =$page_size;
+		return $result;
 	}
 }
 ?>

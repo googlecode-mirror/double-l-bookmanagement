@@ -636,6 +636,9 @@ class BooksController extends AppController {
             $this->redirect(array('action' => 'book_search'));
         }
 		$personinfo = $this->Person->findById($this->Session->read('user_id'));
+		
+		$this->Book->id = $id;	
+		$this->set('book',$this->Book->read());
 		$this->set('userinfo', $personinfo);
 		$this->set('books', $this->Book_Instance->find('all', array('conditions' => array('book_id' => $id))));
         $this->set('cates', $this->Book_Cate->find('list', array('fields' => array('id', 'catagory_name'))));

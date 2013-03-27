@@ -30,7 +30,8 @@
 				<tr>
 					<td colspan=4>
 					<?php echo $this->Form->hidden('books_sort', array('value'=>$books_sort));?>
-					<?php echo $this->Form->hidden('page', array('value'=>$page));?>
+					<?php echo $this->Form->hidden('page', array('value'=>1));?>
+					<?php echo $this->Form->hidden('page_change', array('value'=>0));?>
 					<?php echo $this->Form->submit('搜尋', array('div'=>false));?>
 					</td>
 				</tr>			

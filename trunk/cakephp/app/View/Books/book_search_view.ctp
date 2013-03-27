@@ -32,6 +32,23 @@
 	}
 	echo $this->Form->end(); 
 ?>
+    <table><tr> 
+        <td><table>
+            <tr><td>書籍名稱 : <input type="text" size="70" readonly value="<?php echo $book['Book']['book_name']?>"></td></tr>
+            <tr><td>副標題 : <input type="text" size="70" readonly value="<?php echo $book['Book']['book_title']?>"></td></tr>
+            <tr><td>ISBN  : <input type="text" size="15" readonly value="<?php echo $book['Book']['isbn']?>">
+            		版別  : <input type="text" size="5" readonly value="<?php echo $book['Book']['book_version']?>">
+                    集叢書:<input type="text" size="40" readonly value="<?php echo $book['Book']['book_suite']?>"></td></tr>
+            <tr><td>出版商 :<input type="text" size="50" readonly value="<?php echo $book['Book']['book_publisher']?>"> 
+            		出版日期 :<input type="text" size="10" readonly value="<?php echo $book['Book']['publish_year']?>"> </td></tr>
+            <tr><td>作者 : <input type="text" size="40"readonly  value="<?php echo $book['Book']['book_author']?>">
+                    附屬媒體 <input type="text" size="30" readonly value="<?php echo $book['Book']['book_attachment']?>"></td></tr>
+            <tr><td>閱讀級別 : <input type="text" size="10" readonly value="<?php echo $book['Book']['lexile_level']?>"></td></tr>
+            <tr><td>親子共讀:<input type="checkbox" disable value="<?php echo $book['Book']['book_ad']?>">  </td></tr>
+        </td></table>
+        <td><?php echo $this->Html->image( $book['Book']['book_image'], array('height'=>'300px','width'=>'200px'));?></td>
+    </tr></table>
+
 <table>
     <tr>
         <th>書籍編號</th>

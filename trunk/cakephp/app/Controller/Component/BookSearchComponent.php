@@ -8,12 +8,14 @@ class BookSearchComponent extends Component {
 	private $search_para = array(
 		//'page'=> 1,
 		//'sort'=>1,
+		'id'=>1,
 		'book_name'=> 2,
 		'isbn'=>2,
 		'book_author'=>2,
 		'book_publisher'=>2,
 		'book_ad'=>1,
-		'cate_id'=>1
+		'cate_id'=>1,
+		'book_suite'=>2	
 	);
 	public function search($query){
 		//var_dump($query);

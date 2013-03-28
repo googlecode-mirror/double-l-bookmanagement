@@ -140,6 +140,8 @@ class BooksController extends AppController {
 					else {
 						$this->request->data['Book_Instance']['id'] = null;
 						$this->request->data['Book_Instance']['is_lend'] = 'N';
+						$this->request->data['Book_Instance']['purchase_date'] = date('Y-m-d');
+						$this->request->data['Book_Instance']['purchase_price'] = 0;
                         $this->set('is_modify',true);
 					}
     		}else{
@@ -706,6 +708,7 @@ class BooksController extends AppController {
 	
 	public function book_export(){
 		$books = $this->Book->find('all',array(
+								'recursive' => 0,
         						'conditions' => array('Book.book_type' => 'B')));
 		$f = $this->_build_excel($books);
 		$this->viewClass = 'Media';
@@ -735,24 +738,25 @@ class BooksController extends AppController {
 		$excel->setActiveSheetIndex(0);
 		//
 		$excel->getActiveSheet()->setTitle('Books');
-    	$excel->getActiveSheet()->setCellValueByColumnAndRow(0, 1, '書籍名稱');
-		    	$excel->getActiveSheet()->setCellValueByColumnAndRow(1, 1, '作者');
-		    	$excel->getActiveSheet()->setCellValueByColumnAndRow(2, 1, 'ISBN');
-		    	$excel->getActiveSheet()->setCellValueByColumnAndRow(3, 1, '閱讀級別');
-		    	$excel->getActiveSheet()->setCellValueByColumnAndRow(4, 1, '索書號');
-		    	$excel->getActiveSheet()->setCellValueByColumnAndRow(5, 1, '櫃別');
-		    	$excel->getActiveSheet()->setCellValueByColumnAndRow(6, 1, '數量');
-		    	$i = 1;
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(0, 1, 'ISBN');
+    	$excel->getActiveSheet()->setCellValueByColumnAndRow(1, 1, '書籍名稱');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(2, 1, '作者');		
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(3, 1, '出版公司');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(4, 1, 'AD');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(5, 1, 'Lexile 級數');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(6, 1, '集叢名');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(7, 1, '發行日期');
+		$i = 1;
 		foreach($books as $book){
 		$i++;
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(0, $i, $book['Book']['book_name']);
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(1, $i, $book['Book']['book_author']);
-		$excel->getActiveSheet()->setCellValueExplicitByColumnAndRow(2, $i,$book['Book']['isbn'],PHPExcel_Cell_DataType::TYPE_STRING);
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(3, $i, $book["Book_Cate"]["catagory_name"]);
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(4, $i, $book['Book']['book_search_code']);
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(5, $i, $book['Book']['book_location']);
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(6, $i, sizeof($book["Book_Instances"]));
-
+		$excel->getActiveSheet()->setCellValueExplicitByColumnAndRow(0, $i,$book['Book']['isbn'],PHPExcel_Cell_DataType::TYPE_STRING);		
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(1, $i, $book['Book']['book_name']);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(2, $i, $book['Book']['book_author']);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(3, $i, $book["Book"]["book_publisher"]);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(4, $i, $book['Book']['book_ad']);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(5, $i, $book['Book']['lexile_level']);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(6, $i, $book['Book']['book_suite']);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(7, $i, $book['Book']['publish_year']);
 		}
 		$objWriter = new PHPExcel_Writer_Excel5($excel);
 		$objWriter->save($file);

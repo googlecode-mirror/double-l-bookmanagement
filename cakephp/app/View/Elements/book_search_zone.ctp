@@ -5,17 +5,21 @@
 			<table>
 				<tr>
 					<td style="width:100px">閱讀等級</td>
-					<td colspan=3><?php echo $this->Form->select('cate_id', $cates);?></td>
+					<td><?php echo $this->Form->select('cate_id', $cates);?></td>
+					<td style="width:100px">書籍編號</td>
+					<td><?php echo $this->Form->input('id',array('type'=> 'text'));?></td>					
 				</tr>
 				<tr>
 					<td style="width:100px" >書籍名稱</td>
 					<td colspan=3><?php echo $this->Form->input('book_name', array('size'=>80));?></td>
 				</tr>
 				<tr>
+					<td style="width:100px" >叢集名</td>
+					<td colspan=3><?php echo $this->Form->input('book_suite', array('size'=>80));?></td>
+				</tr>				
+				<tr>
 					<td style="width:100px">ISBN</td>
-					<td><?php echo $this->Form->input('isbn', array('size'=>20));?></td>
-					<td style="width:100px"></td>
-					<td></td>
+					<td colspan=3><?php echo $this->Form->input('isbn', array('size'=>20));?></td>
 				</tr>
 				<tr>
 					<td style="width:100px">出版社</td>

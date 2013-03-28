@@ -142,6 +142,7 @@ class GraphController extends AppController {
 		$strColor = array('r'=>255,'g'=>255,'b'=>255);
 		$result = $this->Book_Instance->find('all', array('conditions' => array('Book_Instance.id' => $id),'recursive' => 2));
 		if (($result !== false)&& (!empty($result))) {
+			$cate_id = $result[0]['Book']['cate_id'];
 			$strText = $result[0]['Book_Instance']['id'];
 			$strBrench = $result[0]['System_Location']['location_name'];
 			$arr = explode(' ', trim($result[0]['Book']['book_name']));
@@ -176,6 +177,7 @@ class GraphController extends AppController {
 			$strColor = $this->hex2rgb($result[0]['Book']['Book_Cate']['catagory_color']);
 			$ad = $result[0]['Book']['book_ad'];
 		}	
+		$this->set('cate_id', $cate_id);
 		$this->set('strText', $strText);
 		$this->set('strTitle', $strTitle);
 		$this->set('strColor', $strColor);

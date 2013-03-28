@@ -1,13 +1,17 @@
 <?php
+//70x30 Version
+	$use_font_c = APP.'Vendor'.DS.'fonts'.DS.'mingliu.ttc';
+	$use_font_e = APP.'Vendor'.DS.'fonts'.DS.'arial.ttf';
+	$use_font_c1 = APP.'Vendor'.DS.'fonts'.DS.'fireflysung.ttf';
 	$img_type = 1; //PNG
 	$thickness = 30;
 	$color_black = new FColor(0,0,0);
 	$color_white = new FColor(255,255,255);
-	$resolution = 2;
-	$font_size = 4;
+	$resolution = 1;
+	$font_size = 2;
 	$checksum = 0;
 	$img_width = 250;
-	$img_height = 133;
+	$img_height = 110;
 	header("Content-type: image/png");
 	$code_generated = new code39($thickness,$color_black,$color_white, $resolution, $strText, $font_size, $checksum);
 	$drawing = new FDrawing(1024,1024,'',$color_white);
@@ -15,30 +19,30 @@
 	$drawing->add_barcode($code_generated);
 	$drawing->draw_all();
 	$im = $drawing->get_im();
-	//$im_bg = imagecreatefrompng(IMAGES.'english_card.png');
-	//list($bg_width, $bg_height) = getimagesize(IMAGES.'english_card.png');
+	$im_bg = imagecreatefrompng(IMAGES.'english_card.png');
+	list($bg_width, $bg_height) = getimagesize(IMAGES.'english_card.png');
 	$im2 = imagecreate($img_width,$img_height);
 	//$im2 = imagecreate($code_generated->lastX,$code_generated->lastY);
 	//$im2 = imagecreate($code_generated->lastX,$code_generated->lastY+ 20);
 	$background = imagecolorallocate($im2, 255, 255, 255);
 	if ($strText != 'Error') {
 		//imagecopyresized($im2, $im_bg, 0, 0, 0, 0, $img_width, ($img_width/$bg_width) * $bg_height, $bg_width, $bg_height);
-		imagecopyresized($im2, $im, 0+($img_width -10 -$code_generated->lastX)/2, 80, 0, 0, $code_generated->lastX, $code_generated->lastY, $code_generated->lastX, $code_generated->lastY);
-		$imagebox = calculateTextBox("分校：".$strSchool,APP.'Vendor'.DS.'fonts'.DS.'mingliu.ttc',12,0);
-		$im = imagecreate($img_width -10,$imagebox["height"] + 4);
+		imagecopyresized($im2, $im, 0+($img_width -10 -$code_generated->lastX)/2, 68, 0, 0, $code_generated->lastX, $code_generated->lastY, $code_generated->lastX, $code_generated->lastY);
+		$imagebox = calculateTextBox("分校：".$strSchool,$use_font_c1,10,0);
+		$im = imagecreate($img_width -10,$imagebox["height"] + 2);
 		imagefill($im, 0,0, imagecolorallocate($im,$strColor['r'],$strColor['g'],$strColor['b'])); 
-		imagettftext($im, 12, 0, 12, 12,  imagecolorallocate ($im,0,0,0), APP.'Vendor'.DS.'fonts'.DS.'mingliu.ttc', "分校：".$strSchool);
-		imagecopyresized($im2, $im, 5, 12, 0, 0,$img_width -10,$imagebox["height"] + 4, $img_width -10,$imagebox["height"] + 4);
-		$imagebox = calculateTextBox("姓名：".$strName,APP.'Vendor'.DS.'fonts'.DS.'mingliu.ttc',12,0);
-		$im = imagecreate($img_width -10,$imagebox["height"] + 4);
+		imagettftext($im, 10, 0, 12, 12,  imagecolorallocate ($im,0,0,0), $use_font_c1, "分校：".$strSchool);
+		imagecopyresized($im2, $im, 5, 26, 0, 0,$img_width -10,$imagebox["height"] + 2, $img_width -10,$imagebox["height"] + 2);
+		$imagebox = calculateTextBox("姓名：".$strName,$use_font_c1,10,0);
+		$im = imagecreate($img_width -10,$imagebox["height"] + 2);
 		imagefill($im, 0,0, imagecolorallocate($im,$strColor['r'],$strColor['g'],$strColor['b'])); 
-		imagettftext($im, 12, 0, 12, 12,  imagecolorallocate ($im,0,0,0), APP.'Vendor'.DS.'fonts'.DS.'mingliu.ttc', "姓名：".$strName);
-		imagecopyresized($im2, $im, 5, $imagebox["height"] + 4 + 12, 0, 0,$img_width -10,$imagebox["height"] + 4, $img_width -10,$imagebox["height"] + 4);
-		$imagebox = calculateTextBox("學號：".$strText,APP.'Vendor'.DS.'fonts'.DS.'mingliu.ttc',12,0);
-		$im = imagecreate($img_width -12,$imagebox["height"] + 4);
+		imagettftext($im, 10, 0, 12, 12,  imagecolorallocate ($im,0,0,0), $use_font_c1, "姓名：".$strName);
+		imagecopyresized($im2, $im, 5, $imagebox["height"] + 26, 0, 0,$img_width -10,$imagebox["height"] + 2, $img_width -10,$imagebox["height"] + 2);
+		$imagebox = calculateTextBox("學號：".$strText,$use_font_c1,10,0);
+		$im = imagecreate($img_width -10,$imagebox["height"] + 2);
 		imagefill($im, 0,0, imagecolorallocate($im,$strColor['r'],$strColor['g'],$strColor['b'])); 
-		imagettftext($im, 12, 0, 12, 12,  imagecolorallocate ($im,0,0,0), APP.'Vendor'.DS.'fonts'.DS.'mingliu.ttc', "學號：".$strText);
-		imagecopyresized($im2, $im, 5, ($imagebox["height"] + 4)*2 + 12, 0, 0,$img_width -10,$imagebox["height"] + 4, $img_width -10,$imagebox["height"] + 4);
+		imagettftext($im, 10, 0, 12, 12,  imagecolorallocate ($im,0,0,0), $use_font_c1, "學號：".$strText);
+		imagecopyresized($im2, $im, 5, ($imagebox["height"] + 2)*2 + 26, 0, 0,$img_width -10,$imagebox["height"] + 2, $img_width -10,$imagebox["height"] + 2);
 	}
 	$drawing->set_im($im2);
 	$drawing->finish($img_type);

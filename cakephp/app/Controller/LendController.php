@@ -71,7 +71,7 @@ class LendController extends AppController {
 							}
 						}
 						$lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $person_info['Person']['id'], 'return_time' => null, 'status in ("C", "E")') ));
-						$over_lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $person_info['Person']['id'], 'return_time' => null, 'book_instance.s_return_date < current_timestamp', 'status in ("C", "E")') ));
+						$over_lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $person_info['Person']['id'], 'return_time' => null, 'Book_Instance.s_return_date < current_timestamp', 'status in ("C", "E")') ));
 					}
 				}else{
 					$this->Session->setFlash('借書卡號不存在.');
@@ -124,7 +124,7 @@ class LendController extends AppController {
 					$this->Person->id = $return_record['Person']['id'];
 					$person_info = $this->Person->read();
 					$lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $return_record['Person']['id'], 'return_time' => null, 'status in ("C", "E")') ));
-					$over_lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $return_record['Person']['id'], 'return_time' => null, 'book_instance.s_return_date < current_timestamp', 'status in ("C", "E")') ));
+					$over_lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $return_record['Person']['id'], 'return_time' => null, 'Book_Instance.s_return_date < current_timestamp', 'status in ("C", "E")') ));
 				}
 				else {
 					$msg = '本地無此書外借資料';
@@ -212,7 +212,7 @@ class LendController extends AppController {
 		$this->Person->id = $this->Session->read('user_id');
 		$person_info = $this->Person->read();
 		$lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $person_info['Person']['id'], 'return_time' => null, 'status in ("C", "E")') ));
-		$over_lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $person_info['Person']['id'], 'return_time' => null, 'book_instance.s_return_date < current_timestamp', 'status in ("C", "E")') ));
+		$over_lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $person_info['Person']['id'], 'return_time' => null, 'Book_Instance.s_return_date < current_timestamp', 'status in ("C", "E")') ));
 		$reserve_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $person_info['Person']['id'], 'return_time' => null, 'status' => "R") ));
 		$this->set('person_info', $person_info);
 		$this->set('lend_records', $lend_records);

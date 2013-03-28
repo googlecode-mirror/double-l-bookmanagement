@@ -32,7 +32,7 @@
 		$im = imagecreate($img_width -10,$imagebox["height"] + 2);
 		imagefill($im, 0,0, imagecolorallocate($im,$strColor['r'],$strColor['g'],$strColor['b'])); 
 		imagettftext($im, 10, 0, 12, 12,  imagecolorallocate ($im,0,0,0), $use_font_c1, "分校：".$strSchool);
-		imagecopyresized($im2, $im, 5, 26, 0, 0,$img_width -10,$imagebox["height"] + 2, $img_width -10,$imagebox["height"] + 2);
+		imagecopyresized($im2, $im, 5, 23, 0, 0,$img_width -10,$imagebox["height"] + 2, $img_width -10,$imagebox["height"] + 2);
 		$imagebox = calculateTextBox("姓名：".$strName,$use_font_c1,10,0);
 		$im = imagecreate($img_width -10,$imagebox["height"] + 2);
 		imagefill($im, 0,0, imagecolorallocate($im,$strColor['r'],$strColor['g'],$strColor['b'])); 

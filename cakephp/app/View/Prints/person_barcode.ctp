@@ -8,62 +8,36 @@
 	}
 </script>
 <div class="pagemenu_div" style="float:left; clear:right;">
-<?php echo $this->Html->link('回上一頁',array('controller'=>'prints','action'=>'person_barcode'), array('class' => 'button'));?>&nbsp;
+<?php echo $this->Html->link('回上一頁',"javascript:history.back();", array('class' => 'button'));?>&nbsp;
 <?php echo $this->Html->link('列印標簽',"javascript:printDiv('print_div');", array('class' => 'button'));?>
 </div>
 <div style="height:1px;float:left; clear:left; "></div>
-<div id='print_div' align="center" cellspacing=0 cellpadding=0 style="width:828px;">
-	<?php $total_div = 0; ?>
-	<table style="padding:0px; margin:0px">
+<div id='print_div' style="width:210mm;float:left; clear:left; ">
+	<STYLE TYPE="text/css">
+	.barcode { width:70mm; height: 30mm; float:left; }
+	.barcode_tt { width:70mm; height: 30mm; float:left; clear:right; }
+	</STYLE> 
+	<div id='barcode_div' style="width:210mm;">
+		<?php $total_div = 0; ?>
 		<?php for($i=1;$i<$intY;$i++) : ?>
-		<tr style="background-color:#FFF;padding:0px; margin:0px">
-			<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
-			<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
-			<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
-		</tr>
-		<?php $total_div = $total_div + 3; ?>
+			<?php for($i=1;$j<=3;$j++) : ?>
+				<div class="barcode" align="center"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></div>
+				<?php $total_div++; ?>
+			<? endfor; ?>
 		<?php endfor;?>
 		<?php $record = 0; ?>
-		<?php $col = 1; ?>
-		<tr style="background-color:#FFF;padding:0px; margin:0px">
-			<?php for($i=1;$i<$intX;$i++) : ?>
-				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
-				<?php $total_div++; ?>
-				<?php $col++; ?>
-			<?php endfor; ?>
-			<?php while (($col <= 3) && ($record < sizeof($persons))): ?>
-				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'person_barcode',$persons[$record]['Person']['id'])); ?></td>
-				<?php $record++; ?>
-				<?php $col++; ?>
-				<?php $total_div++; ?>
-			<?php endwhile; ?>	
-			<?php while ($col <= 3) : ?>
-				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
-				<?php $total_div++; ?>
-				<?php $col++; ?>
-			<?php endwhile; ?>
-		</tr>
-		<?php $col = 1; ?>
-		<tr style="background-color:#FFF;padding:0px; margin:0px">
-			<?php while (($col < 3) && ($record < sizeof($persons))): ?>
-				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'person_barcode',$persons[$record]['Person']['id'])); ?></td>
-				<?php $record++; ?>
-				<?php $col++; ?>
-				<?php $total_div++; ?>
-			<?php endwhile; ?>	
-			<?php while ($col <= 3) : ?>
-				<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
-				<?php $total_div++; ?>
-				<?php $col++; ?>
-			<?php endwhile; ?>
-		</tr>
-		<?php while($total_div < 24) : ?>
-		<tr style="background-color:#FFF;padding:0px; margin:0px">
-			<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
-			<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
-			<td style="text-align:center;padding:0px; margin:0px;border-bottom:none"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></td>
-		</tr>
-		<?php $total_div = $total_div + 3; ?>
-		<?php endwhile;?>
-	</table>
+		<?php for($i=1;$i<$intX;$i++) : ?>
+			<div class="barcode" align="center"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></div>
+			<?php $total_div++; ?>
+		<?php endfor; ?>
+		<?php while ($record < sizeof($persons)): ?>
+			<div class="barcode" align="center"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'person_barcode',$persons[$record]['Person']['id'])); ?></div>
+			<?php $record++; ?>
+			<?php $total_div++; ?>
+		<?php endwhile; ?>	
+		<?php while ($total_div % 3 != 0) : ?>
+			<div class="barcode" align="center"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></div>
+			<?php $total_div++; ?>
+		<?php endwhile; ?>
+	</div>
 </div>

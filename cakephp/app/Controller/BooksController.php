@@ -44,11 +44,9 @@ class BooksController extends AppController {
 
     public function book_edit($id = null){
     	$this->Book->id = $id;
-    	$cates = $this->Formfunc->convert_options($this->Book_Cate->find('all'), 'Book_Cate', 'id', 'catagory_name');
-    	$this->set('cates', $cates);
-    	
+    	$book = $this->Book->read(); 
     	if($this->request->is('get')){
-    		$this->request->data = $this->Book->read(); 
+    		$this->request->data = $book; 
     	} else {
     		//如果有書籍檔案上傳
     		
@@ -61,12 +59,30 @@ class BooksController extends AppController {
     		
 			$ret = $this->Book->save($this->request->data);
     		if ($ret) {
+    			
+  				// 當Lexile 有變動時, 更新 book_instnce_id
+  				if($book['Book']['cate_id'] != $ret['Book']['cate_id']){
+  					
+  					$book_instances = $book['Book_Instances'];
+  					foreach($book_instances as $book_instance){
+  						$book_instance_id = $book_instance['id'];
+  						$new_id = $this->Bookfunc->change_book_instance_id($book_instance_id,$ret['Book']['cate_id']);
+  						$this->Book_Instance->updateAll(
+  								array('Book_Instance.id'=> "'".$new_id."'" ),
+  								array('Book_Instance.id'=> $book_instance_id)
+  						);
+  						
+  						//$this->Book_Instance->id = $book_instance_id;
+  						//$this->Book_Instance->saveField('id',$this->Bookfunc->change_book_instance_id($book_instance_id,$ret['Book']['cate_id']));
+  					}
+  				}
   				$this->Session->setFlash('書籍儲存完成.');
                 $this->redirect(array('action' => 'book_view',$ret['Book']['id']));
     		}else {
 				$this->Session->setFlash('書籍儲存失敗.');
 			}
     	}
+    	 
         $cates = $this->Formfunc->convert_options($this->Book_Cate->find('all'), 'Book_Cate', 'id', 'catagory_name');
         $this->set('cates', $cates);
         $this->set('book_status', $this->Formfunc->book_status());

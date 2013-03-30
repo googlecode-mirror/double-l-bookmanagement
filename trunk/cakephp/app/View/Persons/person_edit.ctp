@@ -41,7 +41,7 @@
 		<tr>
 			<td style='width:80px'>群組</td><td><?php echo $this->Form->select('group_id', $person_groups, array('empty'=>false)); ?></td>
 			<td style='width:80px'>職稱</td><td><?php echo $this->Form->select('title_id', $person_titles, array('empty'=>false)); ?></td>
-			<td style='width:80px'>位置</td><td><?php echo $this->Form->select('location_id', $system_locations, array('empty'=>false)); ?></td>
+			<td style='width:80px'>所屬分校</td><td><?php echo $this->Form->select('location_id', $system_locations, array('empty'=>false)); ?></td>
 		</tr>
 		<tr>
 			<td>性別</td><td><?php echo $this->Form->select('gender', $person_genders,array('empty'=>false)); ?></td>

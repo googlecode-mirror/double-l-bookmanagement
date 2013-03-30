@@ -219,7 +219,13 @@ class PersonsController extends AppController {
 		$this->set('person_groups', $this->Person_Group->find('list', array('fields' => array('id', 'group_name'))));
 		$this->set('system_locations', $this->System_Location->find('list', array('fields' => array('id', 'location_name'))));
 		$this->set('person_genders', $this->Formfunc->person_gender());
-        $this->set('persons', $this->Person->find('all', array('order' => 'Person.valid DESC, Person.id')));
+        $this->set('persons', $this->Person->find('all', 
+        		array(
+        			'order' => 'Person.valid DESC, Person.id',
+        			'conditions' => $this->Userfunc->getLocationCondition('Person'),
+        		)
+        	)
+        );
     }
 	
 	public function person_delete($id) {

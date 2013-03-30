@@ -25,8 +25,27 @@ class BookfuncComponent extends Component {
                 }
                 return $id;    
         }
-	
-	
+        
+    /*
+     *  依據新的$cate_id 變更 book_instance.id 
+     */
+    public function change_book_instance_id($book_instance_id,$cate_id){
+    	$cate_code = $this->get_cate_code($cate_id);
+    	return substr_replace($book_instance_id,$cate_code, 1, 2);
+    	//return substr($book_instance_id,0,1).$cate_code.substr($book_instance_id,3);
+    }
+	/*
+	 *  $cate_id :
+	 *  return book_instance.id 所需要的級數編碼 
+	 */
+	private function get_cate_code($cate_id){
+		if($cate_id==0){
+			return 'CH';
+		} else {
+			return sprintf('%1$02d',$cate_id/100);
+		}
+		
+	}
 	public function curl_post_async($url){
 		$parts=parse_url($url);
 	

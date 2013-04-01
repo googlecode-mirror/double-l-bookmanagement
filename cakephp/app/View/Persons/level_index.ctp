@@ -9,6 +9,7 @@
         <th>等級權限名稱</th>
 		<th>借閱天數</th>
 		<th>借閱數量</th>
+		<th>可跨校借閱</th>
         <th>有效</th>
         <th>建立時間</th>
         <th><?php echo $this->Html->link('新增群組名稱', array('action' => 'level_edit'), array('class' => 'button')); ?></th>
@@ -25,6 +26,9 @@
         <td>
             <?php echo $level['Person_Level']['max_book']; ?>
         </td>
+        <td>
+            <?php if ($level['Person_Level']['is_cross_lend']) { echo 'Y'; } else {echo 'N';}; ?>
+        </td>        
         <td>
             <?php if ($level['Person_Level']['valid']) { echo 'Y'; } else {echo 'N';}; ?>
         </td>

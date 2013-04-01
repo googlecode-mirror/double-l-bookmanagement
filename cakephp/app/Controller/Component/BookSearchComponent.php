@@ -8,7 +8,7 @@ class BookSearchComponent extends Component {
 	private $search_para = array(
 		//'page'=> 1,
 		//'sort'=>1,
-		'id'=>1,
+		'book_instance_id'=>3,
 		'book_name'=> 2,
 		'isbn'=>2,
 		'book_author'=>2,
@@ -38,6 +38,9 @@ class BookSearchComponent extends Component {
 					case 2:
 						$conditions['Book.'.$para_key.' Like'] = '%'.$query[$para_key].'%';
 						break;
+					case 3:
+						$conditions['Book.id'] = $this->book_ids($query[$para_key]);
+						break;
 				}	
 			}
 			// 抓取資料
@@ -45,7 +48,7 @@ class BookSearchComponent extends Component {
 				$bookModel = ClassRegistry::init('Book');
 				$count = $bookModel->find('count',array('conditions' => $conditions));
 				$books = $bookModel->find('all',
-							array(
+							array(	
 									'conditions' => $conditions,
 									'page'=> $page,
 									'limit'=> $page_size
@@ -58,6 +61,18 @@ class BookSearchComponent extends Component {
 		$result['count'] = $count;
 		$result['page_size'] =$page_size;
 		return $result;
+	}
+	private function book_ids($para){
+			$books = ClassRegistry::init('Book_Instance')->find('list',
+						array(
+							'recursive' => 0, 
+							'conditions'=>array('Book_Instance.id like'=>'%'.$para.'%'),
+							'fields'=>'Book_Instance.book_id'	
+						)
+					);
+			$book_ids = array_values($books);
+			return ($book_ids);
+		
 	}
 }
 ?>

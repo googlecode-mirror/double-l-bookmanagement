@@ -22,7 +22,10 @@
 </script>
 
 <div class="pageheader_div"><h1 id="pageheader">借閱者資料批次上傳</h1></div>
-<div class="pagemenu_div"><?php     
+<div class="pagemenu_div"><?php
+  echo $this->Html->link('範例檔', '../files/Persons_Upload.xls',  array('class' => 'button')); 
+  echo '&nbsp;';
+
   echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
 ?></div>
 <?php echo $this->Form->create('Person', array('enctype' => 'multipart/form-data', 

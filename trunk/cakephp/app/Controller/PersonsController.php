@@ -285,9 +285,10 @@ class PersonsController extends AppController {
     	$excel->getActiveSheet()->setCellValueByColumnAndRow(4, 1, '職稱');
     	$excel->getActiveSheet()->setCellValueByColumnAndRow(5, 1, '借閱等級');
     	$excel->getActiveSheet()->setCellValueByColumnAndRow(6, 1, '聯絡電話');
-    	$excel->getActiveSheet()->setCellValueByColumnAndRow(7, 1, '發卡日期');
-    	$excel->getActiveSheet()->setCellValueByColumnAndRow(8, 1, '有效');
-    	$excel->getActiveSheet()->setCellValueByColumnAndRow(9, 1, '建立時間');
+    	$excel->getActiveSheet()->setCellValueByColumnAndRow(7, 1, 'Email');
+    	$excel->getActiveSheet()->setCellValueByColumnAndRow(8, 1, '發卡日期');
+    	$excel->getActiveSheet()->setCellValueByColumnAndRow(9, 1, '有效');
+    	$excel->getActiveSheet()->setCellValueByColumnAndRow(10, 1, '建立時間');
     	$i = 1;
     	foreach($persons as $person){
     		$i++;
@@ -298,9 +299,10 @@ class PersonsController extends AppController {
     		$excel->getActiveSheet()->setCellValueByColumnAndRow(4, $i, $person_levels[$person['Person']['level_id']]);
     		$excel->getActiveSheet()->setCellValueByColumnAndRow(5, $i, $person_titles[$person['Person']['title_id']]);
     		$excel->getActiveSheet()->setCellValueExplicitByColumnAndRow(6, $i, $person['Person']['phone'],PHPExcel_Cell_DataType::TYPE_STRING);
-    		$excel->getActiveSheet()->setCellValueByColumnAndRow(7, $i, $person['Person']['card_create_date']);
-    		$excel->getActiveSheet()->setCellValueByColumnAndRow(8, $i, $person_valid[$person['Person']['valid']]);
-    		$excel->getActiveSheet()->setCellValueByColumnAndRow(9, $i, $person['Person']['create_time']);
+    		$excel->getActiveSheet()->setCellValueByColumnAndRow(7, $i, $person['Person']['email']);
+    		$excel->getActiveSheet()->setCellValueByColumnAndRow(8, $i, $person['Person']['card_create_date']);
+    		$excel->getActiveSheet()->setCellValueByColumnAndRow(9, $i, $person_valid[$person['Person']['valid']]);
+    		$excel->getActiveSheet()->setCellValueByColumnAndRow(10, $i, $person['Person']['create_time']);
     	}
     	$objWriter = new PHPExcel_Writer_Excel5($excel);
 		$objWriter->save($file);

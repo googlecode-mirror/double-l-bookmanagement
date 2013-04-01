@@ -23,12 +23,10 @@
   	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
   	echo '&nbsp;';
 ?></div>  	
-<div class="pagemenu_div"><?php   	
- 	echo $this->Html->link(
- 			$this->Html->image("excel.jpg", array("alt" => "export")),
-    		"person_export",
-    		array('escape' => false)
-		); 	
+<div class="pagemenu_div"><?php   		
+	echo $this->Html->link('匯出借閱者資料', array('action' => 'person_export'), array('class' => 'button blue'));
+    echo '&nbsp;';
+		
 ?></div>
 <table>
     <tr>

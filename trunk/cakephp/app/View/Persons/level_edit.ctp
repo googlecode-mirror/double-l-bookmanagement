@@ -8,6 +8,7 @@
     echo $this->Form->input('level_name', array('label'=>'等級權限名稱'));
     echo $this->Form->input('max_day', array('label'=>'借閱天數'));
     echo $this->Form->input('max_book', array('label'=>'借閱數量'));
+    echo $this->Form->input('is_cross_lend', array('label'=>'可跨校借閱','options'=>array(1=>'Y',0=>'N')));
     echo $this->Form->input('id', array('type' => 'hidden'));
     echo $this->Form->end('儲存');
 ?>

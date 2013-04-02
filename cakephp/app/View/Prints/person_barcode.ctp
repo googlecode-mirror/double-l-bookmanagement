@@ -23,7 +23,7 @@
 			<?php for($i=1;$j<=3;$j++) : ?>
 				<div class="barcode" align="center"><?php echo $this->Html->image(array('controller' => 'graph', 'action'=> 'person_barcode')); ?></div>
 				<?php $total_div++; ?>
-			<? endfor; ?>
+			<?php endfor; ?>
 		<?php endfor;?>
 		<?php $record = 0; ?>
 		<?php for($i=1;$i<$intX;$i++) : ?>

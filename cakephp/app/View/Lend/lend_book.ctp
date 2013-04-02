@@ -1,4 +1,4 @@
-<? if (!empty($book)): ?>
+<?php if (!empty($book)): ?>
 <tr id='lend_row_<?php echo $book_cnt; ?>'>
 	<td>
 		<?php echo $book['Book_Instance']['id']; ?>

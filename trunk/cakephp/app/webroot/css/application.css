@@ -138,7 +138,7 @@ td h1 {
 .button {
     padding: 5px 10px;
     display: inline;
-    background: #777 url(button.png) repeat-x bottom;
+    background: #777;
     border: none;
     color: #fff;
     cursor: pointer;

@@ -50,6 +50,8 @@ class IsbnfuncComponent extends Component {
 		$amazon_info = $this->get_amazon_bookinfo($amazon_asin);
 		$isbn_info = $this->get_isbndb_bookinfo($isbn);
 		$bookinfo = $this->_add_bookinfo($amazon_info,$isbn_info);
+		$books_info = $this->get_books_bookinfo($isbn);
+		$bookinfo = $this->_add_bookinfo($bookinfo,$books_info);
 		//var_dump($bookinfo);
 		if($bookinfo != null){
 			if(array_key_exists('book_image',$bookinfo))
@@ -75,7 +77,9 @@ class IsbnfuncComponent extends Component {
 		$image_url = null;
 		$amazon_asin = $this->get_amazon_asin($isbn);
 		$bookinfo = $this->get_amazon_bookinfo($amazon_asin);	
-
+		$books_info = $this->get_books_bookinfo($isbn);
+		$bookinfo = $this->_add_bookinfo($bookinfo,$books_info);
+		
 		if($bookinfo != null){
 			if(array_key_exists('book_image',$bookinfo))
 				$image_url = $this->saveImage($isbn, $bookinfo['book_image']);
@@ -198,6 +202,30 @@ class IsbnfuncComponent extends Component {
 		$response = $HttpSocket->post($url,$query);
 		return json_decode($response->body);
 	}
+	public function get_books_bookinfo($isbn){
+		$HttpSocket = new HttpSocket();
+		$url = 'http://search.books.com.tw/exep/prod_search.php?cat=BKA&key='.$isbn.'&apid=books&areaid=head_wel_search';
+		$response = $HttpSocket->get($url, array(), array('redirect' => true));
+		if(!$response->isOk()) return false;
+		return $this->books_bookinfo($response->body);
+	}
+	
+	public function books_bookinfo($html){
+		
+		$bookinfo = null;
+		$tmphtml = $this->catdata($html, '<ul class="searchbook">','</ul>');		
+		if($tmphtml < 0) return false;
+		$bookitem = $this->catdata($tmphtml, '<li class="item">','</li>');		
+		if($bookitem < 0) return false;
+		$bookimage = $this->trimdata($bookitem,'src="','"');		
+		if($bookimage < 0) return false;
+		$image_url = $this->trimdata($bookimage,'?i=','&w=');
+		//var_dump($image_url);
+		if($image_url < 0) return false;
+		$bookinfo['book_image'] = $image_url;
+		return $bookinfo;
+	}
+	
 	public function get_isbndb_bookinfo($isbn){
 		$HttpSocket = new HttpSocket();
 		$url = 'http://isbndb.com/search-all.html?kw='.$isbn.'&x=10&y=13';
@@ -245,6 +273,7 @@ class IsbnfuncComponent extends Component {
 		return $r;
 	
 	}
+
 	public function checkIsbn($isbn=null){
 		$result = null;
 		$result['isIsbn'] = false;

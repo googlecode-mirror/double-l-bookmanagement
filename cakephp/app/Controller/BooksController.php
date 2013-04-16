@@ -524,7 +524,8 @@ class BooksController extends AppController {
 
         $book['Book']['isbn'] = $isbn;
         $book['Book']['book_image'] = 'book_empty.png';
-        $book = $this->Isbnfunc->get_bookinfo($isbn,$book);
+        //$book = $this->Isbnfunc->get_bookinfo($isbn,$book);
+        $book = $this->Isbnfunc->get_books_bookinfo($isbn);
         $htmlbody = "Book : ".$htmlbody.var_export($book, true)."<br>";
         /*
         $amazon_asin = $this->Isbnfunc->get_amazon_asin($isbn);

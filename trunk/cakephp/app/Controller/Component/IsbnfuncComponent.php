@@ -215,14 +215,37 @@ class IsbnfuncComponent extends Component {
 		$bookinfo = null;
 		$tmphtml = $this->catdata($html, '<ul class="searchbook">','</ul>');		
 		if($tmphtml < 0) return false;
-		$bookitem = $this->catdata($tmphtml, '<li class="item">','</li>');		
-		if($bookitem < 0) return false;
+		$bookitem = $this->catdata($tmphtml, '<li class="item">','</li>');	
+		if($bookitem < 0) return false;	
+		//$bookimage
 		$bookimage = $this->trimdata($bookitem,'src="','"');		
-		if($bookimage < 0) return false;
-		$image_url = $this->trimdata($bookimage,'?i=','&w=');
-		//var_dump($image_url);
-		if($image_url < 0) return false;
-		$bookinfo['book_image'] = $image_url;
+		if(!($bookimage < 0)) {
+				$image_url = $this->trimdata($bookimage,'?i=','&w=');
+				if($image_url >= 0) $bookinfo['book_image'] = $image_url;		
+		}	
+		//book_name
+		$bookname = $this->trimdata($bookitem,'<a rel="mid_name"','</a>');
+		if(!($bookname < 0)) {
+			$book_name = $this->trimdata($bookname,'title="','">');
+			$bookinfo['bookname'] = trim($book_name);
+		}
+		//book_author
+		$booka = $this->trimdata($bookitem,'<a rel="go_author"','</a>');
+		if(!($booka  < 0)) {
+			$book_attribute = $this->trimdata($booka ,'title="','">');
+			$bookinfo['author'] = trim($book_attribute);
+		}	
+		//book_publisher
+		$booka = $this->trimdata($bookitem,'<a rel="mid_publish"','</a>');
+		if(!($booka  < 0)) {
+			$book_attribute = $this->trimdata($booka ,'title="','">');
+			$bookinfo['publisher'] = trim($book_attribute);
+		}	
+		//book_publisher
+		$booka = $this->trimdata($bookitem,'出版日期：','<BR>');
+		if(!($booka  < 0)) {
+			$bookinfo['date'] = trim($booka);
+		}				
 		return $bookinfo;
 	}
 	

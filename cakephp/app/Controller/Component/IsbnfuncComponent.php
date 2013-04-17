@@ -52,6 +52,8 @@ class IsbnfuncComponent extends Component {
 		$bookinfo = $this->_add_bookinfo($amazon_info,$isbn_info);
 		$books_info = $this->get_books_bookinfo($isbn);
 		$bookinfo = $this->_add_bookinfo($bookinfo,$books_info);
+		$eslite_info = $this->get_eslite_bookinfo($isbn);
+		$bookinfo = $this->_add_bookinfo($bookinfo,$eslite_info);
 		//var_dump($bookinfo);
 		if($bookinfo != null){
 			if(array_key_exists('book_image',$bookinfo))
@@ -79,6 +81,8 @@ class IsbnfuncComponent extends Component {
 		$bookinfo = $this->get_amazon_bookinfo($amazon_asin);	
 		$books_info = $this->get_books_bookinfo($isbn);
 		$bookinfo = $this->_add_bookinfo($bookinfo,$books_info);
+		$eslite_info = $this->get_eslite_bookinfo($isbn);
+		$bookinfo = $this->_add_bookinfo($bookinfo,$eslite_info);
 		
 		if($bookinfo != null){
 			if(array_key_exists('book_image',$bookinfo))
@@ -201,6 +205,53 @@ class IsbnfuncComponent extends Component {
 		$query = 'asin='.$isbn.'&method=getBookData';
 		$response = $HttpSocket->post($url,$query);
 		return json_decode($response->body);
+	}
+	
+	public function get_eslite_bookinfo($isbn){
+		$HttpSocket = new HttpSocket();
+		$url = 'http://www.eslite.com/Search_BW.aspx?query='.$isbn.'&searchType=2';
+		$response = $HttpSocket->get($url, array(), array('redirect' => true));
+		if(!$response->isOk()) return false;
+		return $this->eslite_bookinfo($response->body);		
+	}
+	public function eslite_bookinfo($html){
+		
+		$bookinfo = null;
+		$tmphtml = $this->catdata($html, '<div class="box_list">','</div>');
+		if($tmphtml < 0) return false;
+		$bookitem = $this->catdata($tmphtml, '<tbody>',' </tbody>');		
+		
+		if($bookitem < 0) return false;
+		//bookimage
+		$bookimage = $this->trimdata($bookitem,'class="cover">','</td>');
+		
+		if(!($bookimage < 0)) {
+			$image_url = $this->trimdata($bookimage,'src="','" ');
+			if($image_url >= 0) $bookinfo['book_image'] = $image_url;
+		}		
+		//book_name
+		$bookname = $this->trimdata($bookitem,'<span id="ctl00_ContentPlaceHolder1_rptProducts_ctl00_LblName">','</span>');
+		if(!($bookname < 0)) {
+			$bookinfo['bookname'] = trim($bookname);
+		}
+		//book_author
+		$booka = $this->trimdata($bookitem,'<span id="ctl00_ContentPlaceHolder1_rptProducts_ctl00_LblCharacterName">','</span>');
+		if(!($booka  < 0)) {
+			$book_attribute = $this->trimdata($booka ,'">','</a>');
+			$bookinfo['author'] = trim($book_attribute);
+		}
+		//book_publisher
+		$booka = $this->trimdata($bookitem,'<span id="ctl00_ContentPlaceHolder1_rptProducts_ctl00_LblManufacturerName">','</span>');
+		if(!($booka  < 0)) {
+			$book_attribute = $this->trimdata($booka ,'">','</a>');
+			$bookinfo['publisher'] = trim($book_attribute);
+		}
+		//book_publisher
+		$booka = $this->trimdata($bookitem,'出版日期:','<br />');
+		if(!($booka  < 0)) {
+			$bookinfo['date'] = date('Y-m-d',strtotime(trim($booka)));;
+		}		
+		return $bookinfo;
 	}
 	public function get_books_bookinfo($isbn){
 		$HttpSocket = new HttpSocket();

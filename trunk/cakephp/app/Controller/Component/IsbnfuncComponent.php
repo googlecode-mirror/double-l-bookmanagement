@@ -50,10 +50,11 @@ class IsbnfuncComponent extends Component {
 		$amazon_info = $this->get_amazon_bookinfo($amazon_asin);
 		$isbn_info = $this->get_isbndb_bookinfo($isbn);
 		$bookinfo = $this->_add_bookinfo($amazon_info,$isbn_info);
-		$books_info = $this->get_books_bookinfo($isbn);
-		$bookinfo = $this->_add_bookinfo($bookinfo,$books_info);
-		$eslite_info = $this->get_eslite_bookinfo($isbn);
-		$bookinfo = $this->_add_bookinfo($bookinfo,$eslite_info);
+		//$eslite_info = $this->get_eslite_bookinfo($isbn);
+		//$bookinfo = $this->_add_bookinfo($bookinfo,$eslite_info);		
+		//$books_info = $this->get_books_bookinfo($isbn);
+		//$bookinfo = $this->_add_bookinfo($bookinfo,$books_info);
+
 		//var_dump($bookinfo);
 		if($bookinfo != null){
 			if(array_key_exists('book_image',$bookinfo))
@@ -64,11 +65,36 @@ class IsbnfuncComponent extends Component {
 				$book['Book']['book_author'] = $bookinfo['author'];
 			if(array_key_exists('bookname',$bookinfo))
 				$book['Book']['book_name'] = $bookinfo['bookname'];
-			if(array_key_exists('bookname',$bookinfo))
+			if(array_key_exists('date',$bookinfo))
 				$book['Book']['publish_date'] = $bookinfo['date'];
 		}	
 		return $book;	
 	}
+	public function get_cn_bookinfo($isbn, $book){
+		//$amazon_asin = $this->get_amazon_asin($isbn);
+		//$amazon_info = $this->get_amazon_bookinfo($amazon_asin);
+		//$isbn_info = $this->get_isbndb_bookinfo($isbn);
+		//$bookinfo = $this->_add_bookinfo($amazon_info,$isbn_info);
+		$eslite_info = $this->get_eslite_bookinfo($isbn);
+		$bookinfo = $this->_add_bookinfo($bookinfo,$eslite_info);
+		$books_info = $this->get_books_bookinfo($isbn);
+		$bookinfo = $this->_add_bookinfo($bookinfo,$books_info);
+	
+		//var_dump($bookinfo);
+		if($bookinfo != null){
+			if(array_key_exists('book_image',$bookinfo))
+				$book['Book']['book_image'] = $this->saveImage($isbn, $bookinfo['book_image']);
+			if(array_key_exists('publisher',$bookinfo))
+				$book['Book']['book_publisher'] = $bookinfo['publisher'];
+			if(array_key_exists('author',$bookinfo))
+				$book['Book']['book_author'] = $bookinfo['author'];
+			if(array_key_exists('bookname',$bookinfo))
+				$book['Book']['book_name'] = $bookinfo['bookname'];
+			if(array_key_exists('date',$bookinfo))
+				$book['Book']['publish_date'] = $bookinfo['date'];
+		}
+		return $book;
+	}	
 	// 
 	/**
 	 * 整合抓取 BookImage , 如果抓取不到則傳回 null
@@ -79,10 +105,10 @@ class IsbnfuncComponent extends Component {
 		$image_url = null;
 		$amazon_asin = $this->get_amazon_asin($isbn);
 		$bookinfo = $this->get_amazon_bookinfo($amazon_asin);	
-		$books_info = $this->get_books_bookinfo($isbn);
-		$bookinfo = $this->_add_bookinfo($bookinfo,$books_info);
-		$eslite_info = $this->get_eslite_bookinfo($isbn);
-		$bookinfo = $this->_add_bookinfo($bookinfo,$eslite_info);
+		//$books_info = $this->get_books_bookinfo($isbn);
+		//$bookinfo = $this->_add_bookinfo($bookinfo,$books_info);
+		//$eslite_info = $this->get_eslite_bookinfo($isbn);
+		//$bookinfo = $this->_add_bookinfo($bookinfo,$eslite_info);
 		
 		if($bookinfo != null){
 			if(array_key_exists('book_image',$bookinfo))
@@ -91,6 +117,23 @@ class IsbnfuncComponent extends Component {
 		}	
 		return $image_url;
 	}
+	
+	public function get_cn_bookimage($isbn){
+		$image_url = null;
+		//$amazon_asin = $this->get_amazon_asin($isbn);
+		//$bookinfo = $this->get_amazon_bookinfo($amazon_asin);
+		$books_info = $this->get_books_bookinfo($isbn);
+		$bookinfo = $this->_add_bookinfo($bookinfo,$books_info);
+		$eslite_info = $this->get_eslite_bookinfo($isbn);
+		$bookinfo = $this->_add_bookinfo($bookinfo,$eslite_info);
+	
+		if($bookinfo != null){
+			if(array_key_exists('book_image',$bookinfo))
+				$image_url = $this->saveImage($isbn, $bookinfo['book_image']);
+			if($image_url == false) $image_url = null;
+		}
+		return $image_url;
+	}	
 	/**
 	 * 
 	 * @param string $isbn  10碼或13碼
@@ -249,7 +292,8 @@ class IsbnfuncComponent extends Component {
 		//book_publisher
 		$booka = $this->trimdata($bookitem,'出版日期:','<br />');
 		if(!($booka  < 0)) {
-			$bookinfo['date'] = date('Y-m-d',strtotime(trim($booka)));;
+			$bookinfo['date'] = trim($booka);
+			//$bookinfo['date'] = date('Y-m-d',strtotime(trim($booka)));;
 		}		
 		return $bookinfo;
 	}
@@ -295,7 +339,9 @@ class IsbnfuncComponent extends Component {
 		//book_publisher
 		$booka = $this->trimdata($bookitem,'出版日期：','<BR>');
 		if(!($booka  < 0)) {
-			$bookinfo['date'] = trim($booka);
+			var_dump($booka);
+			$bookinfo['date'] = date('Y-m-d',strtotime(trim($booka)));;
+			//$bookinfo['date'] = trim($booka);
 		}				
 		return $bookinfo;
 	}
@@ -433,7 +479,7 @@ class IsbnfuncComponent extends Component {
 					&& array_key_exists($pkey,$add_info))
 				$main_info[$pkey] = $add_info[$pkey];
 			}
-		}
+		}	
 		return $main_info;
 	}
 	

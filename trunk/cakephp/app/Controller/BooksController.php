@@ -114,6 +114,29 @@ class BooksController extends AppController {
     	$this->redirect(array('action' => 'book_edit',$book['Book']['id']));
 
     }
+    public function book_add_cn_image($id=null){
+    	if($id==null) {
+    		$this->redirect(array('action' => 'book_index'));
+    	}
+    	$this->Book->id = $id;
+    	$book = $this->Book->read();
+    	if($book == null){
+    		$this->redirect(array('action' => 'book_index'));
+    	}
+    	$isbn = $this->Isbnfunc->checkIsbn($book['Book']['isbn']);
+    	if($isbn['isIsbn']){
+    		$image_url = $this->Isbnfunc->get_cn_bookimage($isbn['isbn']);
+    		if($image_url !== null){
+    			$book['Book']['book_image'] = $image_url;
+    			$this->Book->save($book);
+    			$this->Session->setFlash('書籍圖片更新成功');
+    		} else {
+    			$this->Session->setFlash('書籍圖片無法取得');
+    		}
+    	}
+    	$this->redirect(array('action' => 'book_edit',$book['Book']['id']));
+    
+    }    
     
     public function book_upload($id){
     	$url = 'http://localhost'.$this->request->base.'/'.'Books'.'/'.'book_add_image'.'/'.$id;
@@ -299,63 +322,7 @@ class BooksController extends AppController {
     	unlink($uploadfile);
     	return $ds;
     }
- /*   改由 Bookfunc 來完成, 不寫在Controller
-    private function _save_bookinfo_upload($file){
-    	//initial result set;
-    	$ds = null;
-    	App::import("Vendor", "phpexcel/PHPExcel/IOFactory");
-    	 
-    	$uploadfile = WWW_ROOT . 'img'.DS.'books' .DS. $file["name"];
-    	move_uploaded_file($file["tmp_name"],$uploadfile);
-    	$excel = PHPExcel_IOFactory::load($uploadfile);
-    	$sheetdata = $excel->getActiveSheet()->toArray(null,true,true,true);
-    	if( ($ss=count($sheetdata)) > 1 ) {
-    		for($i=2;$i<=$ss;$i++){
-    
-    			$data['Book']['line'] = $i;
-    			$data['Book']['isbn'] = $sheetdata[$i]['A'];
-    			$data['Book']['book_name'] = $sheetdata[$i]['B'];
-    			$data['Book']['book_author'] = $sheetdata[$i]['C'];
-    			$data['Book']['book_publisher'] = $sheetdata[$i]['D'];
-    			$data['Book']['cate_id'] = $sheetdata[$i]['E'];
-    			$data['Book']['book_suite'] = $sheetdata[$i]['F'];
-    			$data['Book']['publish_year'] = $sheetdata[$i]['G'];
 
-    			$isbn = $this->Isbnfunc->checkIsbn($data['Book']['isbn']);
-    			if($isbn['isIsbn'] == false){
-    				$data['Book']['isSave']= $isbn['errorMsg'];
-    				$ds[$i] = $data;
-    				continue;
-    			}
-    			
-    			$book = $this->Book->find('first', array('conditions'=> array('Book.isbn'=> $isbn['isbn'])));
-    			if($book != null){
-    				$data['Book']['isSave']='書籍已存在';
-    				$ds[$i] = $data;
-    				continue;
-    			}
-    	
-    			$data['Book']['book_type'] = 'B';
-    			$data['Book']['isbn'] = $isbn['isbn'];
-    			
-
-    
-    			 
-    			$this->Book->create();
-    			if($this->Book->save($data)){
-    				$data['Book']['isSave'] = 'OK';
-    			} else {
-    				$data['Book']['isSave'] = '存檔失敗';
-    			}
-    
-    			$ds[$i] = $data;
-    			 
-    		}
-    	}
-    	unlink($uploadfile);
-    	return $ds;
-    }    
-*/    
     //public function Book_Instance_edit($book_id=null, $id=null){
     public function journal_instance_edit($book_id=null, $id=null){
         $error_msg = '';
@@ -502,6 +469,41 @@ class BooksController extends AppController {
         $this->render('book_edit');
 
     }
+    public function isbn_cn_add($isbn=null){
+    	$isbn = $this->request->data['Book']['isbn'];
+    	if( $isbn == ''){
+    		$this->Session->setFlash('ISBN 不能為空.');
+    		$this->redirect(array('action' => 'book_index'));
+    	}
+    	$isbn = $this->Isbnfunc->fixIsbn($isbn);
+    	if( $isbn == null) {
+    		$this->Session->setFlash('ISBN 格式錯誤, 須為10碼或13碼數字.');
+    		$this->redirect(array('action' => 'book_index'));
+    	}
+    
+    	$book = $this->Book->find('first', array('conditions'=> array('Book.isbn'=> $isbn)));
+    	if($book != null){
+    		$this->request->data = $book;
+    		$this->redirect(array('action' => 'book_edit',$book['Book']['id']));
+    	}
+    	// 找尋圖片
+    	$book['Book']['lexile_level']=0;
+    	$book['Book']['isbn'] = $isbn;
+    	$book['Book']['book_image'] = 'book_empty.png';
+    	$book = $this->Isbnfunc->get_cn_bookinfo($isbn,$book);
+    	if($book['Book']['publish_date'] !==null || $book['Book']['publish_date'] !==''){
+    		$book['Book']['publish_year'] = date('Y', strtotime($book['Book']['publish_date']));
+    	}
+    
+    	$this->request->data = $book;
+    
+    	$cates = $this->Formfunc->convert_options($this->Book_Cate->find('all'), 'Book_Cate', 'id', 'catagory_name');
+    	$this->set('cates', $cates);
+    	$this->set('book_status', $this->Formfunc->book_status());
+    	$this->render('book_edit');
+    
+    }    
+    
 	/**
 	 *  傳入 $isbn, 產生相對應的 image url;
 	 * @param string $isbn

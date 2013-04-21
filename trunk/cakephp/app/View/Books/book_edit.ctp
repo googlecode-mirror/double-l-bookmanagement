@@ -17,7 +17,8 @@
     if($book['id'] !== null){
         echo $this->Html->link('更新圖片', array('action' => 'book_add_image', $book['id']), array('class' => 'button')); 
         echo '&nbsp;';
-
+        echo $this->Html->link('更新中文圖片', array('action' => 'book_add_cn_image', $book['id']), array('class' => 'button')); 
+        echo '&nbsp;';
     }
     echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
 

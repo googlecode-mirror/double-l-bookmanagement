@@ -20,7 +20,9 @@ class BookfuncComponent extends Component {
                         );
                 if($cat_id==0){
                 	$id = sprintf('%1$s%2$s%3$05d-%4$02d', $location_id,"CH",$book_id,$count+1);
-                }else {
+                } if($cat_id==9999){
+                	$id = sprintf('%1$s%2$s%3$05d-%4$02d', $location_id,"DV",$book_id,$count+1);
+                } else {
                 $id = sprintf('%1$s%2$02d%3$05d-%4$02d', $location_id,$cat_id/100,$book_id,$count+1);
                 }
                 return $id;    
@@ -124,22 +126,27 @@ class BookfuncComponent extends Component {
 				$data['Book']['book_suite'] = $sheetdata[$i]['G'];
 				$data['Book']['publish_year'] = $sheetdata[$i]['H'];
 		
-				$isbn = $this->Isbnfunc->checkIsbn($data['Book']['isbn']);
-				if($isbn['isIsbn'] == false){
-					$data['Book']['isSave']= $isbn['errorMsg'];
-					$ds[$i] = $data;
-					continue;
+				if($data['Book']['lexile_level']==9999){
+					//if($data['Book']['isbn']==null || $data['Book']['isbn']=="" ) $data['Book']['isbn'] = " ";
+				}else{
+					$isbn = $this->Isbnfunc->checkIsbn($data['Book']['isbn']);
+					if($isbn['isIsbn'] == false){
+						$data['Book']['isSave']= $isbn['errorMsg'];
+						$ds[$i] = $data;
+						continue;
+					}
+					$book = $bookModel->find('first', array('conditions'=> array('Book.isbn'=> $isbn['isbn'])));
+					if($book != null){
+						$data['Book']['isSave']='書籍已存在';
+						$ds[$i] = $data;
+						continue;
+					}
+					$data['Book']['isbn'] = $isbn['isbn'];
 				}
-				 
-				$book = $bookModel->find('first', array('conditions'=> array('Book.isbn'=> $isbn['isbn'])));
-				if($book != null){
-					$data['Book']['isSave']='書籍已存在';
-					$ds[$i] = $data;
-					continue;
-				}
+
 				 
 				$data['Book']['book_type'] = 'B';
-				$data['Book']['isbn'] = $isbn['isbn'];		
+					
 		
 		
 				$bookModel->create();

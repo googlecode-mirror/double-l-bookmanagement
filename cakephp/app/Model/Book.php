@@ -25,8 +25,8 @@ class Book extends AppModel {
 		
 		if($this->data['Book']['lexile_level'] == 0){
 			$this->data['Book']['cate_id'] = 0;
-		} else if($this->data['Book']['lexile_level'] > 900) {
-			$this->data['Book']['cate_id'] = 1000;
+		} else if($this->data['Book']['lexile_level'] ==9999) {
+			$this->data['Book']['cate_id'] = 9999;
 		} else {
 			$this->data['Book']['cate_id'] = (floor(($this->data['Book']['lexile_level']-1)/100)+1)*100;
 		}

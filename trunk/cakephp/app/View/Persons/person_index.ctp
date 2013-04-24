@@ -33,9 +33,8 @@
         <th>借卡代號</th>
         <th>姓名</th>
 		<th>性別</th>
-		<th>群組</th>
-		<th>借閱等級</th>
-		<th>職稱</th>		
+		<th>所屬分校</th>
+		<th>借閱等級</th>		
 		<th>聯絡電話</th>
 		<th>發卡日期</th>
 		<th>有效</th>
@@ -49,7 +48,6 @@
         <td><?php echo $person_genders[$person['Person']['gender']]; ?></td>
         <td><?php echo $person_groups[$person['Person']['group_id']]; ?></td>
         <td><?php echo $person_levels[$person['Person']['level_id']]; ?></td>
-        <td><?php echo $person_titles[$person['Person']['title_id']]; ?></td>
         <td><?php echo $person['Person']['phone']; ?></td>
 		<td><?php echo $person['Person']['card_create_date']; ?></td>
         <td>

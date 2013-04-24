@@ -28,21 +28,21 @@
 	if ($strText != 'Error') {
 		//imagecopyresized($im2, $im_bg, 0, 0, 0, 0, $img_width, ($img_width/$bg_width) * $bg_height, $bg_width, $bg_height);
 		imagecopyresized($im2, $im, 0+($img_width -10 -$code_generated->lastX)/2, 68, 0, 0, $code_generated->lastX, $code_generated->lastY, $code_generated->lastX, $code_generated->lastY);
-		$imagebox = calculateTextBox("分校：".$strSchool,$use_font_c1,10,0);
+		$imagebox = calculateTextBox("分校：".$strSchool,$use_font_c,12,0);
 		$im = imagecreate($img_width -10,$imagebox["height"] + 2);
 		imagefill($im, 0,0, imagecolorallocate($im,$strColor['r'],$strColor['g'],$strColor['b'])); 
-		imagettftext($im, 10, 0, 12, 12,  imagecolorallocate ($im,0,0,0), $use_font_c1, "分校：".$strSchool);
-		imagecopyresized($im2, $im, 5, 23, 0, 0,$img_width -10,$imagebox["height"] + 2, $img_width -10,$imagebox["height"] + 2);
-		$imagebox = calculateTextBox("姓名：".$strName,$use_font_c1,10,0);
+		imagettftext($im, 12, 0, 12, 14,  imagecolorallocate ($im,0,0,0), $use_font_c, "分校：".$strSchool);
+		imagecopyresized($im2, $im, 5, 6, 0, 0,$img_width -10,$imagebox["height"] + 2, $img_width -10,$imagebox["height"] + 2);
+		$imagebox = calculateTextBox("姓名：".$strName,$use_font_c,12,0);
 		$im = imagecreate($img_width -10,$imagebox["height"] + 2);
 		imagefill($im, 0,0, imagecolorallocate($im,$strColor['r'],$strColor['g'],$strColor['b'])); 
-		imagettftext($im, 10, 0, 12, 12,  imagecolorallocate ($im,0,0,0), $use_font_c1, "姓名：".$strName);
-		imagecopyresized($im2, $im, 5, $imagebox["height"] + 26, 0, 0,$img_width -10,$imagebox["height"] + 2, $img_width -10,$imagebox["height"] + 2);
-		$imagebox = calculateTextBox("學號：".$strText,$use_font_c1,10,0);
+		imagettftext($im, 12, 0, 12, 14,  imagecolorallocate ($im,0,0,0), $use_font_c, "姓名：".$strName);
+		imagecopyresized($im2, $im, 5, $imagebox["height"] + 2 + 6, 0, 0,$img_width -10,$imagebox["height"] + 2, $img_width -10,$imagebox["height"] + 2);
+		$imagebox = calculateTextBox("學號：".$strText,$use_font_c,12,0);
 		$im = imagecreate($img_width -10,$imagebox["height"] + 2);
 		imagefill($im, 0,0, imagecolorallocate($im,$strColor['r'],$strColor['g'],$strColor['b'])); 
-		imagettftext($im, 10, 0, 12, 12,  imagecolorallocate ($im,0,0,0), $use_font_c1, "學號：".$strText);
-		imagecopyresized($im2, $im, 5, ($imagebox["height"] + 2)*2 + 26, 0, 0,$img_width -10,$imagebox["height"] + 2, $img_width -10,$imagebox["height"] + 2);
+		imagettftext($im, 12, 0, 12, 14,  imagecolorallocate ($im,0,0,0), $use_font_c, "學號：".$strText);
+		imagecopyresized($im2, $im, 5, ($imagebox["height"] + 2)*2 + 6, 0, 0,$img_width -10,$imagebox["height"] + 2, $img_width -10,$imagebox["height"] + 2);
 	}
 	$drawing->set_im($im2);
 	$drawing->finish($img_type);

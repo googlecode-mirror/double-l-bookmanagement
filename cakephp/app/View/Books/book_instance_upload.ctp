@@ -50,7 +50,7 @@
 <?php if(isset($save_datas)):?>
 	<tr>
 		<td>資料列數</td>
-		<td>書籍編號</td>
+		<td>索書碼</td>
 		<td>購買金額</td>
 		<td>購入日期</td>
 		<td>結果</td>
@@ -58,7 +58,7 @@
 	<?php foreach($save_datas as $pp): ?>
 	<tr>
 		<td><?php echo $pp['Book_Instance']['line']; ?></td>
-		<td><?php echo $pp['Book_Instance']['isbn']; ?></td>
+		<td><?php echo $pp['Book_Instance']['book_search_code']; ?></td>
 		<td><?php echo $pp['Book_Instance']['purchase_price']; ?></td>
 		<td><?php echo $pp['Book_Instance']['purchase_date']; ?></td>
 		<td><?php echo $pp['Book_Instance']['isSave']; ?></td>

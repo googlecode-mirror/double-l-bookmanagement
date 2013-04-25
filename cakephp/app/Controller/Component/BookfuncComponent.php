@@ -162,7 +162,81 @@ class BookfuncComponent extends Component {
 		}
 		unlink($uploadfile);
 		return $ds;
-	}		
+	}
+	/*
+	 * 書本實體整批上傳
+	* $file = file path
+	* $pdata = 分校資料
+	*/
+	public  function save_book_instance_upload($file,$pdata){
+		$bookModel = ClassRegistry::init('Book');
+		$bookiModel = ClassRegistry::init('Book_Instance');
+		$ds = null;
+		App::import("Vendor", "phpexcel/PHPExcel/IOFactory");
+		 
+		$uploadfile = WWW_ROOT . 'img'.DS.'books' .DS. $file["name"];
+		move_uploaded_file($file["tmp_name"],$uploadfile);
+		$excel = PHPExcel_IOFactory::load($uploadfile);
+		$sheetdata = $excel->getActiveSheet()->toArray(null,true,true,true);
+		if( ($ss=count($sheetdata)) > 1 ) {
+			for($i=2;$i<=$ss;$i++){
+	
+				$data['Book_Instance']['line'] = $i;
+				$data['Book_Instance']['book_search_code'] = $sheetdata[$i]['A'];
+				$data['Book_Instance']['purchase_price'] = $sheetdata[$i]['B'];
+				$data['Book_Instance']['purchase_date'] = $sheetdata[$i]['C'];
+				 
+				$isbn = $sheetdata[$i]['A'];
+				if( $isbn == ''){
+					$data['Book_Instance']['isSave']= '索書碼不能為空.';
+					$ds[$i] = $data;
+					continue;
+				}
+				if($data['Book_Instance']['purchase_price'] == null || $data['Book_Instance']['purchase_price'] ==""){
+					$data['Book_Instance']['isSave']='購買金額不能為空';
+					$ds[$i] = $data;
+					continue;
+				}
+				if($data['Book_Instance']['purchase_date'] == null || trim($data['Book_Instance']['purchase_date']) == ""){
+					$data['Book_Instance']['isSave']='購買日期不能為空';
+					$ds[$i] = $data;
+					continue;
+				}
+				$book = $bookModel->find('first', array('conditions'=> array('Book.book_search_code'=> $isbn)));
+				if($book == null){
+					$data['Book_Instance']['isSave']='書籍不存在';
+					$ds[$i] = $data;
+					continue;
+				}
+	
+	
+				$data['Book_Instance']['book_id'] = $book['Book']['id'];
+				$data['Book_Instance']['location_id'] = $pdata['location_id'];
+				$data['Book_Instance']['book_status'] = $pdata['book_status'];
+				$data['Book_Instance']['level_id'] = $pdata['level_id'];
+				$data['Book_Instance']['is_lend'] = $pdata['is_lend'];
+				$data['Book_Instance']['create_time'] = date('Y-m-d H:i:s');
+				$data['Book_Instance']['id'] = $this->create_Book_Instance_id(
+						$data['Book_Instance']['location_id'],
+						$data['Book_Instance']['book_id'],
+						$book['Book']['cate_id']);
+				 
+				$bookiModel->create();
+				if($bookiModel->save($data)){
+					$data['Book_Instance']['isSave'] = 'OK';
+				} else {
+					$data['Book_Instance']['isSave'] = '存檔失敗';
+				}
+	
+				$ds[$i] = $data;
+				 
+			}
+		}
+		unlink($uploadfile);
+		return $ds;
+	}
+	
+	
 	/*
 	 * 更新書籍圖片
 	* $file = 從網頁傳送過來的圖片

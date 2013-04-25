@@ -255,96 +255,20 @@ class BooksController extends AppController {
     public function Book_Instance_upload(){
     	$ds = null;
     	if ($this->request->is('post')) {
-    		//var_dump($this->request->data);
-    		//var_dump($this->request->data['Book_Instance']);
     		$file = $this->request->data['Upload']["file"];
     		//var_dump($file);
-    		if($file['size'] > 0) $ds = $this->_save_book_upload($file,$this->request->data['Book_Instance']);
+    		//if($file['size'] > 0) $ds = $this->_save_book_upload($file,$this->request->data['Book_Instance']);
+    		if($file['size'] > 0) $ds = $this->Bookfunc->save_book_instance_upload($file,$this->request->data['Book_Instance']);
     		$this->Session->setFlash('書籍上傳完成.');
     	}
     	$this->set('book_status', $this->Formfunc->book_status());
     	$this->set('is_lends',$this->Formfunc->is_lends());
     	$this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('Person_Level.id', 'Person_Level.level_name'))));
     	$this->set('system_locations', $this->Userfunc->getLocationOptions());    	 
-     	$this->set('save_datas',$ds);
-     	
-     	
-    	
-    }
-    private function _save_book_upload($file,$pdata){
-    	//initial result set;
-    	$ds = null;
-    	App::import("Vendor", "phpexcel/PHPExcel/IOFactory");
-    	
-    	$uploadfile = WWW_ROOT . 'img'.DS.'books' .DS. $file["name"];
-    	move_uploaded_file($file["tmp_name"],$uploadfile);
-    	$excel = PHPExcel_IOFactory::load($uploadfile);
-    	$sheetdata = $excel->getActiveSheet()->toArray(null,true,true,true);
-    	if( ($ss=count($sheetdata)) > 1 ) {
-    		for($i=2;$i<=$ss;$i++){
+     	$this->set('save_datas',$ds);    	
 
-    			$data['Book_Instance']['line'] = $i;
-    			$data['Book_Instance']['isbn'] = $sheetdata[$i]['A'];
-    			$data['Book_Instance']['purchase_price'] = $sheetdata[$i]['B'];
-    			$data['Book_Instance']['purchase_date'] = $sheetdata[$i]['C'];
-    			
-    			$isbn = $sheetdata[$i]['A'];
-    			if( $isbn == ''){
-    				$data['Book_Instance']['isSave']= 'ISBN 不能為空.';
-    				$ds[$i] = $data;
-    				continue;
-    			}
-    			$isbn = $this->Isbnfunc->fixIsbn($isbn);
-    			if( $isbn == null) {
-    				$data['Book_Instance']['isSave']='ISBN 格式錯誤, 須為10碼或13碼數字.';
-    				$ds[$i] = $data;
-    				continue;
-    			}
-    			if($data['Book_Instance']['purchase_price'] == null || $data['Book_Instance']['purchase_price'] ==""){
-    				$data['Book_Instance']['isSave']='購買金額不能為空';
-    				$ds[$i] = $data;
-    				continue;
-    			}
-    			if($data['Book_Instance']['purchase_date'] == null || trim($data['Book_Instance']['purchase_date']) == ""){
-    				$data['Book_Instance']['isSave']='購買日期不能為空';
-    				$ds[$i] = $data;
-    				continue;
-    			}    			
-    			$book = $this->Book->find('first', array('conditions'=> array('Book.isbn'=> $isbn)));
-    			if($book == null){
-    				$data['Book_Instance']['isSave']='書籍不存在';
-    				$ds[$i] = $data;
-    				continue;
-    			}
-
-    			 
-    			$data['Book_Instance']['book_id'] = $book['Book']['id'];
-    			$data['Book_Instance']['location_id'] = $pdata['location_id'];
-    			$data['Book_Instance']['book_status'] = $pdata['book_status'];
-    			$data['Book_Instance']['level_id'] = $pdata['level_id'];
-    			$data['Book_Instance']['is_lend'] = $pdata['is_lend'];
-    			$data['Book_Instance']['create_time'] = date('Y-m-d H:i:s');
-    			$data['Book_Instance']['id'] = $this->Bookfunc->create_Book_Instance_id(
-    					$data['Book_Instance']['location_id'],
-    					$data['Book_Instance']['book_id'],
-    					$book['Book']['cate_id']);
-    			
-    			$this->Book_Instance->create();
-    			if($this->Book_Instance->save($data)){
-    				$data['Book_Instance']['isSave'] = 'OK';
-    			} else {
-    				$data['Book_Instance']['isSave'] = '存檔失敗';
-    			}
-    			 
-    			$ds[$i] = $data;
-    			
-    		}
-    	}
-    	unlink($uploadfile);
-    	return $ds;
     }
 
-    //public function Book_Instance_edit($book_id=null, $id=null){
     public function journal_instance_edit($book_id=null, $id=null){
         $error_msg = '';
         if($book_id != null){

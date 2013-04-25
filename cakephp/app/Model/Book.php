@@ -32,5 +32,12 @@ class Book extends AppModel {
 		}
 		return true;
 	}
+	
+	public function afterSave($created){
+		if($created){
+			$this->set('book_search_code',  sprintf('%1$05d', $this->data['Book']['id']));
+			$this->save();
+		}
+	}
 }
 ?>

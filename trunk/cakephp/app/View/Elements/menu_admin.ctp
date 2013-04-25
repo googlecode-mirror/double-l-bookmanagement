@@ -7,13 +7,14 @@
 		<li ><?php echo $this->Html->link('學員借閱資料',array('controller'=>'reports', 'action'=>'user_person_status')); ?></li>	
 		</ul>
 	</li>
-	<li ><a href="#">書籍基本資料維護</a>
+	<li ><a href="#">書藉基本資料</a>
 		<ul>
-			<li ><?php echo $this->Html->link('書籍級別資料',array('controller'=>'books', 'action'=>'catagory_index')); ?></li>
-			<li ><?php echo $this->Html->link('書籍基本資料',array('controller'=>'books', 'action'=>'book_index')); ?></li>
+			<li ><?php echo $this->Html->link('書籍級別資料設定',array('controller'=>'books', 'action'=>'catagory_index')); ?></li>
+			<li ><?php echo $this->Html->link('書籍基本資料新增',array('controller'=>'books', 'action'=>'book_add')); ?></li>
+			<li ><?php echo $this->Html->link('書籍基本資料查詢',array('controller'=>'books', 'action'=>'book_index')); ?></li>
 			<li ><?php echo $this->Html->link('書籍基本資料上傳',array('controller'=>'books', 'action'=>'book_info_upload')); ?></li>	
-			<li ><?php echo $this->Html->link('書籍上傳',array('controller'=>'books', 'action'=>'book_instance_upload')); ?></li>	
-			<li ><?php echo $this->Html->link('書籍入庫',array('controller'=>'books', 'action'=>'book_instance_receive')); ?></li>	
+			<li ><?php echo $this->Html->link('各校書籍新增上傳',array('controller'=>'books', 'action'=>'book_instance_upload')); ?></li>	
+			<li ><?php echo $this->Html->link('各校書籍入庫',array('controller'=>'books', 'action'=>'book_instance_receive')); ?></li>	
 			<li ><?php echo $this->Html->link('書籍標籤列印',array('controller'=>'prints', 'action'=>'book_list21')); ?></li>
 			<li ><?php echo $this->Html->link('書籍級別借閱統計',array('controller'=>'reports', 'action'=>'book_cate_stats')); ?></li>	
 		</ul>

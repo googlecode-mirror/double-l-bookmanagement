@@ -379,11 +379,19 @@ class BooksController extends AppController {
 		if ($this->request->is('get')) {
 			$this->request->data = $this->Book_Cate->read();
 		} else {
+			if($id == 0 ){
+				$db = $this->getDataSource();
+				$db->fetchAll(
+						'Update book_cate Set catagory_name=?, catagory_color=? Where id = 0',
+						array($this->request->data['Book_Cate']['catagory_name'], $this->request->data['Book_Cate']['catagory_name'])
+				);
+			} else {
 			if ($this->Book_Cate->save($this->request->data)) {
 				$this->Session->setFlash('書籍級別資料儲存成功.');
 				$this->redirect(array('action' => 'catagory_index'));
 			} else {
 				$this->Session->setFlash('書籍級別資料儲存失敗.');
+			}
 			}
 		}
 	}
@@ -583,76 +591,9 @@ class BooksController extends AppController {
 		$this->set('page_size',$result['page_size']);
 		$this->set('count', $result['count']);
 		$this->set('books_sort', $books_sort);
-		$this->set('cates', $this->Book_Cate->find('list', array('fields'=>array('id', 'catagory_name'))));
+		$this->set('cates', $this->Book_Cate->find('list', array('fields'=>array('id', 'catagory_name'))));		
 		
-		
-		/*
-		$books_sort = 0;
-		$books_sorts = array(0 => 'isbn');
-		$page_size = 20;
-		$page = 1;
-		$filter_str = '';
-		$this->Person->Id = $this->Session->read('user_id');
-		$person_info = $this->Person->read();
-		if ((isset($this->data['Book']['page'])) && (trim($this->data['Book']['page']) != ''))  {
-			$page = trim($this->data['Book']['page']);
-		}
-		if ((isset($this->data['Book']['sort'])) && (trim($this->data['Book']['sort']) != ''))  {
-			$books_sort = trim($this->data['Book']['sort']);
-		}
-		if ((isset($this->data['Book']['book_name'])) && (trim($this->data['Book']['book_name']) != ''))  {
-			$filter_str = $filter_str." and book_name like '".mysql_real_escape_string($this->data['Book']['book_name'])."%' ";
-		}
-		if ((isset($this->data['Book']['remark'])) && (trim($this->data['Book']['remark']) != ''))  {
-			$filter_str = $filter_str." and memo like '".mysql_real_escape_string($this->data['Book']['remark'])."%' ";
-		}
-		if ((isset($this->data['Book']['author'])) && (trim($this->data['Book']['author']) != ''))  {
-			$filter_str = $filter_str." and book_author like '".mysql_real_escape_string($this->data['Book']['author'])."%' ";
-		}
-		if ((isset($this->data['Book']['publisher'])) && (trim($this->data['Book']['publisher']) != ''))  {
-			$filter_str = $filter_str." and book_publisher like '".mysql_real_escape_string($this->data['Book']['publisher'])."%' ";
-		}
-		if ((isset($this->data['Book']['search_code'])) && (trim($this->data['Book']['search_code']) != ''))  {
-			$filter_str = $filter_str." and book_search_code like '".mysql_real_escape_string($this->data['Book']['search_code'])."%' ";
-		}
-		if ((isset($this->data['Book']['location'])) && (trim($this->data['Book']['location']) != ''))  {
-			$filter_str = $filter_str." and book_location like '".mysql_real_escape_string($this->data['Book']['location'])."%' ";
-		}
-		if ((isset($this->data['Book']['isbn'])) && (trim($this->data['Book']['isbn']) != ''))  {
-			$filter_str = $filter_str." and isbn like '".mysql_real_escape_string($this->data['Book']['isbn'])."%' ";
-		}
-		if ((isset($this->data['Book']['level'])) && (trim($this->data['Book']['level']) != ''))  {
-			$filter_str = $filter_str." and level_id = '".mysql_real_escape_string($this->data['Book']['level'])."' ";
-		}
-		if ((isset($this->data['Book']['cate'])) && (trim($this->data['Book']['cate']) != ''))  {
-			$filter_str = $filter_str." and cate_id = '".mysql_real_escape_string($this->data['Book']['cate'])."' ";
-		}
-		if (trim($filter_str) == '') {
-			if ($filter_str = '') {  $filter_str = $filter_str." and "; };
-			$filter_str = " and  1=1 ";
-		}
-		$strsql = " FROM `books` LEFT JOIN (`book_instances` , `book_catagorys`)
-					ON (books.id=book_instances.book_id AND books.cate_id=book_catagorys.id)
-					WHERE 1=1 ";
-		if (trim($filter_str) != '') {
-			$strsql = $strsql.$filter_str;
-		}
-		$strsql1 = "SELECT count( * ) AS cnt from ( select count( * ) ";
-		$strsql_group = " GROUP BY books.id, `book_type` , `book_name` , `book_author` , `book_publisher` , `cate_id` , `isbn` , `book_search_code` , `book_location` , `book_attachment` , `book_image` , `publish_date` , `order_start_date` , `order_end_date` , `order_start_version` , `order_end_version` , `memo`, books.book_version";
-		$books_cnt = $this->Book->query($strsql1.$strsql.$strsql_group.') as x;');
-		$strsql1 = "SELECT books.id,  `book_name` , `book_author` , `book_publisher` , `cate_id` , `isbn` , `book_search_code` , `book_location` , `book_attachment` , `book_image` , `publish_date` , `order_start_date` , `order_end_date` , `order_start_version` , `order_end_version` , `memo` , count( * ) AS cnt, books.book_version ";
-		$strsql = $strsql1.$strsql.$strsql_group." LIMIT ".($page-1)*$page_size." , ".$page_size.";";
-		$books = $this->Book->query($strsql);
-		//$cates = $this->Formfunc->convert_options($this->Book_Cate->find('all'), 'Book_Cate', 'id', 'catagory_name');
-		//$this->set('cates', $cates);
-		$this->set('page', $page);
-		$this->set('books', $books);
-		$this->set('books_sort', $books_sort);
-		$this->set('books_cnt', $books_cnt[0][0]['cnt']);
-		$this->set('books_page', floor($books_cnt[0][0]['cnt'] / $page_size) + 1);
-		$this->set('levels', $this->Person_Level->find('list', array('fields'=>array('id', 'level_name'))));
-		$this->set('cates', $this->Book_Cate->find('list', array('fields'=>array('id', 'catagory_name'))));
-		*/
+
 	} 
 	
     public function book_search_view($id=null){
@@ -757,25 +698,27 @@ class BooksController extends AppController {
 		$excel->setActiveSheetIndex(0);
 		//
 		$excel->getActiveSheet()->setTitle('Books');
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(0, 1, 'ISBN');
-    	$excel->getActiveSheet()->setCellValueByColumnAndRow(1, 1, '書籍名稱');
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(2, 1, '作者');		
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(3, 1, '出版公司');
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(4, 1, 'AD');
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(5, 1, 'Lexile 級數');
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(6, 1, '集叢名');
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(7, 1, '發行日期');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(0, 1, '索書號');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(1, 1, 'ISBN');
+    	$excel->getActiveSheet()->setCellValueByColumnAndRow(2, 1, '書籍名稱');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(3, 1, '作者');		
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(4, 1, '出版公司');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(5, 1, 'AD');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(6, 1, 'Lexile 級數');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(7, 1, '集叢名');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(8, 1, '發行日期');
 		$i = 1;
 		foreach($books as $book){
 		$i++;
-		$excel->getActiveSheet()->setCellValueExplicitByColumnAndRow(0, $i,$book['Book']['isbn'],PHPExcel_Cell_DataType::TYPE_STRING);		
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(1, $i, $book['Book']['book_name']);
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(2, $i, $book['Book']['book_author']);
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(3, $i, $book["Book"]["book_publisher"]);
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(4, $i, $book['Book']['book_ad']);
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(5, $i, $book['Book']['lexile_level']);
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(6, $i, $book['Book']['book_suite']);
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(7, $i, $book['Book']['publish_year']);
+		$excel->getActiveSheet()->setCellValueExplicitByColumnAndRow(0, $i,$book['Book']['book_search_code'],PHPExcel_Cell_DataType::TYPE_STRING);		
+		$excel->getActiveSheet()->setCellValueExplicitByColumnAndRow(1, $i,$book['Book']['isbn'],PHPExcel_Cell_DataType::TYPE_STRING);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(2, $i, $book['Book']['book_name']);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(3, $i, $book['Book']['book_author']);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(4, $i, $book["Book"]["book_publisher"]);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(5, $i, $book['Book']['book_ad']);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(6, $i, $book['Book']['lexile_level']);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(7, $i, $book['Book']['book_suite']);
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(8, $i, $book['Book']['publish_year']);
 		}
 		$objWriter = new PHPExcel_Writer_Excel5($excel);
 		$objWriter->save($file);

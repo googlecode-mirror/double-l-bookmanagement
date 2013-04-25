@@ -16,7 +16,7 @@
     if($this->Session->read('user_role') !== 'user') {
     echo $this->Form->create('Book',array('action'=>'isbn_add', 'clear'=>'right','div'=>false, 'inputDefaults' => array('label' => false,'div' => false)));
     echo 'ISBN:';
-    echo $this->Form->input('isbn', array('size'=>10));
+    echo $this->Form->input('isbn', array('size'=>13));
     echo '&nbsp;';
     echo $this->Form->button('ISBN 新增', array('class'=>'button normal blue'));
     echo $this->Form->end();
@@ -28,7 +28,7 @@
     if($this->Session->read('user_role') !== 'user') {
     echo $this->Form->create('Book',array('action'=>'isbn_cn_add', 'clear'=>'right','div'=>false, 'inputDefaults' => array('label' => false,'div' => false)));
     echo 'ISBN:';
-    echo $this->Form->input('isbn', array('size'=>10));
+    echo $this->Form->input('isbn', array('size'=>13));
     echo '&nbsp;';
     echo $this->Form->button('ISBN 中文新增', array('class'=>'button normal blue'));
     echo $this->Form->end();

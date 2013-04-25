@@ -21,6 +21,22 @@ class BooksController extends AppController {
 		$this->set('cates', $this->Book_Cate->find('list', array('fields'=>array('id', 'catagory_name'))));
 	    	    	 
     }    
+    public function book_add(){
+    	// init search parameter
+    	$books_sort = 0;
+    	$books_sorts = array(0 => 'isbn');
+    
+    
+    	$book_query = $this->request->data['Book'];
+    	$result = $this->BookSearch->search($book_query);
+    	$this->set('books', $result['books']);
+    	$this->set('page', $result['page']);
+    	$this->set('page_size',$result['page_size']);
+    	$this->set('count', $result['count']);
+    	$this->set('books_sort', $books_sort);
+    	$this->set('cates', $this->Book_Cate->find('list', array('fields'=>array('id', 'catagory_name'))));
+    
+    }
     
     public function journal_index(){
     	$this->set('books', $this->Book->find('all',array(
@@ -56,7 +72,7 @@ class BooksController extends AppController {
     			$image_url = $this->Bookfunc->upload_book_image($file,$isbn);
     			$this->request->data['Book']['book_image']=$image_url;
     		}
-    		
+    		$book_id = $this->request->data['Book']['id'];
 			$ret = $this->Book->save($this->request->data);
     		if ($ret) {
     			
@@ -77,7 +93,12 @@ class BooksController extends AppController {
   					}
   				}
   				$this->Session->setFlash('書籍儲存完成.');
-                $this->redirect(array('action' => 'book_view',$ret['Book']['id']));
+  				if($book_id==null){
+  					$this->redirect(array('action' => 'book_add'));
+  				} else {
+  					$this->redirect(array('action' => 'book_view',$ret['Book']['id']));
+  				}
+                
     		}else {
 				$this->Session->setFlash('書籍儲存失敗.');
 			}

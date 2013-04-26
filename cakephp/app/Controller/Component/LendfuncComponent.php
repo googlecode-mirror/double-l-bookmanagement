@@ -27,6 +27,8 @@
 				else {
 					if ($book['Book_Instance']['is_lend'] != 'Y') {
 						$result = 4;
+					}else if (($userinfo["user_role"] != 'admin') && ($userinfo['user_location'] != $book['Book_Instance']['location_id'])) {
+						$result = 8;
 					}else if ((!$person['Person_Level']['is_cross_lend']) && ($person['Person']['location_id'] != $book['Book_Instance']['location_id'])) {
 						$result = 7;
 					}else if (($book['Book_Instance']['book_status'] == 6) && ($book['Book_Instance']['reserve_person_id'] != $person['Person']['id'])) {

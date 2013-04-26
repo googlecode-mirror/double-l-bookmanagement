@@ -59,7 +59,7 @@
 									alert('書籍代號：' + book_instance_id.value + '有人預約中');
 								}
 								else if (response == 7) {							
-									alert('書籍代號：' + book_instance_id.value + '不是本分校藏書');
+									alert('借卡號碼：' + jQuery('#person_id')[0].value + '不可跨校借閱');
 								}
 								else {
 									alert('錯誤');

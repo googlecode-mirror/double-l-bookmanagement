@@ -61,6 +61,9 @@
 								else if (response == 7) {							
 									alert('借卡號碼：' + jQuery('#person_id')[0].value + '不可跨校借閱');
 								}
+								else if (response == 8) {							
+									alert('書籍代號：' + book_instance_id.value + '非本校藏書');
+								}
 								else {
 									alert('錯誤');
 								}

@@ -8,7 +8,7 @@
 	$color_black = new FColor(0,0,0);
 	$color_white = new FColor(255,255,255);
 	$resolution = 1;
-	$font_size = 2;
+	$font_size = 0;
 	$checksum = 0;
 	$img_width = 250;
 	$img_height = 110;

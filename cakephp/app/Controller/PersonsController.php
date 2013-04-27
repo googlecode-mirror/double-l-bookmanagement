@@ -2,7 +2,7 @@
 class PersonsController extends AppController {
 	public $uses = array('Person_Title', 'Person_Group', 'Person_Level', 'Person', 'System_Location', 'System_Print_Person');
     public $helpers = array('Html', 'Form', 'Session');
-    public $components = array('Session', 'Formfunc','Userfunc');
+    public $components = array('Session', 'Formfunc','Userfunc','PersonSearch');
 
     public function title_index() {
         $this->set('titles', $this->Person_Title->find('all', array('order' => 'valid DESC, id')));
@@ -214,18 +214,27 @@ class PersonsController extends AppController {
 	}
 	
 	public function person_index() {
+		$person_query = $this->request->data['Person'];
+		$result = $this->PersonSearch->search($person_query);
+		$this->set('persons', $result['items']);
+		$this->set('page', $result['page']);
+		$this->set('page_size',$result['page_size']);
+		$this->set('count', $result['count']);
+
 		$this->set('person_titles', $this->Person_Title->find('list', array('fields' => array('id', 'title_name'))));
 		$this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('id', 'level_name'))));
 		$this->set('person_groups', $this->Person_Group->find('list', array('fields' => array('id', 'group_name'))));
-		$this->set('system_locations', $this->System_Location->find('list', array('fields' => array('id', 'location_name'))));
+		//$this->set('system_locations', $this->System_Location->find('list', array('fields' => array('id', 'location_name'))));
+		$this->set('system_locations', $this->Userfunc->getLocationOptions(array(''=>'')));
 		$this->set('person_genders', $this->Formfunc->person_gender());
+        /*
         $this->set('persons', $this->Person->find('all', 
         		array(
         			'order' => 'Person.valid DESC, Person.id',
         			'conditions' => $this->Userfunc->getLocationCondition('Person'),
         		)
         	)
-        );
+        );*/
     }
 	
 	public function person_delete($id) {

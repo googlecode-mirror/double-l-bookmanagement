@@ -16,7 +16,7 @@ class UserfuncComponent extends Component {
 		return $this->user_roles;
 	}
 	
-	public function getLocationOptions(){
+	public function getLocationOptions($prearray=null,$postarray=null){
 		$modelName = 'System_Location';
 		$conditions = array('1' => '1',$modelName.'.valid' => 1);
 		if($this->Session->read('user_role') !== 'admin'){
@@ -32,6 +32,12 @@ class UserfuncComponent extends Component {
 					'fields' => array($modelName.'.id', $modelName.'.location_name')		
 				)
 		);
+		if(isset($prearray)){
+			$items = array_merge((array)$prearray, (array)$items);			
+		}
+		if(isset($postarray)){
+			$items = array_merge((array)$items, (array)$postarray);
+		}
 		return $items;
 	}
 	

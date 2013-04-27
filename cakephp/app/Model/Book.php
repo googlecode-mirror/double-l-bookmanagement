@@ -5,7 +5,7 @@ class Book extends AppModel {
 	public $validate = array(
 		'lexile_level' => array(
 				array('rule'=> 'numeric','message' => '閱讀級別必須是數字'),
-				array('rule'=> array('between', 0, 9999),'message' => '閱讀級別必須介於0~9999之間')
+				array('rule'=> array('between', 1, 9999),'message' => '閱讀級別必須介於1~9999之間')
 		)	
 	);
 	public $hasMany = array(
@@ -23,8 +23,8 @@ class Book extends AppModel {
 
 	public function beforeSave($options = array()){
 		
-		if($this->data['Book']['lexile_level'] == 0){
-			$this->data['Book']['cate_id'] = 0;
+		if($this->data['Book']['lexile_level'] == 6666){
+			$this->data['Book']['cate_id'] = 6666;
 		} else if($this->data['Book']['lexile_level'] ==9999) {
 			$this->data['Book']['cate_id'] = 9999;
 		} else {

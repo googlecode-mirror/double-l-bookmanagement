@@ -17,6 +17,12 @@
 		);
 		return false;
 	}
+
+	function change_page(page_no) {
+        $("#PersonPage").val(page_no);
+        $("#PersonPersonIndexForm").submit();
+    }
+
 </script>
 <div class="pageheader_div"><h1 id="pageheader">借閱者基本資料</h1></div>
 <div class="pagemenu_div"><?php 
@@ -28,6 +34,7 @@
     echo '&nbsp;';
 		
 ?></div>
+<?php echo $this->element('person_search_zone'); ?>
 <table>
     <tr>
         <th>借卡代號</th>
@@ -46,7 +53,7 @@
         <td><?php echo $person['Person']['id']; ?></td>
         <td><?php echo $person['Person']['name']; ?></td>
         <td><?php echo $person_genders[$person['Person']['gender']]; ?></td>
-        <td><?php echo $person_groups[$person['Person']['group_id']]; ?></td>
+        <td><?php echo $person['System_Location']['location_name']; ?></td>
         <td><?php echo $person_levels[$person['Person']['level_id']]; ?></td>
         <td><?php echo $person['Person']['phone']; ?></td>
 		<td><?php echo $person['Person']['card_create_date']; ?></td>
@@ -75,3 +82,31 @@
     </tr>
     <?php endforeach; ?>
 </table>
+<div align="center"><?php
+    if($count>0){
+        $lastpage = ceil($count/$page_size);
+        if($page>1){
+            echo $this->html->link('<<', 'javascript:void(0);', array('class'=>'button','onclick'=>'change_page(1);'));
+            echo '&nbsp;';
+            echo $this->html->link('<', 'javascript:void(0);', array('class'=>'button','onclick'=>'change_page('.($page-1).');'));
+        }
+        echo '&nbsp;';
+        echo '<select>';
+        for($i=1;$i<=$lastpage;$i++){
+            if($i==$page) $selected = 'selected';
+            else $selected = '';
+            echo '<option '.$selected.' onclick="change_page('.$i.')">'.$i.'</option>';
+        }
+        echo '</select>';
+        echo '&nbsp;';
+        
+        if($lastpage > $page) {
+        echo $this->html->link('>', 'javascript:void(0);', array('class'=>'button','onclick'=>'change_page('.($page+1).');'));
+        echo '&nbsp;';
+        echo $this->html->link('>>', 'javascript:void(0);', array('class'=>'button','onclick'=>'change_page('.$lastpage.');'));
+        echo '&nbsp;';
+        }
+        echo '('.$count.')';
+    }
+?></div>
+

@@ -1,22 +1,15 @@
 <?php
 App::uses('Component', 'Controller');
-class BookSearchComponent extends Component {
+class PersonSearchComponent extends Component {
 	/*
 	 *  1 = equal
 	 *  2 = like
-	 *  3 = in
 	 */
 	private $search_para = array(
 		//'page'=> 1,
 		//'sort'=>1,
-		'book_instance_id'=>3,
-		'book_name'=> 2,
-		'isbn'=>2,
-		'book_author'=>2,
-		'book_publisher'=>2,
-		'book_ad'=>1,
-		'cate_id'=>1,
-		'book_suite'=>2	
+		'location_id'=>1,
+		'id'=> 2,
 	);
 	public function search($query){
 		//var_dump($query);
@@ -34,21 +27,21 @@ class BookSearchComponent extends Component {
 				}
 				switch($para_type)	{
 					case 1:
-						$conditions['Book.'.$para_key] = $query[$para_key];
+						$conditions['Person.'.$para_key] = $query[$para_key];
 						break;
 					case 2:
-						$conditions['Book.'.$para_key.' Like'] = '%'.$query[$para_key].'%';
+						$conditions['Person.'.$para_key.' Like'] = '%'.$query[$para_key].'%';
 						break;
 					case 3:
-						$conditions['Book.id'] = $this->book_ids($query[$para_key]);
+						//$conditions['Book.id'] = $this->book_ids($query[$para_key]);
 						break;
 				}	
 			}
 			// 抓取資料
 			if($conditions !== null){
-				$bookModel = ClassRegistry::init('Book');
+				$bookModel = ClassRegistry::init('Person');
 				$count = $bookModel->find('count',array('conditions' => $conditions));
-				$books = $bookModel->find('all',
+				$items = $bookModel->find('all',
 							array(	
 									'conditions' => $conditions,
 									'page'=> $page,
@@ -57,12 +50,13 @@ class BookSearchComponent extends Component {
 						);
 			}
 		}
-		$result['books'] = $books;
+		$result['items'] = $items;
 		$result['page'] = $page;
 		$result['count'] = $count;
 		$result['page_size'] =$page_size;
 		return $result;
 	}
+	/*
 	private function book_ids($para){
 			$books = ClassRegistry::init('Book_Instance')->find('list',
 						array(
@@ -75,5 +69,6 @@ class BookSearchComponent extends Component {
 			return ($book_ids);
 		
 	}
+	*/
 }
 ?>

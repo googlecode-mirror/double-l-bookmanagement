@@ -18,12 +18,12 @@ class BookfuncComponent extends Component {
                 $count = ClassRegistry::init($bookInstanceModel)->find('count',
                                 array('conditions' => $conditions)
                         );
-                if($cat_id==0){
+                if($cat_id==6666){
                 	$id = sprintf('%1$s%2$s%3$05d-%4$02d', $location_id,"CH",$book_id,$count+1);
-                } if($cat_id==9999){
+                } else if($cat_id==9999){
                 	$id = sprintf('%1$s%2$s%3$05d-%4$02d', $location_id,"DV",$book_id,$count+1);
                 } else {
-                $id = sprintf('%1$s%2$02d%3$05d-%4$02d', $location_id,$cat_id/100,$book_id,$count+1);
+                	$id = sprintf('%1$s%2$02d%3$05d-%4$02d', $location_id,$cat_id/100,$book_id,$count+1);
                 }
                 return $id;    
         }

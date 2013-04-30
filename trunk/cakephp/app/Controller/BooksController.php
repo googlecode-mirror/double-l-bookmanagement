@@ -631,11 +631,8 @@ class BooksController extends AppController {
 	}
 	private function _build_excel($books){
 		App::import("Vendor", "phpexcel/PHPExcel");
-		App::import("Vendor", "phpexcel/PHPExcel/Writer/Excel5");
-		
-		
-		 
-		
+		App::import("Vendor", "phpexcel/PHPExcel/Writer/Excel5");			
+		 		
 		$r['path'] = TMP.'tests'.DS;
 		$r['file'] = 'tmp_books_'. $this->Session->read('user_id');
 		$file =  $r['path'].$r['file'];
@@ -682,5 +679,60 @@ class BooksController extends AppController {
 		}
 	}
 
+	/*
+	 * Export Book_instance On Purching
+	 *  
+	 */
+	public function book_instance_purchasing_export(){
+		$conditions = array('Book_Instance.book_status' => 0);
+		$conditions = $this->Userfunc->getLocationCondition('Book_Instance',$conditions);
+		$books = $this->Book_Instance->find('all',array(
+				'recursive' => 1,
+				'conditions' => $conditions));
+		$f = $this->_build_purchasing_excel($books);
+		$this->viewClass = 'Media';
+		// Download app/outside_webroot_dir/example.zip
+		$params = array(
+				'id'        => $f['file'],
+				'name'      => 'books_purchasing',
+				'download'  => true,
+				'extension' => 'xls',
+				'path'      => $f['path']
+		);
+		$this->set($params);		
+	}
+	
+	private function _build_purchasing_excel($books){
+		App::import("Vendor", "phpexcel/PHPExcel");
+		App::import("Vendor", "phpexcel/PHPExcel/Writer/Excel5");
+			
+		$r['path'] = TMP.'tests'.DS;
+		$r['file'] = 'tmp_purchasing_'. $this->Session->read('user_id');
+		$file =  $r['path'].$r['file'];
+		$excel = new PHPExcel();
+		$excel->setActiveSheetIndex(0);
+		//
+		$excel->getActiveSheet()->setTitle('Books');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(0, 1, '索書碼');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(1, 1, 'ISBN');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(2, 1, '書籍名稱');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(3, 1, '書籍編號');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(4, 1, '所屬分校');
+		$i = 1;
+		foreach($books as $book){
+			$i++;
+			$excel->getActiveSheet()->setCellValueExplicitByColumnAndRow(0, $i,$book['Book']['book_search_code'],PHPExcel_Cell_DataType::TYPE_STRING);
+			$excel->getActiveSheet()->setCellValueExplicitByColumnAndRow(1, $i,$book['Book']['isbn'],PHPExcel_Cell_DataType::TYPE_STRING);
+			$excel->getActiveSheet()->setCellValueByColumnAndRow(2, $i, $book['Book']['book_name']);
+			$excel->getActiveSheet()->setCellValueByColumnAndRow(3, $i, $book['Book_Instance']['id']);
+			$excel->getActiveSheet()->setCellValueByColumnAndRow(4, $i, $book['System_Location']['location_name']);
+
+		}
+		$objWriter = new PHPExcel_Writer_Excel5($excel);
+		$objWriter->save($file);
+
+		return $r;
+
+	}
 }
 ?>

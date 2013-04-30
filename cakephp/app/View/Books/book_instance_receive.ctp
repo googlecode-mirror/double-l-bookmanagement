@@ -14,6 +14,9 @@
 <div class="pageheader_div"><h1 id="pageheader">書籍入庫作業</h1></div>	
 <div class="pagemenu_div"><?php 
   	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
+  	echo '&nbsp;';
+  	echo $this->Html->link('匯出購買中書籍', array('action' => 'book_instance_purchasing_export'), array('class' => 'button blue'));
+    
 ?></div>
 
 <?php echo $this->Form->create('Book', array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); ?>

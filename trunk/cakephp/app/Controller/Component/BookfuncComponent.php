@@ -193,14 +193,16 @@ class BookfuncComponent extends Component {
 					continue;
 				}
 				if($data['Book_Instance']['purchase_price'] == null || $data['Book_Instance']['purchase_price'] ==""){
-					$data['Book_Instance']['isSave']='購買金額不能為空';
-					$ds[$i] = $data;
-					continue;
+					//$data['Book_Instance']['isSave']='購買金額不能為空';
+					//$ds[$i] = $data;
+					//continue;
+					$data['Book_Instance']['purchase_price'] = 0;
 				}
 				if($data['Book_Instance']['purchase_date'] == null || trim($data['Book_Instance']['purchase_date']) == ""){
-					$data['Book_Instance']['isSave']='購買日期不能為空';
-					$ds[$i] = $data;
-					continue;
+					//$data['Book_Instance']['isSave']='購買日期不能為空';
+					//$ds[$i] = $data;
+					///continue;
+					$data['Book_Instance']['purchase_date'] = '0000-00-00';
 				}
 				$book = $bookModel->find('first', array('conditions'=> array('Book.book_search_code'=> $isbn)));
 				if($book == null){

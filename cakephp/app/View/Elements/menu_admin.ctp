@@ -7,7 +7,7 @@
 		<li ><?php echo $this->Html->link('學員借閱資料',array('controller'=>'reports', 'action'=>'user_person_status')); ?></li>	
 		</ul>
 	</li>
-	<li ><a href="#">書藉基本資料</a>
+	<li ><a href="#">書籍基本資料</a>
 		<ul>
 			<li ><?php echo $this->Html->link('書籍級別資料設定',array('controller'=>'books', 'action'=>'catagory_index')); ?></li>
 			<li ><?php echo $this->Html->link('書籍基本資料新增',array('controller'=>'books', 'action'=>'book_add')); ?></li>

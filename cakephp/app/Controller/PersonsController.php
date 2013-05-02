@@ -174,7 +174,7 @@ class PersonsController extends AppController {
 					$person['Person']['id'] = $sheetdata[$i]['A'];
 					$person['Person']['name'] = $sheetdata[$i]['B'];
 					$person['Person']['ename'] = $sheetdata[$i]['C'];
-					$person['Person']['password'] = $sheetdata[$i]['D'];
+					$person['Person']['password'] = trim($sheetdata[$i]['D']);
 					$person['Person']['gender'] = $sheetdata[$i]['E'];
 					$person['Person']['phone'] = $sheetdata[$i]['F'];
 					$person['Person']['email'] = $sheetdata[$i]['G'];
@@ -371,6 +371,35 @@ class PersonsController extends AppController {
 			$levels = array();
 		}
 		$this->set('levels', $levels);
+	}
+
+	public function change_password(){
+	
+    	if ($this->request->is('post')) {
+    		$pass = trim($this->request->data['Person']["password"]);
+    		$passc = trim($this->request->data['Person']["password_confirm"]);        		
+    		
+    		if($pass == null || trim($pass) ==''){
+    			$this->Session->setFlash('密碼不得為空');
+    		} else if($passc == null || trim($passc) == '') {
+    			$this->Session->setFlash('確認密碼不得為空');
+    		} else if($passc !== $pass){
+    			$this->Session->setFlash('確認密碼與密碼不相等');
+    		} else {
+    			$id = $this->Session->read("user_id");
+    			$this->Person->id = $id;
+    			$p = $this->Person->read();
+    			$p['Person']['password'] = $pass;
+    			if($this->Person->save($p)){
+    				$this->Session->setFlash('密碼變更完成.');
+    			} else {
+    				$this->Session->setFlash('密碼變更失敗.');
+    			}
+    			$this->request->data['Person']["password"] = '';
+    			$this->request->data['Person']["password_confirm"] = '';  
+    		}
+    	}
+		
 	}
 }
 ?>

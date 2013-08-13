@@ -39,6 +39,7 @@ class LendController extends AppController {
 									if (!empty($book_status)) {
 										$lend_books = $this->data[$key];
 										$lend_books['book_instance_id'] = strtoupper($lend_books['book_instance_id']);
+										$lend_books['location_id'] = $book_status[0]['Book_Instance']['location_id'];
 										$reserve_rec = $this->Lend_Record->find('all', array('conditions' =>array('status' => 'R', 'Lend_Record.person_id' => $this->data['Lend_Record']['person_id'], 'Lend_Record.book_instance_id' => $lend_books['book_instance_id'])));
 										if (!empty($reserve_rec)) {
 											$lend_books['id'] = $reserve_rec[0]['Lend_Record']['id'];
@@ -176,6 +177,7 @@ class LendController extends AppController {
 						$lend_books['person_id'] = $reserve_person_id;
 						$lend_books['book_id'] = $book_instance[0]["Book_Instance"]["book_id"];
 						$lend_books['book_instance_id'] = $this->data['book_instance_id'];
+						$lend_books['location_id'] = $book_instance[0]['Book_Instance']['location_id'];
 						$lend_books['status'] = 'R';
 						$lend_books['reserve_time'] = date('Y-m-d H:i:s');
 						if ($book_instance[0]["Book_Instance"]["book_status"] == 1) {

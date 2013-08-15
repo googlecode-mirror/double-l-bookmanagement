@@ -93,7 +93,7 @@ class LendController extends AppController {
 		$over_lend_records = array();
 		$person_info = array();
 		if (!empty($this->data)) {
-			$return_record = $this->Lend_Record->find('all', array('conditions' => array('status' => 'C')));
+			$return_record = $this->Lend_Record->find('all', array('conditions' => array('book_instance_id' => $this->data["Lend_Record"]["book"],'status' => 'C')));
 			if (($return_record !== false) && (!empty($return_record))) {
 				$return_record = $return_record[0];
 				if ($userinfo['user_location'] == $return_record["Lend_Record"]['location_id']) {

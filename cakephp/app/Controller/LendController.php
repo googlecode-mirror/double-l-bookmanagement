@@ -28,14 +28,14 @@ class LendController extends AppController {
 		if (!empty($this->data)) {
 			if (isset($this->data['Lend_Record']['person_id'])) {
 				$this->data['Lend_Record']['person_id'] = strtoupper($this->data['Lend_Record']['person_id']);
-				$this->Person->id = $this->data['Lend_Record']['person_id'];
+				$this->Person->id = strtoupper($this->data['Lend_Record']['person_id']);
 				$person_info = $this->Person->read();
 				if ($person_info !== false) {
 					if (($person_info['Person_Level']['is_cross_lend']) || ($person_info['Person']['location_id'] == $userinfo['user_location'])) {
 						if (sizeof($this->data) >1) {
 							foreach (array_keys($this->data) as $key)	{
 								if ($key !== 'Lend_Record') {
-									$book_status = $this->Book_Instance->find('all', array('conditions'=>array('book_status in (1,6)')));
+									$book_status = $this->Book_Instance->find('all', array('conditions'=>array('Book_Instance.id' => $this->data[$key]["book_instance_id"],'book_status in (1,6)')));
 									if (!empty($book_status)) {
 										$lend_books = $this->data[$key];
 										$lend_books['book_instance_id'] = strtoupper($lend_books['book_instance_id']);

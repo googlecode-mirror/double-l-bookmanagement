@@ -35,7 +35,7 @@ class LendController extends AppController {
 						if (sizeof($this->data) >1) {
 							foreach (array_keys($this->data) as $key)	{
 								if ($key !== 'Lend_Record') {
-									$book_status = $this->Book_Instance->find('all', array('conditions'=>array('book_instance_id' => $this->data["Lend_Record"]["book"],'book_status in (1,6)')));
+									$book_status = $this->Book_Instance->find('all', array('conditions'=>array('book_status in (1,6)')));
 									if (!empty($book_status)) {
 										$lend_books = $this->data[$key];
 										$lend_books['book_instance_id'] = strtoupper($lend_books['book_instance_id']);

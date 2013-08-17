@@ -26,8 +26,8 @@
 		<?php echo $this->Form->hidden($book_cnt.'.book_status', array('value' =>$book['Book_Instance']['book_status'])); ?>
 	</td>
 	<td>
-		<?php echo $locations[$user_info['user_location']]; ?>
-		<?php echo $this->Form->hidden($book_cnt.'.location_id', array('value' =>$user_info['user_location'])); ?>
+		<?php echo $locations[$book['Book_Instance']['location_id']]; ?>
+		<?php echo $this->Form->hidden($book_cnt.'.location_id', array('value' =>$book['Book_Instance']['location_id'])); ?>
 	</td>
 	<td><?php echo $this->html->link('刪除', 'javascript:void(0)', array('onclick' => 'delete_row("lend_row_'.$book_cnt.'");')); ?></td>
 </tr>

@@ -103,7 +103,7 @@
 								<?php 
 									if ((strtotime($lend_record['Lend_Record']['s_return_date']) >= strtotime(date('Y-m-d')))
 										&& (strtotime($lend_record['Lend_Record']['s_return_date']) <= strtotime(date('Y-m-d', strtotime('+3 days'))))
-									    && ($lend_record['Lend_Record']['status'] == 'C' )) {
+									    && ($lend_record['Lend_Record']['status'] == 'C' ) && ($lend_record['Lend_Record']['lend_cnt'] < 1 )) {
 										echo $this->Html->link('續借', 'javascript:void(0);', array('onclick' => "extend_lend('".$lend_record['Book_Instance']['id']."');")); 
 									}	
 								?>

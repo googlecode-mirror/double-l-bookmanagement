@@ -54,6 +54,7 @@ class LendController extends AppController {
 										$lend_books['status'] = 'C';
 										$lend_books['lend_time'] = date('Y-m-d H:i:s');
 										$lend_books['create_time'] = $lend_books['lend_time'];
+										$lend_books['s_return_date'] = date('Y-m-d', mktime(0,0,0,date('m'),date('d')+$person_info['Person_Level']['max_day']+1));
 										$ret = $this->Lend_Record->save($lend_books);
 										if ($ret !== false) {
 											$record_id = $ret["Lend_Record"]["id"];
@@ -115,7 +116,7 @@ class LendController extends AppController {
 							$reserve_rec = $reserve_rec[0];
 							$book_instance_modi['book_status'] = 6;
 							$book_instance_modi['reserve_person_id'] = $reserve_rec["Lend_Record"]['person_id'];
-							$book_instance_modi['s_return_date'] = date('Y-m-d', mktime(0,0,0,date('m'),date('d')+7));
+							$book_instance_modi['s_return_date'] = date('Y-m-d', mktime(0,0,0,date('m'),date('d')+$person_info[0]['Person_Level']['max_day']+1));
 						}
 						$ret = $this->Book_Instance->save($book_instance_modi);
 						if ($ret === false) {
@@ -181,7 +182,7 @@ class LendController extends AppController {
 						$lend_books['status'] = 'R';
 						$lend_books['reserve_time'] = date('Y-m-d H:i:s');
 						if ($book_instance[0]["Book_Instance"]["book_status"] == 1) {
-							$lend_books['s_return_date'] = date('Y-m-d', mktime(0,0,0,date('m'),date('d')+$person_info[0]['Person_Level']['max_day'],date('Y')));
+							$lend_books['s_return_date'] = date('Y-m-d', mktime(0,0,0,date('m'),date('d')+$person_info[0]['Person_Level']['max_day']+1,date('Y')));
 						}
 						$lend_books['create_time'] = $lend_books['reserve_time'];
 						$ret = $this->Lend_Record->save($lend_books);
@@ -283,7 +284,7 @@ class LendController extends AppController {
 								if ($lend_books['lend_cnt'] < 1) {
 									$lend_books['status'] = 'E';
 									$lend_books['lend_cnt'] = $lend_books['lend_cnt'] + 1;
-									$lend_books['s_return_date'] = date('Y-m-d', mktime(0,0,0,date('m',strtotime($lend_books['s_return_date'])),date('d',strtotime($lend_books['s_return_date']))+$person_info[0]['Person_Level']['max_day'],date('Y',strtotime($lend_books['s_return_date']))));
+									$lend_books['s_return_date'] = date('Y-m-d', mktime(0,0,0,date('m',strtotime($lend_books['s_return_date'])),date('d',strtotime($lend_books['s_return_date']))+$person_info[0]['Person_Level']['max_day']+1,date('Y',strtotime($lend_books['s_return_date']))));
 									$ret = $this->Lend_Record->save($lend_books);
 									if ($ret !== false) {
 										$book_instance[0]["Book_Instance"]['s_return_date'] = $lend_books['s_return_date'];

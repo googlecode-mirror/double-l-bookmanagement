@@ -126,7 +126,7 @@
 				<td>已借未還</td>
 				<td><?php echo sizeof($lend_records); ?></td>
 				<td>已逾期數</td>
-				<td><?php echo sizeof($lend_records); ?></td>
+				<td><?php echo sizeof($over_lend_records); ?></td>
 				<td>可借數</td>
 				<td id='can_lend1'><?php if (isset($person_info['Person']['id'])) { echo $person_info['Person_Level']['max_book'] - sizeof($lend_records); } ?></td>
 			</tr>

@@ -94,6 +94,14 @@
 					echo '&nbsp;';
                     echo $this->Html->link('列印',  'javascript:void(0)',array('class'=>'button','onclick'=>"add_print_list('".$book_instance['id']."')")); 
                 }
+				else {
+				    if (($book_instance['is_lend'] == 'Y') &&
+						($book_instance['book_status'] == 1)&&
+						(($book_instance['location_id'] == $userinfo['Person']['location_id']) || ($userinfo['Person_Level']['is_cross_lend'] == 'Y'))
+					){
+						echo $this->html->link('預約', 'javascript:void(0)', array('class'=>'button','onclick' => "reserve_book('".$book_instance['id']."');")); 
+					}
+				}
         ?></td>
     </tr>
     <?php endforeach; ?>

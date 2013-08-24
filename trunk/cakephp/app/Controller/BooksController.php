@@ -44,6 +44,7 @@ class BooksController extends AppController {
     	));  	 
     }
     public function book_view($id=null){
+	    $userinfo = $this->Person->findById($this->Session->read('user_id'));
         if($id == null) {
             $this->redirect(array('action' => 'book_index'));
         }
@@ -51,6 +52,7 @@ class BooksController extends AppController {
         $this->request->data = $this->Book->read(); 
 
         $cates = $this->Formfunc->convert_options($this->Book_Cate->find('all'), 'Book_Cate', 'id', 'catagory_name');
+        $this->set('userinfo', $userinfo);
         $this->set('cates', $cates);
         $this->set('book_status', $this->Formfunc->book_status());
 		$this->set('locations', $this->System_Location->find('list', array('fields' => array('id', 'location_name'))));

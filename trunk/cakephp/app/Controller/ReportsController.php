@@ -135,7 +135,30 @@ class ReportsController extends AppController {
 		$this->set('books_cnt', $books_cnt[0][0]['cnt']);
 		$this->set('books_page', floor($books_cnt[0][0]['cnt'] / $page_size) + 1);
 		$this->set('cates', $this->Book_Cate->find('list', array('fields'=>array('id', 'catagory_name'))));
-	} 	
+	} 
+
+	public function book_overdue_report() {
+		$books = array();
+		$location_id = '';
+		if (!empty($this->data) && $this->Session->read('user_role') !== 'user') {
+			if(!empty($this->data)) {
+				$strSQL = "SELECT book_name, p.id, p.name, p.email, p.phone, location_name, l.s_return_date, lend_cnt  "
+						." FROM `lend_records` l, `persons` p, books b, book_catagorys bc, system_locations sl "
+						." WHERE l.person_id = p.id "
+						." AND l.book_id = b.id "
+						." AND b.cate_id = bc.id "
+						." AND l.location_id = sl.id "
+						." AND ((l.status = 'C') or (l.status = 'E')) "
+						." AND s_return_date = '".$this->data['book']['expire_date']."' ";
+				if ($this->Session->read('user_role') === 'localadmin') {
+					$strSQL = $strSQL." AND l.location_id = '$location_id' ";
+				}
+				$strSQL = $strSQL." order by s_return_date asc, book_instance_id;";
+				$books = $this->Lend_Record->query($strSQL);
+			}
+		}
+		$this->set('books', $books);
+	}
 
 }
 ?>

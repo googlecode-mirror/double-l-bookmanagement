@@ -149,8 +149,9 @@ class ReportsController extends AppController {
 						." AND b.cate_id = bc.id "
 						." AND l.location_id = sl.id "
 						." AND ((l.status = 'C') or (l.status = 'E')) "
-						." AND s_return_date = '".$this->data['book']['expire_date']."' ";
+						." AND s_return_date <= '".$this->data['book']['expire_date']."' ";
 				if ($this->Session->read('user_role') === 'localadmin') {
+					$location_id = $this->Session->read('user_location');
 					$strSQL = $strSQL." AND l.location_id = '$location_id' ";
 				}
 				$strSQL = $strSQL." order by s_return_date asc, book_instance_id;";

@@ -47,7 +47,7 @@
 									alert('書籍代號：' + book_instance_id.value + '不存在');
 								}
 								else if (response == 3) {							
-									alert('書籍代號：' + book_instance_id.value + '不在庫');
+									alert('書籍代號：' + book_instance_id.value + '借出中');
 								}
 								else if (response == 4) {							
 									alert('書籍代號：' + book_instance_id.value + '不可外借');
@@ -86,6 +86,25 @@
 			return false;
 		}
 		else {	return true;}
+	}
+	
+	function extend_lend(book_instance_id) {
+		if (jQuery('#Lend_RecordPersonId')[0].value.trim() != '') {
+			$.ajax(
+				{	
+					url:'<?php echo $this->html->url(array('controller'=>'lend', 'action' => 'extend_book'));?>', 
+					data:{ extend_person_id: jQuery('#Lend_RecordPersonId')[0].value, book_instance_id: book_instance_id }, 
+					type: "post", 
+					success: function(response){
+						alert(response);
+					}
+				}
+			)
+		}
+		else {
+			alert('借卡號碼：不可為空白');
+		}
+		//return false;
 	}
 </script>
 <div class="pageheader_div"><h1 id="pageheader">書籍借閱作業</h1></div>
@@ -172,6 +191,7 @@
 							<th>續借次數</th>
 							<th>應還日期</th>
 							<th>地點</th>
+							<th></th>
 						</tr>
 						<?php foreach ($lend_records as $lend_record): ?>
 						<tr>
@@ -183,6 +203,15 @@
 							<td><?php echo $lend_record['Lend_Record']['lend_cnt']; ?></td>
 							<td><?php echo $lend_record['Lend_Record']['s_return_date']; ?></td>
 							<td><?php echo $lend_record['System_Location']['location_name']; ?></td>
+							<td>
+								<?php 
+									if ((strtotime($lend_record['Lend_Record']['s_return_date']) >= strtotime(date('Y-m-d')))
+										&& (strtotime($lend_record['Lend_Record']['s_return_date']) <= strtotime(date('Y-m-d', strtotime('+3 days'))))
+									    && ($lend_record['Lend_Record']['status'] == 'C' ) && ($lend_record['Lend_Record']['lend_cnt'] < 1 )) {
+										echo $this->Html->link('續借', 'javascript:void(0);', array('onclick' => "extend_lend('".$lend_record['Book_Instance']['id']."');")); 
+									}	
+								?>
+							</td>
 						</tr>
 						<?php endforeach; ?>
 					</table>

@@ -6,7 +6,7 @@ class UserfuncComponent extends Component {
 	public $user_roles = array(
 			'admin'=>'總部管理員', 
 			'localadmin'=>'分校管理員', 
-			//'localmanager'=>'分校經理'
+			'localmanager'=>'分校經理'
 		);
 
 	public function getRoleOptinons(){

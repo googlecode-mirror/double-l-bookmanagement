@@ -150,7 +150,7 @@ class ReportsController extends AppController {
 						." AND l.location_id = sl.id "
 						." AND ((l.status = 'C') or (l.status = 'E')) "
 						." AND s_return_date <= '".$this->data['book']['expire_date']."' ";
-				if ($this->Session->read('user_role') === 'localadmin') {
+				if ($this->Session->read('user_role') != 'admin') {
 					$location_id = $this->Session->read('user_location');
 					$strSQL = $strSQL." AND l.location_id = '$location_id' ";
 				}

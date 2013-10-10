@@ -26,7 +26,7 @@
 </script>
 <div class="pageheader_div"><h1 id="pageheader">書籍基本資料</h1></div>
 <div class="pagemenu_div"><?php 
-    if($this->Session->read('user_role') !== 'user') {
+    if($this->Session->read('user_role') == 'admin') {
         echo $this->Html->link('修改', array('action' => 'book_edit', $book['id']), array('class' => 'button')); 
 		echo '&nbsp;';
         echo $this->Html->link('新增一筆', array('action' => 'book_edit'), array('class' => 'button')); 
@@ -72,7 +72,7 @@
         <th>地點</th>
         <th>
             <?php
-                if($this->Session->read('user_role') !== 'user') {
+                if($this->Session->read('user_role') == 'admin') {
                     echo $this->Html->link('新增書本', array('action' => 'book_instance_edit', $book['id']), array('class' => 'button')); 
                 }
             ?>
@@ -89,7 +89,7 @@
         <td><?php echo $book_instance['is_lend']; ?></td>
         <td><?php echo $locations[$book_instance['location_id']]; ?></td>
         <td><?php 
-                if($this->Session->read('user_role') !== 'user') {
+                if($this->Session->read('user_role') == 'admin') {
                     echo $this->Html->link('修改', array('action' => 'book_instance_edit', $book['id'], $book_instance['id']), array('class' => 'button'));
 					echo '&nbsp;';
                     echo $this->Html->link('列印',  'javascript:void(0)',array('class'=>'button','onclick'=>"add_print_list('".$book_instance['id']."')")); 
@@ -99,7 +99,7 @@
 						($book_instance['book_status'] == '2') &&
 						(($book_instance['location_id'] == $userinfo['Person']['location_id']) || ($userinfo['Person_Level']['is_cross_lend'] == 'Y'))
 					){
-						echo $this->html->link('預約', 'javascript:void(0)', array('class'=>'button','onclick' => "reserve_book('".$book_instance['id']."');")); 
+						//echo $this->html->link('預約', 'javascript:void(0)', array('class'=>'button','onclick' => "reserve_book('".$book_instance['id']."');")); 
 					}
 				}
         ?></td>

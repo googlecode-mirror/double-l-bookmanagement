@@ -1,6 +1,7 @@
 <?php
 App::uses('Component', 'Controller');
 class BookSearchComponent extends Component {
+	public $components = array('Session');
 	/*
 	 *  1 = equal
 	 *  2 = like
@@ -39,11 +40,22 @@ class BookSearchComponent extends Component {
 					case 2:
 						$conditions['Book.'.$para_key.' Like'] = '%'.$query[$para_key].'%';
 						break;
-					case 3:
-						$conditions['Book.id'] = $this->book_ids($query[$para_key]);
-						break;
+					//case 3:
+					//	$conditions['Book.id'] = $this->book_ids($query[$para_key]);
+					//	break;
 				}	
 			}
+			if($this->Session->read('user_role') == 'admin'){
+				$conditions[] = $this->book_instance_subquery(
+												null,
+												$query['book_instance_id']);
+			} else {
+				$conditions[] = $this->book_instance_subquery(
+											$this->Session->read('user_location')
+											,$query['book_instance_id']);
+				
+			}
+			//$conditions[$this->book_instance_subquery($query['book_instance_id'])];
 			// 抓取資料
 			if($conditions !== null){
 				$bookModel = ClassRegistry::init('Book');
@@ -74,6 +86,38 @@ class BookSearchComponent extends Component {
 			$book_ids = array_values($books);
 			return ($book_ids);
 		
+	}
+	// 沒有實體書籍不要列出來
+	private function book_instance_subquery($location_id=null, $book_instance_id=null){
+		$book_instance_model = ClassRegistry::init('Book_Instance');
+		//$this->Session->read('user_role');
+		//$location_id = $this->Session->read('user_location');
+		//$conditionsSubQuery['1'] = 1 ;
+		if($location_id != null){
+			$conditionsSubQuery['Book_Instance.location_id'] = $location_id;
+		}
+		if($book_instance_id != null){
+			$conditionsSubQuery['Book_Instance.id like'] = '%'.$para.'%';
+		}
+		$db = $book_instance_model->getDataSource();
+		$subQuery = $db->buildStatement(
+				array(
+						'fields'     => array('Book_Instance.book_id'),
+						'table'      => $db->fullTableName($book_instance_model),
+						'alias'      => 'Book_Instance',
+						'limit'      => null,
+						'offset'     => null,
+						'joins'      => array(),
+						'conditions' => $conditionsSubQuery,
+						'order'      => null,
+						'group'      => null
+				),
+				$book_instance_model
+		);
+		$subQuery = 'Book.id in (' . $subQuery . ') ';
+		//$subQuery = $db->expression($subQuery);
+		//var_dump($subQuery);
+		return $subQuery;
 	}
 }
 ?>

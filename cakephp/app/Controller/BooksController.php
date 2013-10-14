@@ -51,13 +51,28 @@ class BooksController extends AppController {
         $this->Book->id = $id;
         $this->request->data = $this->Book->read(); 
 
+		$str_sql = "SELECT `book_instance_id`, `person_id`, `lend_time`, `return_time`, b.book_name, i.status, lend_status_name, p.name, c.location_name "
+		          ."   FROM `lend_records` i, "
+				  ."	    `books` b, "
+				  ."		`lend_status` s, "
+				  ."		`persons` p, "
+				  ."		`system_locations` c "
+				  ."  WHERE b.id =i.book_id "
+				  ."	and i.status = s.id "
+				  ."	and p.id = i.person_id "
+				  ."	and c.id =i.location_id "
+				  ."	and book_id = $id "
+				  ."  order by i.id desc"
+				  ."  limit 0, 10;";
+		$lend_records = $this->Book->query($str_sql);
+		//var_Dump($lend_records);
         $cates = $this->Formfunc->convert_options($this->Book_Cate->find('all'), 'Book_Cate', 'id', 'catagory_name');
         $this->set('userinfo', $userinfo);
         $this->set('cates', $cates);
         $this->set('book_status', $this->Formfunc->book_status());
 		$this->set('locations', $this->System_Location->find('list', array('fields' => array('id', 'location_name'))));
 		$this->set('person_levels', $this->Person_Level->find('list', array('fields' => array('Person_Level.id', 'Person_Level.level_name'))));
-		 
+		$this->set('lend_records', $lend_records);
     }
 
     public function book_edit($id = null){

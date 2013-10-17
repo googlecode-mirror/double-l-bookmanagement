@@ -51,7 +51,7 @@ class BooksController extends AppController {
         $this->Book->id = $id;
         $this->request->data = $this->Book->read(); 
 
-		$str_sql = "SELECT `book_instance_id`, `person_id`, `lend_time`, `return_time`, b.book_name, i.status, lend_status_name, p.name, c.location_name "
+		/*$str_sql = "SELECT `book_instance_id`, `person_id`, `lend_time`, `return_time`, b.book_name, i.status, lend_status_name, p.name, c.location_name "
 		          ."   FROM `lend_records` i, "
 				  ."	    `books` b, "
 				  ."		`lend_status` s, "
@@ -64,7 +64,8 @@ class BooksController extends AppController {
 				  ."	and book_id = $id "
 				  ."  order by i.id desc"
 				  ."  limit 0, 10;";
-		$lend_records = $this->Book->query($str_sql);
+		$lend_records = $this->Book->query($str_sql);*/
+		$lend_records = $this->get_last_ten_lend_record($id);
 		//var_Dump($lend_records);
         $cates = $this->Formfunc->convert_options($this->Book_Cate->find('all'), 'Book_Cate', 'id', 'catagory_name');
         $this->set('userinfo', $userinfo);
@@ -564,6 +565,9 @@ class BooksController extends AppController {
         }
 		$personinfo = $this->Person->findById($this->Session->read('user_id'));
 		
+		$lend_records = $this->get_last_ten_lend_record($id);
+		$this->set('lend_records', $lend_records);
+		
 		$this->Book->id = $id;	
 		$this->set('book',$this->Book->read());
 		$this->set('userinfo', $personinfo);
@@ -750,6 +754,24 @@ class BooksController extends AppController {
 
 		return $r;
 
+	}
+	
+	private function get_last_ten_lend_record($id=0) {
+		$str_sql = "SELECT `book_instance_id`, `person_id`, `lend_time`, `return_time`, b.book_name, i.status, lend_status_name, p.name, c.location_name "
+		          ."   FROM `lend_records` i, "
+				  ."	    `books` b, "
+				  ."		`lend_status` s, "
+				  ."		`persons` p, "
+				  ."		`system_locations` c "
+				  ."  WHERE b.id =i.book_id "
+				  ."	and i.status = s.id "
+				  ."	and p.id = i.person_id "
+				  ."	and c.id =i.location_id "
+				  ."	and book_id = $id "
+				  ."  order by i.id desc"
+				  ."  limit 0, 10;";
+		$lend_records = $this->Book->query($str_sql);
+		return $lend_records;
 	}
 }
 ?>

@@ -17,6 +17,22 @@
 		}
 		//return false;
 	}
+	
+	function lend10record(book_instance_id) {
+		if (book_instance_id.trim() != '') {
+			$.ajax(
+				{	
+					url:'<?php echo $this->html->url(array('controller'=>'lend', 'action' => 'last_10_records'));?>', 
+					data:{ book_instance_id: book_instance_id }, 
+					type: "post", 
+					success: function(response){
+						jQuery('#last10lendrecord')[0].innerHTML = response;
+					}
+				}
+			)
+		}
+		return false;
+	}
 </script>
 <div class="pageheader_div"><h1 id="pageheader">書籍資料查詢結果</h1></div>
 <div class="pagemenu_div">
@@ -75,15 +91,22 @@
         <td><?php echo $book["Book_Instance"]['s_return_date']; ?></td>
         <td><?php echo $book["Book_Instance"]['is_lend']; ?></td>
         <td><?php echo $locations[$book["Book_Instance"]['location_id']]; ?></td>
-        <td><?php 
+        <td>
+		<?php 
                 if (($book["Book_Instance"]['is_lend'] == 'Y') &&
 					($book["Book_Instance"]['book_status'] == 1)&&
 					(($book["Book_Instance"]['location_id'] == $userinfo['Person']['location_id']) || ($userinfo['Person_Level']['is_cross_lend'] == 'Y') || ($this->Session->read('user_role') !== 'user'))
 				){
                     //echo $this->html->link('預約', 'javascript:void(0)', array('class'=>'button','onclick' => "reserve_book('".$book["Book_Instance"]['id']."');")); 
                 }
-        ?></td>
+        ?>&nbsp;
+		<?php
+			echo $this->html->link('借閱紀錄', 'javascript:void(0)', array('class'=>'button','onclick' => "lend10record('".$book["Book_Instance"]['id']."');")); 
+		?>
+		</td>
     </tr>
     <?php endforeach; ?>
 </table>
-<?php echo $this->element('last_ten_lend_record', array('lend_records' => $lend_records)); ?>
+<div id="last10lendrecord">
+
+</div>

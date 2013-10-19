@@ -315,6 +315,25 @@ class LendController extends AppController {
 		}
 		$this->set('msg', $msg);
 	}
+	
+	public function last_10_records($book_instance_id=0) {
+		$this->layout = 'ajax'; 
+		$str_sql = "SELECT `book_instance_id`, `person_id`, `lend_time`, `return_time`, b.book_name, i.status, lend_status_name, p.name, c.location_name "
+		          ."   FROM `lend_records` i, "
+				  ."	    `books` b, "
+				  ."		`lend_status` s, "
+				  ."		`persons` p, "
+				  ."		`system_locations` c "
+				  ."  WHERE b.id =i.book_id "
+				  ."	and i.status = s.id "
+				  ."	and p.id = i.person_id "
+				  ."	and c.id =i.location_id "
+				  ."	and book_instance_id = $book_instance_id "
+				  ."  order by i.id desc"
+				  ."  limit 0, 10;";
+		$lend_records = $this->Book->query($str_sql);
+		$this->set('lend_records', $lend_records);
+	}
 
 }
 ?>

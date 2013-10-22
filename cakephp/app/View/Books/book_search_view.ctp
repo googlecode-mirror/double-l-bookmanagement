@@ -73,7 +73,6 @@
         <th>購買金額</th>
         <th>書籍狀態</th>
         <th>借閱等級</th>
-        <th>購買時間</th>
         <th>預計歸還時間</th>
         <th>可以外借</th>
         <th>地點</th>
@@ -87,7 +86,6 @@
         <td><?php echo $book["Book_Instance"]['purchase_price']; ?></td>
         <td><?php echo $book_status[$book["Book_Instance"]['book_status']]; ?></td>
         <td><?php echo $person_levels[$book["Book_Instance"]['level_id']]; ?></td>
-        <td><?php echo $book["Book_Instance"]['purchase_date']; ?></td>
         <td><?php echo $book["Book_Instance"]['s_return_date']; ?></td>
         <td><?php echo $book["Book_Instance"]['is_lend']; ?></td>
         <td><?php echo $locations[$book["Book_Instance"]['location_id']]; ?></td>

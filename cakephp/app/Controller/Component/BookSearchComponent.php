@@ -45,16 +45,21 @@ class BookSearchComponent extends Component {
 					//	break;
 				}	
 			}
-			if($this->Session->read('user_role') == 'admin'){
+			//if($this->Session->read('user_role') == 'admin'){
+			
+			if($this->Session->read('isCross')==true){
+				
 				$conditions[] = $this->book_instance_subquery(
 												null,
 												$query['book_instance_id']);
 			} else {
+				
 				$conditions[] = $this->book_instance_subquery(
 											$this->Session->read('user_location')
 											,$query['book_instance_id']);
 				
 			}
+			
 			//$conditions[$this->book_instance_subquery($query['book_instance_id'])];
 			// 抓取資料
 			if($conditions !== null){

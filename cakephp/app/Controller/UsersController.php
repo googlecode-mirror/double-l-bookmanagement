@@ -10,6 +10,12 @@ class UsersController extends AppController {
 					'User.username' => 'asc'
 			)
 	);
+	public $isCrossSet = array(
+			'admin' => true,
+			'localadmin' => false,
+			'localmanager' => false
+	);
+	
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -32,6 +38,7 @@ class UsersController extends AppController {
 				$this->Session->write("user_role", $this->Auth->user('role'));
 				$this->Session->write("user_location", $this->Auth->user('location_id'));
 				$this->Session->write('isLogin', true);
+				$this->Session->write('isCross', $this->_isCross($this->Auth->user('role'),$this->Auth->user('id')));
 				if($this->Auth->user('role') == 'user'){
 					$this->redirect(array('controller'=>'reports','action' => 'user_person_status'));
 					
@@ -44,6 +51,20 @@ class UsersController extends AppController {
 		}
 	}
 
+	private function _isCross($user_role,$user_id){
+		if($user_role == 'user'){
+			$this->Person->id = $user_id;
+			$person =$this->Person->read();
+			if($persion['Person_Level']['is_cross_lend'] == 1)
+				return true;
+			else
+				return false;
+
+		} else {
+			return $this->isCrossSet[$user_role];
+		}
+	}
+	
 	public function logout() {
 		
 		//$this->Session->delete('role');

@@ -51,6 +51,7 @@
 			$user_info['user_name'] = $this->Session->read('user_name');
 			$user_info['user_role'] = $this->Session->read('user_role');
 			$user_info['user_location'] = $this->Session->read('user_location');
+			$user_info['isCross'] = $this->Session->read('isCross');
 			return $user_info;
 		}
 	}

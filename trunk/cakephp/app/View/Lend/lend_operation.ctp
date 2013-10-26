@@ -32,7 +32,8 @@
 		else
 			key = e.which;     //firefox
 		if(key == 13) {
-			if (jQuery("#lend_table tr td:contains('"+book_instance_id.value.trim()+"')").length == 0) {
+			if ((jQuery("#lend_table tr td:contains('"+book_instance_id.value.trim()+"')").length == 0) 
+			   && (parseInt(jQuery('#can_lend')[0].innerHTML) > 0))   {
 				$.ajax(
 					{	
 						url:'<?php echo $this->html->url(array('controller'=>'lend', 'action' => 'lend_book'));?>', 

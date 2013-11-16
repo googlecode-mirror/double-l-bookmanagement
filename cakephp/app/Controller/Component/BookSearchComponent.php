@@ -27,7 +27,7 @@ class BookSearchComponent extends Component {
 		$count = 0;
 
 		if($query!==null){ 
-			// 產生 conditions
+			// ������ conditions
 			$conditions = null;
 			foreach ($this->search_para as $para_key=>$para_type){
 				if (!isset($query[$para_key]) || trim($query[$para_key] == ''))  {
@@ -61,7 +61,7 @@ class BookSearchComponent extends Component {
 			}
 			
 			//$conditions[$this->book_instance_subquery($query['book_instance_id'])];
-			// 抓取資料
+			// ������������
 			if($conditions !== null){
 				$bookModel = ClassRegistry::init('Book');
 				$count = $bookModel->find('count',array('conditions' => $conditions));
@@ -92,7 +92,7 @@ class BookSearchComponent extends Component {
 			return ($book_ids);
 		
 	}
-	// 沒有實體書籍不要列出來
+	// ���������������������������������
 	private function book_instance_subquery($location_id=null, $book_instance_id=null){
 		$book_instance_model = ClassRegistry::init('Book_Instance');
 		//$this->Session->read('user_role');
@@ -102,7 +102,7 @@ class BookSearchComponent extends Component {
 			$conditionsSubQuery['Book_Instance.location_id'] = $location_id;
 		}
 		if($book_instance_id != null){
-			$conditionsSubQuery['Book_Instance.id like'] = '%'.$para.'%';
+			$conditionsSubQuery['Book_Instance.id like'] = '%'.$book_instance_id.'%';
 		}
 		$db = $book_instance_model->getDataSource();
 		$subQuery = $db->buildStatement(

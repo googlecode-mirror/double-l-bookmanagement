@@ -9,7 +9,7 @@ App::import('Vendor', 'PHPMailer', array('file' => 'phpmailer' . DS . 'class.php
 class EmailUtilTask extends Shell {    
     
 	//Send email using SMTP Auth by default. 
-    var $from         	= 'columbiaenglish.tw@gmail.com'; 
+    var $from         	= 'library@columbiaenglish.com.tw'; 
     var $fromName     	= "哥大圖書自動警示系統"; 
 	/*
     var $UserName 		= 'columbiaenglish.tw@gmail.com';  // SMTP username 

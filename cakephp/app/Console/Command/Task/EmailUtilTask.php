@@ -10,13 +10,20 @@ class EmailUtilTask extends Shell {
     
 	//Send email using SMTP Auth by default. 
     var $from         	= 'columbiaenglish.tw@gmail.com'; 
-    var $fromName     	= "LIbarary Mail System"; 
+    var $fromName     	= "哥大圖書自動警示系統"; 
+	/*
     var $UserName 		= 'columbiaenglish.tw@gmail.com';  // SMTP username 
     var $Password		= '1qazse432w'; // SMTP password 
 	var $SMTPAuth 		= true;
 	var $SMTPSecure 	= "ssl"; // Gmail的SMTP主機需要使用SSL連線   
 	var $Host 			= "smtp.gmail.com"; //Gamil的SMTP主機        
-	var $Port 			= 465;  //Gamil的SMTP主機的SMTP埠位為465埠。        
+	var $Port 			= 465;  //Gamil的SMTP主機的SMTP埠位為465埠。        */
+    var $UserName 		= ''; 
+    var $Password		= ''; 
+	var $SMTPAuth 		= false;
+	var $SMTPSecure 	= "";
+	var $Host 			= "192.168.0.206"; 
+	var $Port 			= 25;  
 	var $CharSet 		= "utf-8"; //設定郵件編碼     
     var $text_body 		= null; 
     var $html_body 		= null; 

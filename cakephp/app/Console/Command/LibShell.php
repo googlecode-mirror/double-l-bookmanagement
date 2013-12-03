@@ -18,7 +18,6 @@ class LibShell extends AppShell {
 		$intBook = 0;
 		$body = '';
 		$tbl_body = '';
-		$this->out('Overdue batch!'.sizeof($overdues));
 		$this->log('Overdue batch!'.sizeof($overdues), 'debug');
 		foreach($overdues as $overdue) {
 			if ($strPerson != $overdue['Person']['id']) {
@@ -30,8 +29,9 @@ class LibShell extends AppShell {
 					$body = $body.'<p>哥大英語，感謝您的配合。</p></body></html>';
 					$this->EmailUtil->html_body = $body;
 					if (sizeof($this->EmailUtil->to) > 0) {
+						$this->log($this->EmailUtil->to[0]['email'], 'debug');
+						$this->log($body, 'debug');
 						$ret = $this->EmailUtil->send();
-						$this->out($strPerson.' overdue send out!'.$ret);
 						$this->log($strPerson.' overdue send out!'.$ret, 'debug');
 					}
 					$tbl_body = '';
@@ -48,7 +48,6 @@ class LibShell extends AppShell {
 				}
 				$strPersonName = $overdue['Person']['name'];
 				$intBook = 0;
-				$this->out($overdue['Person']['name']."_".$overdue['Person']['email']);
 				$this->log($overdue['Person']['name']."_".$overdue['Person']['email'], 'debug');
 			}
 			$tbl_body = $tbl_body.'<tr>'.
@@ -67,8 +66,9 @@ class LibShell extends AppShell {
 			$body = $body.'<p>哥大英語，感謝您的配合。</p></body></html>';
 			$this->EmailUtil->html_body = $body;
 			if (sizeof($this->EmailUtil->to) > 0) {
+				$this->log($this->EmailUtil->to[0]['email'], 'debug');
+				$this->log($body, 'debug');
 				$ret = $this->EmailUtil->send();
-				$this->out($strPerson.' overdue send out!'.$ret);
 				$this->log($strPerson.' overdue send out!'.$ret, 'debug');
 			}
 		}

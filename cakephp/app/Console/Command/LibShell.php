@@ -37,7 +37,7 @@ class LibShell extends AppShell {
 					$tbl_body = '';
 				}
 				$strPerson = $overdue['Person']['id'];
-				$this->EmailUtil->subject = '哥大圖書書籍逾期通知!';
+				$this->EmailUtil->subject = '哥大圖書逾期未歸還通知!';
 				if ($this->debug) {
 					$this->EmailUtil->to = array(0=>array('email'=>'leokao.tw@gmail.com', 'name'=>'leo.kao'));
 				}

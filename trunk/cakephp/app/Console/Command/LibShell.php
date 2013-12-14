@@ -45,6 +45,9 @@ class LibShell extends AppShell {
 					if ($overdue['Person']['email'] <> '') {
 						$this->EmailUtil->to = array(0=>array('email'=>$overdue['Person']['email'], 'name'=>$overdue['Person']['name']));
 					}
+					else {
+						$this->EmailUtil->to = array();
+					}
 				}
 				$strPersonName = $overdue['Person']['name'];
 				$intBook = 0;

@@ -12,6 +12,10 @@
   	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
   	echo '&nbsp;';
   	echo $this->Html->link('列印清冊', "javascript:printDiv('print_div');", array('class' => 'button')); 
+  	echo '&nbsp;';
+  	if($location_id !=='') {
+  		echo $this->Html->link('匯出清冊', array('action' => 'book_inv_epxort', $location_id), array('class' => 'button'));
+  	}
 ?></div>
 <?php  if($this->Session->read('user_role') !== 'user')  { echo $this->Form->create('Book_Instance', array('div'=>false, 'inputDefaults' => array('label' => false,'div' => false))); }?>
 	<table>

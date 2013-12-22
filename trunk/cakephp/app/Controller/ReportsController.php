@@ -2,7 +2,7 @@
 class ReportsController extends AppController {
 	public $uses = array('Lend_Record', 'Book_Instance', 'System_Location', 'Book_Cate');
     public $helpers = array('Html', 'Form', 'Session', 'Paginator');
-    public $components = array('Session', 'Formfunc', 'Lendfunc');
+    public $components = array('Session', 'Formfunc', 'Lendfunc','BookInv');
 
 	public $paginate = array(
         'Lend_Record' => array(	'limit' => 10,
@@ -44,37 +44,31 @@ class ReportsController extends AppController {
 			} else {
 				$location_id = $this->data['Book_Instance']['location_id'];
 			}			
-			//$location_id = $this->data['Book_Instance']['location_id'];
-			//if ($this->Session->read('user_role') !== 'user') {
-			//	if ($this->Session->read('user_role') === 'localadmin') {
-			//		$location_id = $this->Session->read('user_location');
-			//	}
-			
 			// 只有當盤點時,才會產生report
 			if(Cache::read($location_id.'_take_stock')){
-				$option['joins'] = array(
-					array('table' => 'system_take_stocks',
-						'alias' => 'System_Take_Stock',
-						'type' => 'LEFT',
-						'conditions' => array(
-							'System_Take_Stock.book_instance_id = Book_Instance.id',
-							'System_Take_Stock.version'=> Cache::read($location_id.'_take_stock_version') 
-						)
-					)	
-				);
-				$option['conditions'] = array(
-					'Book_Instance.book_status in (1,4)',
-					'Book_Instance.location_id' => $location_id
-				);
-				$option['fields'] = array(
-						'System_Take_Stock.*',
-						'Book_Instance.*',
-						'Book.*',
-						'System_Location.*',
-						'Book_Status.*'
-					);
-				//$books = $this->Book_Instance->find('all',array('conditions' => array('book_status in (1,4)','location_id' => $location_id)));
-				$books = $this->Book_Instance->find('all',$option);
+// 				$option['joins'] = array(
+// 					array('table' => 'system_take_stocks',
+// 						'alias' => 'System_Take_Stock',
+// 						'type' => 'LEFT',
+// 						'conditions' => array(
+// 							'System_Take_Stock.book_instance_id = Book_Instance.id',
+// 							'System_Take_Stock.version'=> Cache::read($location_id.'_take_stock_version') 
+// 						)
+// 					)	
+// 				);
+// 				$option['conditions'] = array(
+// 					'Book_Instance.book_status in (1,4)',
+// 					'Book_Instance.location_id' => $location_id
+// 				);
+// 				$option['fields'] = array(
+// 						'System_Take_Stock.*',
+// 						'Book_Instance.*',
+// 						'Book.*',
+// 						'System_Location.*',
+// 						'Book_Status.*'
+// 					);
+// 				$books = $this->Book_Instance->find('all',$option);
+				$books =$this->BookInv->getInvBooks($location_id,Cache::read($location_id.'_take_stock_version'));
 			}
 		}
 		$options = array(
@@ -82,10 +76,27 @@ class ReportsController extends AppController {
 			'fields'=>array('id', 'location_name'),
 			'order' => array('id'),
 		);
-		//$this->set('locations', $this->System_Location->find('list',array('condiftions'=>array('valid' => 1), 'fields'=>array('id', 'location_name'))));
+
     	$this->set('locations', $this->System_Location->find('list',$options));
 		$this->set('books', $books);
+		$this->set('location_id',$location_id);
     }   
+    
+    public function book_inv_epxort($location_id){
+    	$version = Cache::read($location_id.'_take_stock_version');
+    	$books =$this->BookInv->getInvBooks($location_id,$version);
+    	$f = $this->BookInv->buildInvExcel($books);
+    	$this->viewClass = 'Media';
+    	// Download app/outside_webroot_dir/example.zip
+    	$params = array(
+    			'id'        => $f['file'],
+    			'name'      => 'books',
+    			'download'  => true,
+    			'extension' => 'xls',
+    			'path'      => $f['path']
+    	);
+    	$this->set($params);
+    }
 
 	public function book_cate_stats() {
 		$books_sort = 0;

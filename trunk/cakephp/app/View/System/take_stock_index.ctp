@@ -19,8 +19,12 @@
 			}
 		
 		?></td>
-		<td><?php 
-			if($item['System_Location']['isTakeStock']){				
+		<td><?php
+				echo $this->Html->link('匯出清冊', '/reports/book_inv_epxort/'.$item['System_Location']['id'], array('class' => 'button red'));
+				echo " ";		 
+			if($item['System_Location']['isTakeStock']){	
+				echo $this->Html->link('列印清冊', '/reports/book_inv_check', array('class' => 'button red'));
+				echo " ";						
 				echo $this->Html->link('結束盤點', '/system/take_stock_index/'.$item['System_Location']['id'], array('class' => 'button red'));
 				echo " ";
 				echo $this->Html->link('盤點書本', '/system/take_stock_operation/'.$item['System_Location']['id'], array('class' => 'button blue	'));

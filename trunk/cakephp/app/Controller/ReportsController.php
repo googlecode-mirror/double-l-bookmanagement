@@ -46,28 +46,6 @@ class ReportsController extends AppController {
 			}			
 			// 只有當盤點時,才會產生report
 			if(Cache::read($location_id.'_take_stock')){
-// 				$option['joins'] = array(
-// 					array('table' => 'system_take_stocks',
-// 						'alias' => 'System_Take_Stock',
-// 						'type' => 'LEFT',
-// 						'conditions' => array(
-// 							'System_Take_Stock.book_instance_id = Book_Instance.id',
-// 							'System_Take_Stock.version'=> Cache::read($location_id.'_take_stock_version') 
-// 						)
-// 					)	
-// 				);
-// 				$option['conditions'] = array(
-// 					'Book_Instance.book_status in (1,4)',
-// 					'Book_Instance.location_id' => $location_id
-// 				);
-// 				$option['fields'] = array(
-// 						'System_Take_Stock.*',
-// 						'Book_Instance.*',
-// 						'Book.*',
-// 						'System_Location.*',
-// 						'Book_Status.*'
-// 					);
-// 				$books = $this->Book_Instance->find('all',$option);
 				$books =$this->BookInv->getInvBooks($location_id,Cache::read($location_id.'_take_stock_version'));
 			}
 		}
@@ -84,6 +62,7 @@ class ReportsController extends AppController {
     
     public function book_inv_epxort($location_id){
     	$version = Cache::read($location_id.'_take_stock_version');
+    	if($version==null) $version = '0';
     	$books =$this->BookInv->getInvBooks($location_id,$version);
     	$f = $this->BookInv->buildInvExcel($books);
     	$this->viewClass = 'Media';

@@ -36,10 +36,9 @@
 						<th>書籍編號</th>
 						<th>書籍名稱</th>
 						<th>ISBN</th>
-						<th>版本</th>
 						<th>作者/編者</th>
 						<th>出版廠商</th>						
-						<th>位置</th>
+						<th>盤點日期</th>
 						<th>購買日期</th>
 						<th>地點</th>
 						<th>狀態</th>
@@ -50,11 +49,16 @@
 						<td><?php echo $book['Book_Instance']['id']; ?></td>
 						<td style="width:300px;word-wrap:break-word;word-break:break-all;"><?php echo $book['Book']['book_name']; ?></td>
 						<td><?php echo $book['Book']['isbn']; ?></td>
-						<td><?php echo $book['Book']['book_version']; ?></td>
 						<td><?php echo $book['Book']['book_author']; ?></td>
 						<td><?php echo $book['Book']['book_publisher']; ?></td>
 						
-						<td><?php echo $book['Book']['book_location']; ?></td>
+						<td><?php 
+							if($book['System_Take_Stock']['update_date'] == null){
+								echo '';
+							} else {
+								echo $book['System_Take_Stock']['update_date'];
+							}		
+						?></td>
 						<td><?php echo $book['Book_Instance']['purchase_date']; ?></td>
 						<td><?php echo $book['System_Location']['location_name']; ?></td>
 						<td><?php echo $book['Book_Status']['status_name']; ?></td>

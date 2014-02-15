@@ -27,6 +27,7 @@ class BookInvComponent extends Component {
 				'System_Location.*',
 				'Book_Status.*'
 		);
+		//var_dump($model->find('all',$option));
 		return $model->find('all',$option);		
 	}
 	
@@ -46,7 +47,7 @@ class BookInvComponent extends Component {
 		$excel->getActiveSheet()->setCellValueByColumnAndRow(3, 1, '作者/編者');
 		$excel->getActiveSheet()->setCellValueByColumnAndRow(4, 1, '出版公司');
 		$excel->getActiveSheet()->setCellValueByColumnAndRow(5, 1, '購買日期');
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(6, 1, '地點');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(6, 1, '盤點日期');
 		$excel->getActiveSheet()->setCellValueByColumnAndRow(7, 1, '狀態');
 		$excel->getActiveSheet()->setCellValueByColumnAndRow(8, 1, '盤點');
 		$i = 1;		
@@ -57,12 +58,13 @@ class BookInvComponent extends Component {
 			$excel->getActiveSheet()->setCellValueExplicitByColumnAndRow(2, $i,$book['Book']['isbn'],PHPExcel_Cell_DataType::TYPE_STRING);
 			$excel->getActiveSheet()->setCellValueByColumnAndRow(3, $i, $book['Book']['book_author']);
 			$excel->getActiveSheet()->setCellValueByColumnAndRow(4, $i, $book["Book"]["book_publisher"]);
-			$excel->getActiveSheet()->setCellValueByColumnAndRow(5, $i, $book['Book_Instance']['purchase_date']);
-			$excel->getActiveSheet()->setCellValueByColumnAndRow(6, $i, $book['System_Location']['location_name']);
+			$excel->getActiveSheet()->setCellValueByColumnAndRow(5, $i, $book['Book_Instance']['purchase_date']);	
 			$excel->getActiveSheet()->setCellValueByColumnAndRow(7, $i, $book['Book_Status']['status_name']);
 			if($book['System_Take_Stock']['id'] == null){
 				$excel->getActiveSheet()->setCellValueByColumnAndRow(8, $i, '');
+				$excel->getActiveSheet()->setCellValueByColumnAndRow(6, $i, '');
 			} else {
+				$excel->getActiveSheet()->setCellValueByColumnAndRow(6, $i, $book['System_Take_Stock']['update_date']);
 				$excel->getActiveSheet()->setCellValueByColumnAndRow(8, $i, '已盤點');
 			}
 			

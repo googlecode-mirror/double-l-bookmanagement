@@ -17,6 +17,24 @@
 		}
 		//return false;
 	}
+	function mark_lost(book_instance_id) {
+		if (jQuery('#Lend_RecordPersonId')[0].value.trim() != '') {
+			$.ajax(
+				{	
+					url:'<?php echo $this->html->url(array('controller'=>'lend', 'action' => 'mark_lost_operation'));?>', 
+					data:{  book_instance_id: book_instance_id }, 
+					type: "post", 
+					success: function(response){
+						alert(response);
+					}
+				}
+			)
+		}
+		else {
+			alert('借卡號碼：不可為空白');
+		}
+		//return false;
+	}
 </script>
 <div class="pageheader_div"><h1 id="pageheader">學員借閱資料統計</h1></div>
 <div class="pagemenu_div"><?php 
@@ -100,13 +118,20 @@
 							<td><?php echo $lend_record['Lend_Record']['return_time']; ?></td>
 							<td><?php echo $lend_record['System_Location']['location_name']; ?></td>
 							<td>
+								<table><tr>
 								<?php 
 									if ((strtotime($lend_record['Lend_Record']['s_return_date']) >= strtotime(date('Y-m-d')))
 										&& (strtotime($lend_record['Lend_Record']['s_return_date']) <= strtotime(date('Y-m-d', strtotime('+3 days'))))
 									    && ($lend_record['Lend_Record']['status'] == 'C' ) && ($lend_record['Lend_Record']['lend_cnt'] < 1 )) {
-										echo $this->Html->link('續借', 'javascript:void(0);', array('onclick' => "extend_lend('".$lend_record['Book_Instance']['id']."');")); 
+										echo "<td>".$this->Html->link('續借', 'javascript:void(0);', array('onclick' => "extend_lend('".$lend_record['Book_Instance']['id']."');"))."</td>"; 
 									}	
 								?>
+								<?php 
+									if (($this->Session->read('user_role') != 'user')&& ($lend_record['Lend_Record']['status'] == 'C')) {
+										echo "<td>".$this->Html->link('遺失', 'javascript:void(0);', array('onclick' => "mark_lost('".$lend_record['Book_Instance']['id']."');"))."</td>"; 
+									}	
+								?>
+								</tr></table>
 							</td>
 						</tr>
 						<?php endforeach; ?>

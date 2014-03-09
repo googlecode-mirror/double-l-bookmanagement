@@ -347,6 +347,50 @@ class LendController extends AppController {
 		$lend_records = $this->Book->query($str_sql);
 		$this->set('lend_records', $lend_records);
 	}
-
+	
+	public function mark_lost_operation() {
+		$msg = '';
+		$this->layout = 'ajax'; 
+		$userinfo = $this->Lendfunc->create_userinfo();
+		$lend_records = array();
+		$over_lend_records = array();
+		$person_info = array();
+		if (!empty($this->data)) {
+			$return_record = $this->Lend_Record->find('all', array('conditions' => array('book_instance_id' => $this->data['book_instance_id'],'status in ("C","E")')));
+			if (($return_record !== false) && (!empty($return_record))) {
+				$return_record = $return_record[0];
+				if (($userinfo['isCross']) || ($userinfo['user_location'] == $return_record["Lend_Record"]['location_id'])) {
+					$return_rec = array();
+					$return_rec["id"] = $return_record["Lend_Record"]["id"];
+					$return_rec["status"] = 'D';
+					$return_rec["return_time"] = date('Y-m-d H:i:s');
+					$ret = $this->Lend_Record->save($return_rec);
+					if ($ret !== false) {
+						$record_id = $ret["Lend_Record"]["id"];
+						$book_instance_modi = array();
+						$book_instance_modi['id'] = $return_record["Lend_Record"]['book_instance_id'];
+						$book_instance_modi['book_status'] = 7;
+						$book_instance_modi['reserve_person_id'] = null;
+						$book_instance_modi['s_return_date'] = null;
+						$ret = $this->Book_Instance->save($book_instance_modi);
+						if ($ret === false) {
+							$this->Lend_Record->save($return_record["Lend_Record"]);
+							$msg = '書籍代號：'.$this->data['book_instance_id'].'紀錄遺失失敗';
+						}
+						else {
+							$msg = '書籍代號：'.$this->data['book_instance_id'].'紀錄遺失成功';
+						}
+					}
+				}
+				else {
+					$msg = '本地無此書外借資料';
+				}
+			}
+			else {
+				$msg = '此書無外借資料';
+			}
+		}
+		$this->set('msg', $msg);
+	}
 }
 ?>

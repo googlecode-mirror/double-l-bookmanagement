@@ -16,7 +16,7 @@
 		}
 		
 		public function book_status() {
-			return array(0=>"購買中",1=>"在庫",2=>"借出",3=>"已歸還",4=>"整理中",5=>"運送中", 6=>"預約中");
+			return array(0=>"購買中",1=>"在庫",2=>"借出",3=>"已歸還",4=>"整理中",5=>"運送中", 6=>"預約中", 7=>"遺失", 8=>"已賠償");
 		}
 		public function is_lends(){
 			return array("Y"=>"Y","N"=>"N");

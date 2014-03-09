@@ -9,7 +9,8 @@
 				'D' => '遺失', 
 				'R' => '預約', 
 				'S' => '取消', 
-				'E' => '續借中');
+				'E' => '續借中',
+		        'P' => '已賠償');
 		
 		public function lend_status() {
 			return $this->lendStatus;

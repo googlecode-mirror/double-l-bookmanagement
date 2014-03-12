@@ -18,20 +18,24 @@
 		//return false;
 	}
 	function mark_lost(book_instance_id) {
-		if (jQuery('#Lend_RecordPersonId')[0].value.trim() != '') {
-			$.ajax(
-				{	
-					url:'<?php echo $this->html->url(array('controller'=>'lend', 'action' => 'mark_lost_operation'));?>', 
-					data:{  book_instance_id: book_instance_id }, 
-					type: "post", 
-					success: function(response){
-						alert(response);
+		x = confirm("標示為遺失？");
+		if (x) {
+			if (jQuery('#Lend_RecordPersonId')[0].value.trim() != '') {
+				$.ajax(
+					{	
+						url:'<?php echo $this->html->url(array('controller'=>'lend', 'action' => 'mark_lost_operation'));?>', 
+						data:{  book_instance_id: book_instance_id }, 
+						type: "post", 
+						success: function(response){
+							alert(response);
+							window.location = document.URL;
+						}
 					}
-				}
-			)
-		}
-		else {
-			alert('借卡號碼：不可為空白');
+				)
+			}
+			else {
+				alert('借卡號碼：不可為空白');
+			}
 		}
 		//return false;
 	}

@@ -378,6 +378,9 @@ class LendController extends AppController {
 							$msg = '書籍代號：'.$this->data['book_instance_id'].'紀錄遺失失敗';
 						}
 						else {
+							$person_record['id'] = $return_record["Lend_Record"]['person_id'];
+							$person_record['valid'] = '0';
+							$this->Person->save($person_record);
 							$msg = '書籍代號：'.$this->data['book_instance_id'].'紀錄遺失成功';
 						}
 					}

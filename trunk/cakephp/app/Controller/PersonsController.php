@@ -180,6 +180,12 @@ class PersonsController extends AppController {
 					$person['Person']['email'] = $sheetdata[$i]['G'];
 					$person['Person']['create_time'] = date('Y-m-d H:i:s');
 					$p = $this->Person->find('first',array('conditions'=>array('Person.id'=>$person['Person']['id'])));
+					if(strlen($person['Person']['gender']) !== 1){
+						$person['Person']['isSave'] = '性別代號錯誤';
+					}
+					if(strlen($person['Person']['gender']) < 10){
+						$person['Person']['isSave'] = '卡號不足10碼';
+					}
 					if($p != null){
 						$person['Person']['isSave'] = '卡號已存在';
 					} else {

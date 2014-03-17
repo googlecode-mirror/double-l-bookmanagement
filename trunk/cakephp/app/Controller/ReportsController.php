@@ -147,11 +147,11 @@ class ReportsController extends AppController {
 		$strsql1 = "SELECT books.id,  `book_name` , `book_author` , `book_publisher` , `cate_id` , `isbn` , `book_search_code` , `book_location` , `book_attachment` , `book_image` , `publish_date` , `order_start_date` , `order_end_date` , `order_start_version` , `order_end_version` , `memo` , count( * ) AS cnt, books.book_version, location_id, location_name  ";
 		$strsql = $strsql1.$strsql.$strsql_group." LIMIT ".($page-1)*$page_size." , ".$page_size.";";
 		$books = $this->Lend_Record->query($strsql);
+		$this->set('count',$books_cnt[0][0]['cnt']);
+		$this->set('page_size',$page_size);
 		$this->set('page', $page);
 		$this->set('books', $books);
 		$this->set('books_sort', $books_sort);
-		$this->set('books_cnt', $books_cnt[0][0]['cnt']);
-		$this->set('books_page', floor($books_cnt[0][0]['cnt'] / $page_size) + 1);
 		$this->set('cates', $this->Book_Cate->find('list', array('fields'=>array('id', 'catagory_name'))));
 	} 
 

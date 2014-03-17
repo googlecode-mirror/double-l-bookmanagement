@@ -70,23 +70,31 @@
         <td><?php echo $book[0]['cnt']; ?></td>		         		
 	</tr>
     <?php endforeach; ?>
-	<tr>
-        <td colspan=7>
-		<?php 
-			$start_page = $page - 3;
-			if ($start_page < 1) {$start_page = 1;}
-			$end_page = $page + 3;
-			if ($end_page > $books_page) {$end_page = $books_page;}
-			for($i = $start_page; $i<=$end_page;$i++) {
-				if ($page <> $i) {
-					echo $this->html->link($i, 'javascript:void(0);', array('onclick'=>'change_page('.$i.');'));
-				}
-				else {
-					echo $i;
-				}
-			}
-			echo '(共 '.$books_page.' 頁，'.$books_cnt.' 筆)';
-		?>
-		</td>
-	</tr>
 </table>
+<div align="center"><?php
+    if($count>0){
+        $lastpage = ceil($count/$page_size);
+        if($page>1){
+            echo $this->html->link('<<', 'javascript:void(0);', array('class'=>'button','onclick'=>'change_page(1);'));
+            echo '&nbsp;';
+            echo $this->html->link('<', 'javascript:void(0);', array('class'=>'button','onclick'=>'change_page('.($page-1).');'));
+        }
+        echo '&nbsp;';
+        echo '<select>';
+        for($i=1;$i<=$lastpage;$i++){
+            if($i==$page) $selected = 'selected';
+            else $selected = '';
+            echo '<option '.$selected.' onclick="change_page('.$i.')">'.$i.'</option>';
+        }
+        echo '</select>';
+        echo '&nbsp;';
+        
+        if($lastpage > $page) {
+        echo $this->html->link('>', 'javascript:void(0);', array('class'=>'button','onclick'=>'change_page('.($page+1).');'));
+        echo '&nbsp;';
+        echo $this->html->link('>>', 'javascript:void(0);', array('class'=>'button','onclick'=>'change_page('.$lastpage.');'));
+        echo '&nbsp;';
+        }
+        echo '('.$count.')';
+    }
+?></div>

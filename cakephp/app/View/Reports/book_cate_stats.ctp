@@ -10,7 +10,7 @@
  
 	function change_page(page_no) {
 		$("#BookPage").val(page_no);
-		$("#BookBookSearchForm").submit();
+		$("#BookBookCateStatsForm").submit();
 	}
 </script>
 <table>

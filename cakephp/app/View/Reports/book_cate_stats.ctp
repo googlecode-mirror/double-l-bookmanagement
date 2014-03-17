@@ -12,6 +12,12 @@
 		$("#BookPage").val(page_no);
 		$("#BookBookCateStatsForm").submit();
 	}
+
+	function export_stat(){
+  		url = '<?php  echo $this->Html->url(array("controller" => "reports","action" => "book_stat_export"));?>';
+  		url = url+'?cate='+$("#BookCate").val()+'&star_date='+$("#BookStartDate").val()+'&end_date='+$("#BookEndDate").val();
+  		window.location.href=url;
+	}
 </script>
 <table>
 	<tr>
@@ -37,6 +43,7 @@
 					<?php echo $this->Form->hidden('books_sort', array('value'=>$books_sort));?>
 					<?php echo $this->Form->hidden('page', array('value'=>$page));?>
 					<?php echo $this->Form->submit('搜尋', array('div'=>false));?>
+					<?php echo $this->Html->link('匯出清冊','javascript:void(0);',  array('class' => 'button','onclick'=>'export_stat();'));?>
 					</td>
 				</tr>
 			</table>

@@ -2,7 +2,7 @@
 class ReportsController extends AppController {
 	public $uses = array('Lend_Record', 'Book_Instance', 'System_Location', 'Book_Cate');
     public $helpers = array('Html', 'Form', 'Session', 'Paginator');
-    public $components = array('Session', 'Formfunc', 'Lendfunc','BookInv');
+    public $components = array('Session', 'Formfunc', 'Lendfunc','BookInv','Reportfunc');
 
 	public $paginate = array(
         'Lend_Record' => array(	'limit' => 10,
@@ -70,6 +70,34 @@ class ReportsController extends AppController {
     	$params = array(
     			'id'        => $f['file'],
     			'name'      => 'books',
+    			'download'  => true,
+    			'extension' => 'xls',
+    			'path'      => $f['path']
+    	);
+    	$this->set($params);
+    }
+    /*
+     * 匯出書本統計資料
+     * */
+    public function book_stat_export(){
+    	$cate = null;
+    	$start_date = null;
+    	$end_date = null;
+    	if ((isset($this->request->query['cate'])) && (trim($this->request->query['cate']) != ''))  {
+    		$cate = mysql_real_escape_string($this->request->query['cate']);
+    	}
+    	if ((isset($this->request->query['start_date'])) && (trim($this->request->query['start_date']) != ''))  {
+    		$start_date= $mysql_real_escape_string($this->request->query['start_date']);
+    	}
+    	if ((isset($this->request->query['end_date'])) && (trim($this->request->query['end_date']) != ''))  {
+    		$end_date = mysql_real_escape_string($this->request->query['end_date']);
+    	}    	
+    	$r = $this->Reportfunc->getBookStatReport($cate, $start_date, $end_date);
+    	$f = $this->Reportfunc->buildBookStatReportExcel($r['books']);
+    	$this->viewClass = 'Media';
+    	$params = array(
+    			'id'        => $f['file'],
+    			'name'      => 'books_stat',
     			'download'  => true,
     			'extension' => 'xls',
     			'path'      => $f['path']

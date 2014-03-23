@@ -61,21 +61,23 @@ class ReportfuncComponent extends Component {
 		$excel = new PHPExcel();
 		$excel->setActiveSheetIndex(0);
 		$excel->getActiveSheet()->setTitle('Books');
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(0, 1, '書籍名稱');
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(1, 1, '作者');		
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(2, 1, 'ISBN');
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(3, 1, '索書號');
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(4, 1, '出借分校');
-		$excel->getActiveSheet()->setCellValueByColumnAndRow(5, 1, '出借次數');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(0, 1, '級別');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(1, 1, '書籍名稱');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(2, 1, '作者');		
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(3, 1, 'ISBN');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(4, 1, '索書號');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(5, 1, '出借分校');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(6, 1, '出借次數');
 		$i = 1;		
 		foreach($books as $book){
 			$i++;
-			$excel->getActiveSheet()->setCellValueByColumnAndRow(0, $i, $book['books']['book_name']);
-			$excel->getActiveSheet()->setCellValueByColumnAndRow(1, $i, $book['books']['book_author']);			
-			$excel->getActiveSheet()->setCellValueExplicitByColumnAndRow(2, $i,$book['books']['isbn'],PHPExcel_Cell_DataType::TYPE_STRING);
-			$excel->getActiveSheet()->setCellValueExplicitByColumnAndRow(3, $i,$book['books']['book_search_code'],PHPExcel_Cell_DataType::TYPE_STRING);
-			$excel->getActiveSheet()->setCellValueByColumnAndRow(4, $i, $book['system_locations']['location_name']);	
-			$excel->getActiveSheet()->setCellValueByColumnAndRow(5, $i, $book[0]['cnt']);
+			$excel->getActiveSheet()->setCellValueExplicitByColumnAndRow(0, $i,$book['books']['cate_id'],PHPExcel_Cell_DataType::TYPE_STRING);
+			$excel->getActiveSheet()->setCellValueByColumnAndRow(1, $i, $book['books']['book_name']);
+			$excel->getActiveSheet()->setCellValueByColumnAndRow(2, $i, $book['books']['book_author']);			
+			$excel->getActiveSheet()->setCellValueExplicitByColumnAndRow(3, $i,$book['books']['isbn'],PHPExcel_Cell_DataType::TYPE_STRING);
+			$excel->getActiveSheet()->setCellValueExplicitByColumnAndRow(4, $i,$book['books']['book_search_code'],PHPExcel_Cell_DataType::TYPE_STRING);
+			$excel->getActiveSheet()->setCellValueByColumnAndRow(5, $i, $book['system_locations']['location_name']);	
+			$excel->getActiveSheet()->setCellValueByColumnAndRow(6, $i, $book[0]['cnt']);
 			
 		}
 		$objWriter = new PHPExcel_Writer_Excel5($excel);

@@ -80,6 +80,8 @@ class LendController extends AppController {
 						}
 						$lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $person_info['Person']['id'], 'return_time' => null, 'status in ("C", "E")') ));
 						$over_lend_records = $this->Lend_Record->find('all',array('conditions' => array('person_id' => $person_info['Person']['id'], 'return_time' => null, 'Lend_Record.s_return_date < CURDATE()', 'status in ("C", "E")') ));
+					}else if ($person_info["Person"]["valid"] == 0) {
+						$this->Session->setFlash('借書卡號失效.');
 					}else{
 						$this->Session->setFlash('借書卡號不可跨區.');
 					}
@@ -274,6 +276,9 @@ class LendController extends AppController {
 			$person_info = $this->Person->find('all', array('conditions' =>array('Person.id' => $extend_person_id)));
 			if (empty($person_info)) {
 				$msg = '無此借卡號碼：'.$extend_person_id;
+			}
+			else if ($person_info["Person"]["valid"] == 0) {
+				$msg = '失效借卡號碼：'.$extend_person_id;
 			}
 			else {
 				$book_instance = $this->Book_Instance->find('all', array('conditions' =>array('Book_Instance.id' => $this->data['book_instance_id'])));

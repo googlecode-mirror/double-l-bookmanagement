@@ -16,6 +16,7 @@
   	echo $this->Html->link('回上一頁', "javascript:history.back();", array('class' => 'button')); 
   	echo '&nbsp;';
   	echo $this->Html->link('匯出購買中書籍', array('action' => 'book_instance_purchasing_export'), array('class' => 'button blue'));
+  	echo $this->Html->link('匯出非購買中書籍', array('action' => 'book_instance_nonpurchasing_export'), array('class' => 'button blue'));
     
 ?></div>
 

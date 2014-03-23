@@ -726,6 +726,28 @@ class BooksController extends AppController {
 		);
 		$this->set($params);		
 	}
+	/*
+	 * Export Book_instance On Non-Purching
+	*
+	*/
+	public function book_instance_nonpurchasing_export(){
+		$conditions = array('Book_Instance.book_status != ' => 0);
+		$conditions = $this->Userfunc->getLocationCondition('Book_Instance',$conditions);
+		$books = $this->Book_Instance->find('all',array(
+				'recursive' => 1,
+				'conditions' => $conditions));
+		$f = $this->_build_purchasing_excel($books);
+		$this->viewClass = 'Media';
+		// Download app/outside_webroot_dir/example.zip
+		$params = array(
+				'id'        => $f['file'],
+				'name'      => 'books_nonpurchasing',
+				'download'  => true,
+				'extension' => 'xls',
+				'path'      => $f['path']
+		);
+		$this->set($params);
+	}
 	
 	private function _build_purchasing_excel($books){
 		App::import("Vendor", "phpexcel/PHPExcel");
@@ -734,6 +756,7 @@ class BooksController extends AppController {
 		$r['path'] = TMP.'tests'.DS;
 		$r['file'] = 'tmp_purchasing_'. $this->Session->read('user_id');
 		$file =  $r['path'].$r['file'];
+		$book_status = $this->Formfunc->book_status();
 		$excel = new PHPExcel();
 		$excel->setActiveSheetIndex(0);
 		//
@@ -743,6 +766,7 @@ class BooksController extends AppController {
 		$excel->getActiveSheet()->setCellValueByColumnAndRow(2, 1, '書籍名稱');
 		$excel->getActiveSheet()->setCellValueByColumnAndRow(3, 1, '書籍編號');
 		$excel->getActiveSheet()->setCellValueByColumnAndRow(4, 1, '所屬分校');
+		$excel->getActiveSheet()->setCellValueByColumnAndRow(5, 1, '狀態');
 		$i = 1;
 		foreach($books as $book){
 			$i++;
@@ -751,7 +775,7 @@ class BooksController extends AppController {
 			$excel->getActiveSheet()->setCellValueByColumnAndRow(2, $i, $book['Book']['book_name']);
 			$excel->getActiveSheet()->setCellValueByColumnAndRow(3, $i, $book['Book_Instance']['id']);
 			$excel->getActiveSheet()->setCellValueByColumnAndRow(4, $i, $book['System_Location']['location_name']);
-
+			$excel->getActiveSheet()->setCellValueByColumnAndRow(5, $i, $book_status[$book['Book_Instance']['book_status']]);
 		}
 		$objWriter = new PHPExcel_Writer_Excel5($excel);
 		$objWriter->save($file);

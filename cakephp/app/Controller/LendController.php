@@ -277,7 +277,7 @@ class LendController extends AppController {
 			if (empty($person_info)) {
 				$msg = '無此借卡號碼：'.$extend_person_id;
 			}
-			else if ($person_info["Person"]["valid"] == 0) {
+			else if ($person_info[0]["Person"]["valid"] == 0) {
 				$msg = '失效借卡號碼：'.$extend_person_id;
 			}
 			else {

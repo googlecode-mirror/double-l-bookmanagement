@@ -2,6 +2,7 @@
 	function extend_lend(book_instance_id) {
 		x = confirm("是否續借？");
 		if (x) {
+			jQuery(jQuery('#btn_extend_'+book_instance_id)[0]).hide();
 			if (jQuery('#Lend_RecordPersonId')[0].value.trim() != '') {
 				$.ajax(
 					{	
@@ -23,6 +24,7 @@
 	function mark_lost(book_instance_id) {
 		x = confirm("標示為遺失？");
 		if (x) {
+			jQuery(jQuery('#btn_lost_'+book_instance_id)[0]).hide();
 			if (jQuery('#Lend_RecordPersonId')[0].value.trim() != '') {
 				$.ajax(
 					{	
@@ -145,14 +147,16 @@ if ($this->Session->read ( 'user_role' ) == 'user') {
 								<?php
 							if ((strtotime ( $lend_record ['Lend_Record'] ['s_return_date'] ) >= strtotime ( date ( 'Y-m-d' ) )) && (strtotime ( $lend_record ['Lend_Record'] ['s_return_date'] ) <= strtotime ( date ( 'Y-m-d', strtotime ( '+3 days' ) ) )) && ($lend_record ['Lend_Record'] ['status'] == 'C') && ($lend_record ['Lend_Record'] ['lend_cnt'] < 1)) {
 								echo "<td>" . $this->Html->link ( '續借', 'javascript:void(0);', array (
-										'onclick' => "extend_lend('" . $lend_record ['Book_Instance'] ['id'] . "');" 
+										'onclick' => "extend_lend('" . $lend_record ['Book_Instance'] ['id'] . "');" ,
+                                        'id' => "btn_extend_".$lend_record ['Book_Instance'] ['id']
 								) ) . "</td>";
 							}
 							?>
 								<?php
 							if (($this->Session->read ( 'user_role' ) != 'user') && ($lend_record ['Lend_Record'] ['status'] == 'C')) {
 								echo "<td>" . $this->Html->link ( '遺失', 'javascript:void(0);', array (
-										'onclick' => "mark_lost('" . $lend_record ['Book_Instance'] ['id'] . "');" 
+										'onclick' => "mark_lost('" . $lend_record ['Book_Instance'] ['id'] . "');" ,
+                                        'id' => "btn_lost_".$lend_record ['Book_Instance'] ['id']
 								) ) . "</td>";
 							}
 							?>

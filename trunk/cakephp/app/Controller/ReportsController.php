@@ -87,7 +87,7 @@ class ReportsController extends AppController {
     		$cate = mysql_real_escape_string($this->request->query['cate']);
     	}
     	if ((isset($this->request->query['start_date'])) && (trim($this->request->query['start_date']) != ''))  {
-    		$start_date= $mysql_real_escape_string($this->request->query['start_date']);
+    		$start_date= mysql_real_escape_string($this->request->query['start_date']);
     	}
     	if ((isset($this->request->query['end_date'])) && (trim($this->request->query['end_date']) != ''))  {
     		$end_date = mysql_real_escape_string($this->request->query['end_date']);
